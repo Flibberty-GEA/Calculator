@@ -1,6 +1,7 @@
 package com.sysgears.example.domain;
 
-import com.sysgears.example.exceptions.InputArgumentsException;
+import com.sysgears.example.exceptions.InputCommandException;
+import com.sysgears.example.exceptions.InputExpressionException;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -24,13 +25,14 @@ public class Calculator {
         Deque<Double> stack = new ArrayDeque<Double>();
 
         String expressionRPN = toRPN(inputExpression);
+
         StringTokenizer tokenizer = new StringTokenizer(expressionRPN);
         while(tokenizer.hasMoreTokens()) {
             symbol = tokenizer.nextToken().trim();
             try {
                 if (1 == symbol.length() && isOperator(symbol.charAt(0))) {
                     if (stack.size() < 2) {
-                        throw new InputArgumentsException("Неверное количество данных в стеке для операции.");
+                        throw new InputExpressionException("Неверное количество данных в стеке для операции.\nEach operator must has a fixed number of operands.");
                     }
                     secondOperand = stack.pop();
                     operand = stack.pop();
@@ -47,35 +49,35 @@ public class Calculator {
                         case '*':
                             operand *= secondOperand;
                             break;
-/*                        case '%':
-                            operand %= secondOperand;
-                            break;*/
                         case '^':
                             operand = Math.pow(operand, secondOperand);
                             break;
                         default:
-                            throw new InputArgumentsException("Недопустимая операция " + symbol);
+                            throw new InputExpressionException("Недопустимая операция " + symbol);
                     }
                     stack.push(operand);
+                } else if (1 == symbol.length() && symbol.charAt(0)=='(') {
+                    throw new InputExpressionException("Ошибка разбора скобок. Проверьте правильность выражения."+inputExpression);
                 } else {
                     operand = Double.parseDouble(symbol);
                     stack.push(operand);
                 }
-            }  catch (InputArgumentsException e) {
+            }  catch (InputExpressionException e) {
                 throw e;
             } catch (Exception e) {
 //                e.printStackTrace();
-                throw new InputArgumentsException("Недопустимый символ в выражении -> "+symbol);
+                if (!inputExpression.contains("exit")) throw new InputExpressionException("Недопустимый символ в выражении -> "+inputExpression+". You can use operators as +, 1, *, /, ^.");
+                else throw new InputCommandException("Введите exit без других символов");
             }
         }
 
         if (stack.size() > 1) {
-            throw new InputArgumentsException("Количество операторов не соответствует количеству операндов");
+            throw new InputExpressionException("Количество операторов не соответствует количеству операндов");
         }
 
         Double result = stack.pop();
 
-        if (result.equals(Infinity)||result.equals(NaN)) throw new InputArgumentsException("На 0 не делится");
+        if (result.equals(Infinity)||result.equals(NaN)) throw new InputExpressionException("На 0 не делится");
         else return result;
     }
 
@@ -91,7 +93,7 @@ public class Calculator {
     private String toRPN(String userExpression) throws Exception {
         StringBuilder sbStack = new StringBuilder(""), resultExpression = new StringBuilder("");
         char cIn, cTmp;
-
+        if ((userExpression.trim().charAt(0)=='-') || (userExpression.trim().charAt(0)=='+')) userExpression="0"+userExpression;
         if (userExpression.contains("(-")) userExpression=userExpression.replace("(-", "(0-");
 
         for (int i = 0; i < userExpression.length(); i++) {
@@ -112,28 +114,28 @@ public class Calculator {
             } else if ('(' == cIn) {
                 sbStack.append(cIn);
             } else if (')' == cIn) {
-                cTmp = sbStack.substring(sbStack.length()-1).charAt(0);
-                while ('(' != cTmp) {
-                    if (sbStack.length() < 1) {
-                        throw new InputArgumentsException("Ошибка разбора скобок. Проверьте правильность выражения.");
-                    }
-                    resultExpression.append(" ").append(cTmp);
-                    sbStack.setLength(sbStack.length()-1);
+                try {
                     cTmp = sbStack.substring(sbStack.length()-1).charAt(0);
+                    while ('(' != cTmp) {
+                        resultExpression.append(" ").append(cTmp);
+                        sbStack.setLength(sbStack.length()-1);
+                        cTmp = sbStack.substring(sbStack.length()-1).charAt(0);
+                    }
+                    sbStack.setLength(sbStack.length()-1);
+
+                } catch (Exception e){
+                    throw new InputExpressionException("Ошибка разбора скобок. Проверьте правильность выражения."+userExpression);
                 }
-                sbStack.setLength(sbStack.length()-1);
             } else {
                 // Если символ не оператор - добавляем в выходную последовательность
                 resultExpression.append(cIn);
             }
         }
-
         // Если в стеке остались операторы, добавляем их в входную строку
         while (sbStack.length() > 0) {
             resultExpression.append(" ").append(sbStack.substring(sbStack.length()-1));
             sbStack.setLength(sbStack.length()-1);
         }
-
         return  resultExpression.toString();
     }
 
@@ -168,5 +170,4 @@ public class Calculator {
         }
         return 1; // Here is the + and -
     }
-
 }

@@ -3,10 +3,12 @@ package com.sysgears.example.service;
 import com.sysgears.example.controller.Controller;
 import com.sysgears.example.domain.Calculator;
 import com.sysgears.example.domain.History;
+import com.sysgears.example.exceptions.InputCommandException;
 import com.sysgears.example.input.Command;
-import com.sysgears.example.exceptions.InputArgumentsException;
+import com.sysgears.example.exceptions.InputExpressionException;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -43,6 +45,7 @@ public class ApplicationService {
             /* request user for expression */
             controller.sendResponse("Input expression to calculate OR 'EXIT' to quit program.");
             String expression = controller.getRequest();
+            expression = expression.trim();
                 try {
                     /* send goodbyes and close program */
                     if (expression.toUpperCase().equals(Command.EXIT.name())){
@@ -59,11 +62,16 @@ public class ApplicationService {
                         /* calculate expression result, save to history and send to user */
                         controller.sendResponse(result);
                     }
-                } catch (InputArgumentsException | NumberFormatException | ArithmeticException e) {
+                } catch (InputExpressionException | NumberFormatException | ArithmeticException e) {
                 /* send error message if some calculator exception has been caught */
-                    controller.sendResponse("Incorrect expression. "+e.getMessage()+" Try again. Example: (-2) + 3*4 - 7/(-5^(-2))");
-                }catch (Exception e){
-                    controller.sendResponse(e.getMessage());
+                    controller.sendResponse("Incorrect expression. "+e.getMessage()+" Try again.\nIf you have negative number then you should use brackets. \nExample: (-2) + 3*4 - 7/(-5^(-2))\n");
+                }catch (InputCommandException e){
+                    controller.sendResponse("Incorrect command. "+e.getMessage());
+                } catch (NoSuchElementException | StringIndexOutOfBoundsException e){
+                    controller.sendResponse("Нет операндов ");
+                } catch (Exception e){
+//                    e.printStackTrace();
+                    controller.sendResponse(e.getMessage()+" <- ApplicationService cath Exception "+e.getClass());
                 }
         }
     }
