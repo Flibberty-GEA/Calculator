@@ -65,7 +65,6 @@ public class Calculator {
             }  catch (InputExpressionException e) {
                 throw e;
             } catch (Exception e) {
-//                e.printStackTrace();
                 if (!inputExpression.contains("exit")) throw new InputExpressionException("Недопустимый символ в выражении -> "+inputExpression+". You can use operators as +, 1, *, /, ^.");
                 else throw new InputCommandException("Введите exit без других символов");
             }
@@ -77,8 +76,13 @@ public class Calculator {
 
         Double result = stack.pop();
 
-        if (result.equals(Infinity)||result.equals(NaN)) throw new InputExpressionException("На 0 не делится");
-        else return result;
+        zeroCheck(result, inputExpression);
+
+        return result;
+
+//        if ((result.equals(Infinity)&&inputExpression.contains("^(-"))&&!inputExpression.contains("^(-0")) throw new ArithmeticException("0^(-n) = 1/0^n. Если n!=0 то после возведения 0 в степень n в знаменателе окажется 0, а на 0 не делится.");
+//        else if (result.equals(Infinity)||result.equals(NaN)) throw new ArithmeticException("На 0 не делится.");
+//        else return result;
     }
 
     /**
@@ -169,5 +173,11 @@ public class Calculator {
                 return 2;
         }
         return 1; // Here is the + and -
+    }
+
+    private Double zeroCheck(Double result, String inputExpression) throws ArithmeticException {
+        if ((result.equals(Infinity)&&inputExpression.contains("^(-"))&&!inputExpression.contains("^(-0")) throw new ArithmeticException("0^(-n) = 1/0^n. Если n!=0 то после возведения 0 в степень n в знаменателе окажется 0, а на 0 не делится.");
+        else if (result.equals(Infinity)||result.equals(NaN)) throw new ArithmeticException("На 0 не делится.");
+        else return result;
     }
 }

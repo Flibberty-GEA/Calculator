@@ -45,7 +45,7 @@ public class Controller {
         try {
             return reader.readLine();
         } catch (IOException e) {
-            throw new InputOrOutputStreamException(e.getMessage().toString());
+            throw new InputOrOutputStreamException("Hello from CONTROLLER "+e.getMessage().toString());
         }
     }
 
@@ -59,7 +59,7 @@ public class Controller {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            throw new InputOrOutputStreamException(e.getMessage().toString());
+            throw new InputOrOutputStreamException("Hello from CONTROLLER "+e.getMessage().toString());
         }
 
     }
