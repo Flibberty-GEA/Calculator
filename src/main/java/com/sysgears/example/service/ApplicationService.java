@@ -2,8 +2,9 @@ package com.sysgears.example.service;
 
 import com.sysgears.example.controller.Controller;
 import com.sysgears.example.domain.Calculator;
+import com.sysgears.example.domain.History;
 import com.sysgears.example.input.Command;
-import com.sysgears.example.exceptions.InputException;
+import com.sysgears.example.exceptions.InputArgumentsException;
 
 import java.io.IOException;
 
@@ -16,11 +17,15 @@ public class ApplicationService {
      * object for connect to user
      */
     private final Controller controller;
+    private final Calculator calculator;
+    private final History history;
     /**
      * @param controller object for connect to user
      */
     public ApplicationService(final Controller controller) {
         this.controller = controller;
+        this.calculator = new Calculator();
+        this.history = new History();
     }
 
     /**
@@ -32,6 +37,8 @@ public class ApplicationService {
         /* send greetings to user */
         controller.sendResponse("Hello!");
 
+
+
         while (true) {
             /* request user for expression */
             controller.sendResponse("Input expression to calculate OR 'EXIT' to quit program.");
@@ -42,15 +49,19 @@ public class ApplicationService {
                         controller.sendResponse("Good bye!");
                         controller.getWriter().close();
                         return;
+                    } else if (expression.toUpperCase().equals(Command.HISTORY.name())) {
+                        controller.sendResponse(history.getAllRecords().toString());
+                    } else if (expression.toUpperCase().equals(Command.UNIQUE_HISTORY.getName())) {
+                        controller.sendResponse(history.getUniqueRecords().toString());
                     } else {
-
-                        expression = Calculator.toRPN(expression);
+                        String result = String.valueOf(calculator.calculate(expression));
+                        history.saveResult(result);
                         /* calculate expression result, save to history and send to user */
-                        controller.sendResponse(String.valueOf(Calculator.calculate(expression)));
+                        controller.sendResponse(result);
                     }
-                } catch (InputException | NumberFormatException | ArithmeticException e) {
+                } catch (InputArgumentsException | NumberFormatException | ArithmeticException e) {
                 /* send error message if some calculator exception has been caught */
-                    controller.sendResponse("Incorrect expression. Try again. Example: -2 + 3*4 - 7/-5");
+                    controller.sendResponse("Incorrect expression. "+e.getMessage()+" Try again. Example: (-2) + 3*4 - 7/(-5^(-2))");
                 }catch (Exception e){
                     controller.sendResponse(e.getMessage());
                 }

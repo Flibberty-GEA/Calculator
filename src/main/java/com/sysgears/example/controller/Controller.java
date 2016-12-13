@@ -1,5 +1,7 @@
 package com.sysgears.example.controller;
 
+import com.sysgears.example.exceptions.InputOrOutputStreamException;
+
 import java.io.*;
 
 /**
@@ -39,18 +41,27 @@ public class Controller {
      * @return next line from reader
      * @throws IOException if an I/O error occurs
      */
-    public String getRequest() throws IOException {
-        return reader.readLine();
+    public String getRequest() throws InputOrOutputStreamException {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            throw new InputOrOutputStreamException(e.getMessage().toString());
+        }
     }
 
     /**
      * @param response is a message or result of request
      * @throws IOException if an I/O error occurs
      */
-    public void sendResponse (final String response) throws IOException {
-        writer.write(response);
-        writer.newLine();
-        writer.flush();
+    public void sendResponse (final String response) throws InputOrOutputStreamException {
+        try {
+            writer.write(response);
+            writer.newLine();
+            writer.flush();
+        } catch (IOException e) {
+            throw new InputOrOutputStreamException(e.getMessage().toString());
+        }
+
     }
 
 

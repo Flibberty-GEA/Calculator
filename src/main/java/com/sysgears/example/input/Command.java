@@ -2,7 +2,12 @@ package com.sysgears.example.input;
 
 
 public enum Command {
-        EXIT,
-    ALL_HISTORY,
+    EXIT,
+    HISTORY,
     UNIQUE_HISTORY;
+
+
+    public final String getName(){
+        return name().replace("_", " ");
+    }
 }

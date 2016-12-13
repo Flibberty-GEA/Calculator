@@ -1,11 +1,16 @@
 package com.sysgears.example.domain;
 
+import com.sysgears.example.exceptions.InputArgumentsException;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.StringTokenizer;
 
+import static jdk.nashorn.internal.objects.Global.Infinity;
+import static jdk.nashorn.internal.objects.Global.NaN;
+
 /**
- *
+ * Calculates the expression
  */
 public class Calculator {
     /**
@@ -13,57 +18,65 @@ public class Calculator {
      * @param inputExpression
      * @return double result
      */
-    public static double calculate(String inputExpression) throws Exception {
-        double dA = 0, dB = 0;
-        String sTmp;
+    public double calculate(String inputExpression) throws Exception {
+        double operand = 0, secondOperand = 0;
+        String symbol;
         Deque<Double> stack = new ArrayDeque<Double>();
-        StringTokenizer st = new StringTokenizer(inputExpression);
-        while(st.hasMoreTokens()) {
+
+        String expressionRPN = toRPN(inputExpression);
+        StringTokenizer tokenizer = new StringTokenizer(expressionRPN);
+        while(tokenizer.hasMoreTokens()) {
+            symbol = tokenizer.nextToken().trim();
             try {
-                sTmp = st.nextToken().trim();
-                if (1 == sTmp.length() && isOperator(sTmp.charAt(0))) {
+                if (1 == symbol.length() && isOperator(symbol.charAt(0))) {
                     if (stack.size() < 2) {
-                        throw new Exception("Неверное количество данных в стеке для операции " + sTmp);
+                        throw new InputArgumentsException("Неверное количество данных в стеке для операции.");
                     }
-                    dB = stack.pop();
-                    dA = stack.pop();
-                    switch (sTmp.charAt(0)) {
+                    secondOperand = stack.pop();
+                    operand = stack.pop();
+                    switch (symbol.charAt(0)) {
                         case '+':
-                            dA += dB;
+                            operand += secondOperand;
                             break;
                         case '-':
-                            dA -= dB;
+                            operand -= secondOperand;
                             break;
                         case '/':
-                            dA /= dB;
+                            operand /= secondOperand;
                             break;
                         case '*':
-                            dA *= dB;
+                            operand *= secondOperand;
                             break;
-                        case '%':
-                            dA %= dB;
-                            break;
+/*                        case '%':
+                            operand %= secondOperand;
+                            break;*/
                         case '^':
-                            dA = Math.pow(dA, dB);
+                            operand = Math.pow(operand, secondOperand);
                             break;
                         default:
-                            throw new Exception("Недопустимая операция " + sTmp);
+                            throw new InputArgumentsException("Недопустимая операция " + symbol);
                     }
-                    stack.push(dA);
+                    stack.push(operand);
                 } else {
-                    dA = Double.parseDouble(sTmp);
-                    stack.push(dA);
+                    operand = Double.parseDouble(symbol);
+                    stack.push(operand);
                 }
+            }  catch (InputArgumentsException e) {
+                throw e;
             } catch (Exception e) {
-                throw new Exception("Недопустимый символ в выражении");
+//                e.printStackTrace();
+                throw new InputArgumentsException("Недопустимый символ в выражении -> "+symbol);
             }
         }
 
         if (stack.size() > 1) {
-            throw new Exception("Количество операторов не соответствует количеству операндов");
+            throw new InputArgumentsException("Количество операторов не соответствует количеству операндов");
         }
 
-        return stack.pop();
+        Double result = stack.pop();
+
+        if (result.equals(Infinity)||result.equals(NaN)) throw new InputArgumentsException("На 0 не делится");
+        else return result;
     }
 
     /**
@@ -75,9 +88,11 @@ public class Calculator {
      * @param userExpression - request user for expression
      * @return resultExpression - output string in RPN
      */
-    public static String toRPN(String userExpression) throws Exception {
+    private String toRPN(String userExpression) throws Exception {
         StringBuilder sbStack = new StringBuilder(""), resultExpression = new StringBuilder("");
         char cIn, cTmp;
+
+        if (userExpression.contains("(-")) userExpression=userExpression.replace("(-", "(0-");
 
         for (int i = 0; i < userExpression.length(); i++) {
             cIn = userExpression.charAt(i);
@@ -100,7 +115,7 @@ public class Calculator {
                 cTmp = sbStack.substring(sbStack.length()-1).charAt(0);
                 while ('(' != cTmp) {
                     if (sbStack.length() < 1) {
-                        throw new Exception("Ошибка разбора скобок. Проверьте правильность выражения.");
+                        throw new InputArgumentsException("Ошибка разбора скобок. Проверьте правильность выражения.");
                     }
                     resultExpression.append(" ").append(cTmp);
                     sbStack.setLength(sbStack.length()-1);
@@ -125,7 +140,7 @@ public class Calculator {
     /**
      * Checking whether the current symbol the operator
      */
-    private static boolean isOperator(char c) {
+    private boolean isOperator(char c) {
         switch (c) {
             case '-':
             case '+':
@@ -142,7 +157,7 @@ public class Calculator {
      * @param operator char
      * @return byte
      */
-    private static byte priorityOfOperator(char operator) {
+    private byte priorityOfOperator(char operator) {
         switch (operator) {
             case '^':
                 return 3;

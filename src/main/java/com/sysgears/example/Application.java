@@ -2,7 +2,10 @@ package com.sysgears.example;
 
 
 import com.sysgears.example.controller.Controller;
+import com.sysgears.example.exceptions.InputOrOutputStreamException;
 import com.sysgears.example.service.ApplicationService;
+
+import java.io.IOException;
 
 /**
  *
@@ -21,7 +24,12 @@ public class Application {
         try{
             final Controller controller = new Controller(System.in, System.out);
             new ApplicationService(controller).run();
-        }catch (Exception e){
+        } catch (IOException e) {
+            /* print exception message if IO exception has been thrown */
+            System.out.println(e.getMessage());
+        } catch (Throwable t) {
+            /* print exception message if any throwable has been thrown */
+            System.out.println(t.getMessage());
         }
     }
 }

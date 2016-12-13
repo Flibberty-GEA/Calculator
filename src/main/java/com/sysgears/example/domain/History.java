@@ -36,7 +36,7 @@ public class History {
      *
      * @param record is a record which need to add to storage
      */
-    public void saveRecord(final String record) {
+    public void saveResult(final String record) {
         recordsOfRequests.add(record);
     }
 }
