@@ -12,26 +12,33 @@ import static jdk.nashorn.internal.objects.Global.Infinity;
 import static jdk.nashorn.internal.objects.Global.NaN;
 
 /**
- * Calculates the expression
+ * Class for calculating result of expression
  */
 public class Calculator {
 
-    private ResultsHistory resultsHistory = new ResultsHistory();
+    /* initialize history*/
+    private final ResultsHistory resultsHistory = new ResultsHistory();
 
-    public String getAllRecords(){
-        return resultsHistory.getAllRecords().toString();
-    }
+    /**
+     *
+     * @return all records from storage
+     */
+    public String getAllRecords() {return resultsHistory.getAllRecords().toString();}
+
+    /**
+     *
+     * @return unique records from storage
+     */
     public String getUniqueRecords(){
         return resultsHistory.getUniqueRecords().toString();
     }
-
 
     /**
      * Calculates the expression written in Reverse Polish Notation
      * @param inputExpression
      * @return double result
      */
-    public double calculate(String inputExpression) throws Exception {
+    public double calculate(final String inputExpression) throws Exception {
         double operand = 0, secondOperand = 0;
         String symbol;
         Deque<Double> stack = new ArrayDeque<Double>();
@@ -112,6 +119,10 @@ public class Calculator {
         char currentSymbol, serviceSymbol;
         if ((userExpression.trim().charAt(0)=='-') || (userExpression.trim().charAt(0)=='+')) userExpression="0"+userExpression;
         if (userExpression.contains("(-")) userExpression=userExpression.replace("(-", "(0-");
+//        if (userExpression.contains("--")) userExpression=userExpression.replace("--", "+");
+//        else if (userExpression.contains("+-")) userExpression=userExpression.replace("+-", "-");
+//        else if (userExpression.contains("*-")) userExpression=userExpression.replace("*-", "*1+0-");
+//        else if (userExpression.contains("/-")) userExpression=userExpression.replace("/-", "/1+0-");
 
         for (int i = 0; i < userExpression.length(); i++) {
             currentSymbol = userExpression.charAt(i);

@@ -6,7 +6,6 @@ public enum RequestCommand {
     HISTORY,
     UNIQUE_HISTORY;
 
-
     public final String getName(){
         return name().replace("_", " ");
     }

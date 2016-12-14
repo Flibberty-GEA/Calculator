@@ -5,10 +5,7 @@ import com.sysgears.example.exceptions.InputOrOutputStreamException;
 import java.io.*;
 
 /**
- * Class for contact with user.
- * The StreamController accepts input and converts it to commands for the model or view.
- * It can send commands to the model to update the model's state.
- * It can also send commands to its associated view (console output) to change the view's presentation of the model.
+ * Class for contact with user by console.
  */
 public class StreamController {
 
