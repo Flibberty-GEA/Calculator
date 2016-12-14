@@ -6,11 +6,11 @@ import java.io.*;
 
 /**
  * Class for contact with user.
- * The Controller accepts input and converts it to commands for the model or view.
+ * The StreamController accepts input and converts it to commands for the model or view.
  * It can send commands to the model to update the model's state.
  * It can also send commands to its associated view (console output) to change the view's presentation of the model.
  */
-public class Controller {
+public class StreamController {
 
     /**
      * Reader of input data
@@ -32,7 +32,7 @@ public class Controller {
      * @param input  source of input data
      * @param output destination of output data
      */
-    public Controller(final InputStream input, final OutputStream output) {
+    public StreamController(final InputStream input, final OutputStream output) {
         this.reader = new BufferedReader(new InputStreamReader(input));
         this.writer = new BufferedWriter(new OutputStreamWriter(output));
     }

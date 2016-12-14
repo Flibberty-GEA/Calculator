@@ -1,29 +1,29 @@
 package com.sysgears.example;
 
 
-import com.sysgears.example.controller.Controller;
-import com.sysgears.example.exceptions.InputOrOutputStreamException;
-import com.sysgears.example.service.ApplicationService;
+import com.sysgears.example.controller.StreamController;
+import com.sysgears.example.controller.RequestController;
 
 import java.io.IOException;
 
 /**
  *
  */
-public class ConsoleApplication {
-
-//    public void init(){}
+public class ApplicationRunner {
 
 
+    private static void initialize(){
+
+    }
+    private ApplicationRunner() {
+        initialize();
+    }
 
     public static void main(String[] args) {
-//        final Controller controller = new Controller(System.in, System.out);
-//        new ApplicationService(controller).run();
-
+        ApplicationRunner applicationRunner = new ApplicationRunner();
         // добиться того чтобы исключение не вылетало
         try{
-            final Controller controller = new Controller(System.in, System.out);
-            new ApplicationService(controller).run();
+            new RequestController().run();
         } catch (IOException e) {
             /* print exception message if IO exception has been thrown */
             System.out.println(e.getMessage());

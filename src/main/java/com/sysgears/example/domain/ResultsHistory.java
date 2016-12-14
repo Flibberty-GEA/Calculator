@@ -7,7 +7,7 @@ import java.util.List;
 /**
  *
  */
-public class History {
+public class ResultsHistory {
 
     /**
      * storage of result records which have been calculated

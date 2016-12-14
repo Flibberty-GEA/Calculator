@@ -1,7 +1,7 @@
-package com.sysgears.example.input;
+package com.sysgears.example.controller;
 
 
-public enum Command {
+public enum RequestCommand {
     EXIT,
     HISTORY,
     UNIQUE_HISTORY;

@@ -1,5 +1,6 @@
-package com.sysgears.example.domain;
+package com.sysgears.example.service;
 
+import com.sysgears.example.domain.ResultsHistory;
 import com.sysgears.example.exceptions.InputCommandException;
 import com.sysgears.example.exceptions.InputExpressionException;
 
@@ -14,6 +15,17 @@ import static jdk.nashorn.internal.objects.Global.NaN;
  * Calculates the expression
  */
 public class Calculator {
+
+    private ResultsHistory resultsHistory = new ResultsHistory();
+
+    public String getAllRecords(){
+        return resultsHistory.getAllRecords().toString();
+    }
+    public String getUniqueRecords(){
+        return resultsHistory.getUniqueRecords().toString();
+    }
+
+
     /**
      * Calculates the expression written in Reverse Polish Notation
      * @param inputExpression
@@ -78,6 +90,7 @@ public class Calculator {
 
         result = checkForInfinityAndNaN(result, inputExpression);
 
+        resultsHistory.saveResult(result.toString());
         return result;
 
 //        if ((result.equals(Infinity)&&inputExpression.contains("^(-"))&&!inputExpression.contains("^(-0")) throw new ArithmeticException("0^(-n) = 1/0^n. Если n!=0 то после возведения 0 в степень n в знаменателе окажется 0, а на 0 не делится.");

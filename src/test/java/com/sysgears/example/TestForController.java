@@ -1,6 +1,6 @@
 package com.sysgears.example;
 
-import com.sysgears.example.controller.Controller;
+import com.sysgears.example.controller.StreamController;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -10,9 +10,9 @@ public class TestForController {
 
     @Test
     public void testController() throws IOException {
-        Controller controller = new Controller(System.in, System.out);
-        controller.sendResponse("Hello!");
-//        String expression = controller.getRequest();
+        StreamController streamController = new StreamController(System.in, System.out);
+        streamController.sendResponse("Hello!");
+//        String expression = streamController.getRequest();
 //        System.out.println(expression);
     }
 
