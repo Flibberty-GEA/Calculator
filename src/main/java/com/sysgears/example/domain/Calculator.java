@@ -76,7 +76,7 @@ public class Calculator {
 
         Double result = stack.pop();
 
-        zeroCheck(result, inputExpression);
+        result = checkForInfinityAndNaN(result, inputExpression);
 
         return result;
 
@@ -95,50 +95,50 @@ public class Calculator {
      * @return resultExpression - output string in RPN
      */
     private String toRPN(String userExpression) throws Exception {
-        StringBuilder sbStack = new StringBuilder(""), resultExpression = new StringBuilder("");
-        char cIn, cTmp;
+        StringBuilder serviceOperatorsStack = new StringBuilder(""), resultExpression = new StringBuilder("");
+        char currentSymbol, serviceSymbol;
         if ((userExpression.trim().charAt(0)=='-') || (userExpression.trim().charAt(0)=='+')) userExpression="0"+userExpression;
         if (userExpression.contains("(-")) userExpression=userExpression.replace("(-", "(0-");
 
         for (int i = 0; i < userExpression.length(); i++) {
-            cIn = userExpression.charAt(i);
-            if (isOperator(cIn)) {
-                while (sbStack.length() > 0) {
-                    cTmp = sbStack.substring(sbStack.length()-1).charAt(0);
-                    if (isOperator(cTmp) && (priorityOfOperator(cIn) <= priorityOfOperator(cTmp))) {
-                        resultExpression.append(" ").append(cTmp).append(" ");
-                        sbStack.setLength(sbStack.length()-1);
+            currentSymbol = userExpression.charAt(i);
+            if (isOperator(currentSymbol)) {
+                while (serviceOperatorsStack.length() > 0) {
+                    serviceSymbol = serviceOperatorsStack.substring(serviceOperatorsStack.length()-1).charAt(0);
+                    if (isOperator(serviceSymbol) && (priorityOfOperator(currentSymbol) <= priorityOfOperator(serviceSymbol))) {
+                        resultExpression.append(" ").append(serviceSymbol).append(" ");
+                        serviceOperatorsStack.setLength(serviceOperatorsStack.length()-1);
                     } else {
                         resultExpression.append(" ");
                         break;
                     }
                 }
                 resultExpression.append(" ");
-                sbStack.append(cIn);
-            } else if ('(' == cIn) {
-                sbStack.append(cIn);
-            } else if (')' == cIn) {
+                serviceOperatorsStack.append(currentSymbol);
+            } else if ('(' == currentSymbol) {
+                serviceOperatorsStack.append(currentSymbol);
+            } else if (')' == currentSymbol) {
                 try {
-                    cTmp = sbStack.substring(sbStack.length()-1).charAt(0);
-                    while ('(' != cTmp) {
-                        resultExpression.append(" ").append(cTmp);
-                        sbStack.setLength(sbStack.length()-1);
-                        cTmp = sbStack.substring(sbStack.length()-1).charAt(0);
+                    serviceSymbol = serviceOperatorsStack.substring(serviceOperatorsStack.length()-1).charAt(0);
+                    while ('(' != serviceSymbol) {
+                        resultExpression.append(" ").append(serviceSymbol);
+                        serviceOperatorsStack.setLength(serviceOperatorsStack.length()-1);
+                        serviceSymbol = serviceOperatorsStack.substring(serviceOperatorsStack.length()-1).charAt(0);
                     }
-                    sbStack.setLength(sbStack.length()-1);
+                    serviceOperatorsStack.setLength(serviceOperatorsStack.length()-1);
 
                 } catch (Exception e){
                     throw new InputExpressionException("Ошибка разбора скобок. Проверьте правильность выражения."+userExpression);
                 }
             } else {
                 // Если символ не оператор - добавляем в выходную последовательность
-                resultExpression.append(cIn);
+                resultExpression.append(currentSymbol);
             }
         }
         // Если в стеке остались операторы, добавляем их в входную строку
-        while (sbStack.length() > 0) {
-            resultExpression.append(" ").append(sbStack.substring(sbStack.length()-1));
-            sbStack.setLength(sbStack.length()-1);
+        while (serviceOperatorsStack.length() > 0) {
+            resultExpression.append(" ").append(serviceOperatorsStack.substring(serviceOperatorsStack.length()-1));
+            serviceOperatorsStack.setLength(serviceOperatorsStack.length()-1);
         }
         return  resultExpression.toString();
     }
@@ -146,8 +146,8 @@ public class Calculator {
     /**
      * Checking whether the current symbol the operator
      */
-    private boolean isOperator(char c) {
-        switch (c) {
+    private boolean isOperator(char symbol) {
+        switch (symbol) {
             case '-':
             case '+':
             case '*':
@@ -175,7 +175,7 @@ public class Calculator {
         return 1; // Here is the + and -
     }
 
-    private Double zeroCheck(Double result, String inputExpression) throws ArithmeticException {
+    private Double checkForInfinityAndNaN(Double result, String inputExpression) throws ArithmeticException {
         if ((result.equals(Infinity)&&inputExpression.contains("^(-"))&&!inputExpression.contains("^(-0")) throw new ArithmeticException("0^(-n) = 1/0^n. Если n!=0 то после возведения 0 в степень n в знаменателе окажется 0, а на 0 не делится.");
         else if (result.equals(Infinity)||result.equals(NaN)) throw new ArithmeticException("На 0 не делится.");
         else return result;

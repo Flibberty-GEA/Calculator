@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  *
  */
-public class Application {
+public class ConsoleApplication {
 
 //    public void init(){}
 
