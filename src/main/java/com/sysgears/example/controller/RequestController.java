@@ -63,6 +63,7 @@ public class RequestController {
                     streamController.sendResponse("Incorrect command. "+e.getMessage());
                 } catch (NoSuchElementException | StringIndexOutOfBoundsException e){
                     /* send error message if some calculator exception has been caught */
+                    e.printStackTrace();
                     streamController.sendResponse("Нет операндов ");
                 } catch (Exception e){
                     streamController.sendResponse(e.getMessage()+" <- RequestController cath Exception "+e.getClass());

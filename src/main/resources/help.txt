@@ -1,11 +1,9 @@
 HELP INFO
-
 You can use following command:
-help - Show usage information
-history -
-unique history -
-exit -
-
+help - show usage information
+history - show all records from storage
+unique history - show unique records from storage
+exit - command for exit from program
 Expression:
 You can use operators as +, 1, *, /, ^.
 If you have negative number then you should use brackets.

@@ -2,6 +2,7 @@ package com.sysgears.example.service;
 
 import com.sysgears.example.domain.symbols.Symbol;
 import com.sysgears.example.domain.symbols.SymbolFactory;
+import com.sysgears.example.domain.symbols.operators.Operator;
 import com.sysgears.example.exceptions.InputExpressionException;
 
 
@@ -42,7 +43,7 @@ public class ParserRPN {
             currentSymbol = userExpression.charAt(i);
 
             if ('(' == currentSymbol){
-                serviceSymbolStack.push(factory.getOperator(currentSymbol));
+                serviceSymbolStack.push(factory.createInstance(currentSymbol));
             }else if (')' == currentSymbol) {
                 try {
                     serviceSymbol = serviceSymbolStack.peek();
@@ -64,7 +65,7 @@ public class ParserRPN {
                 }catch (NumberFormatException e){
                     while (serviceSymbolStack.size() > 0) {
                         serviceSymbol = serviceSymbolStack.peek();
-                        if (serviceSymbol.isOperator() && (factory.getOperator(currentSymbol).getPriority() <= serviceSymbol.getPriority())) {
+                        if (serviceSymbol instanceof Operator && (factory.createInstance(currentSymbol).getPriority() <= serviceSymbol.getPriority())) {
                             resultExpression.append(" ").append(serviceSymbol.getValue()).append(" ");
                             serviceSymbolStack.pop();
                         } else {
@@ -74,7 +75,7 @@ public class ParserRPN {
                         }
                     }
                     resultExpression.append(" ");
-                    serviceSymbolStack.push(factory.getOperator(currentSymbol));
+                    serviceSymbolStack.push(factory.createInstance(currentSymbol));
                 }
             } else {
             }

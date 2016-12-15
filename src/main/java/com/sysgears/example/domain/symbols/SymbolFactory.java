@@ -9,7 +9,7 @@ import com.sysgears.example.domain.symbols.operators.*;
  */
 public class SymbolFactory {
 
-    public Symbol getOperator(Character type) throws Exception {
+    public Symbol createInstance(Character type) throws Exception {
         switch (type) {
             case '+':
                 return new Plus();
