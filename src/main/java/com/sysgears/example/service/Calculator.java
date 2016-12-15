@@ -16,6 +16,7 @@ import static jdk.nashorn.internal.objects.Global.NaN;
 public class Calculator {
 
     private HistoryDAO historyDAO;
+    ParserRPN parser = new ParserRPN();
 
     public Calculator(final HistoryDAO historyDAO) {
         this.historyDAO = historyDAO;
@@ -31,7 +32,7 @@ public class Calculator {
         String symbol;
         Deque<Double> stack = new ArrayDeque<Double>();
 
-        String expressionRPN = toRPN(inputExpression);
+        String expressionRPN = parser.toRPN(inputExpression);
 
         StringTokenizer tokenizer = new StringTokenizer(expressionRPN);
         while(tokenizer.hasMoreTokens()) {
@@ -90,68 +91,6 @@ public class Calculator {
     }
 
     /**
-     * Convert user's expression in Reverse Polish notation (RPN).
-     * Reverse Polish notation (RPN) is a mathematical notation
-     * in which every operator follows all of its operands.
-     * It is also known as postfix notation and does not need any parentheses
-     * as long as each operator has a fixed number of operands.
-     * @param userExpression - request user for expression
-     * @return resultExpression - output string in RPN
-     */
-    private String toRPN(String userExpression) throws Exception {
-        StringBuilder serviceOperatorsStack = new StringBuilder(""), resultExpression = new StringBuilder("");
-        char currentSymbol, serviceSymbol;
-        if ((userExpression.trim().charAt(0)=='-') || (userExpression.trim().charAt(0)=='+')) userExpression="0"+userExpression;
-        if (userExpression.contains("(-")) userExpression=userExpression.replace("(-", "(0-");
-//        if (userExpression.contains("--")) userExpression=userExpression.replace("--", "+");
-//        else if (userExpression.contains("+-")) userExpression=userExpression.replace("+-", "-");
-//        else if (userExpression.contains("*-")) userExpression=userExpression.replace("*-", "*1+0-");
-//        else if (userExpression.contains("/-")) userExpression=userExpression.replace("/-", "/1+0-");
-
-        for (int i = 0; i < userExpression.length(); i++) {
-            currentSymbol = userExpression.charAt(i);
-            if (isOperator(currentSymbol)) {
-                while (serviceOperatorsStack.length() > 0) {
-                    serviceSymbol = serviceOperatorsStack.substring(serviceOperatorsStack.length()-1).charAt(0);
-                    if (isOperator(serviceSymbol) && (priorityOfOperator(currentSymbol) <= priorityOfOperator(serviceSymbol))) {
-                        resultExpression.append(" ").append(serviceSymbol).append(" ");
-                        serviceOperatorsStack.setLength(serviceOperatorsStack.length()-1);
-                    } else {
-                        resultExpression.append(" ");
-                        break;
-                    }
-                }
-                resultExpression.append(" ");
-                serviceOperatorsStack.append(currentSymbol);
-            } else if ('(' == currentSymbol) {
-                serviceOperatorsStack.append(currentSymbol);
-            } else if (')' == currentSymbol) {
-                try {
-                    serviceSymbol = serviceOperatorsStack.substring(serviceOperatorsStack.length()-1).charAt(0);
-                    while ('(' != serviceSymbol) {
-                        resultExpression.append(" ").append(serviceSymbol);
-                        serviceOperatorsStack.setLength(serviceOperatorsStack.length()-1);
-                        serviceSymbol = serviceOperatorsStack.substring(serviceOperatorsStack.length()-1).charAt(0);
-                    }
-                    serviceOperatorsStack.setLength(serviceOperatorsStack.length()-1);
-
-                } catch (Exception e){
-                    throw new InputExpressionException("Ошибка разбора скобок. Проверьте правильность выражения."+userExpression);
-                }
-            } else {
-                // Если символ не оператор - добавляем в выходную последовательность
-                resultExpression.append(currentSymbol);
-            }
-        }
-        // Если в стеке остались операторы, добавляем их в входную строку
-        while (serviceOperatorsStack.length() > 0) {
-            resultExpression.append(" ").append(serviceOperatorsStack.substring(serviceOperatorsStack.length()-1));
-            serviceOperatorsStack.setLength(serviceOperatorsStack.length()-1);
-        }
-        return  resultExpression.toString();
-    }
-
-    /**
      * Checking whether the current symbol the operator
      */
     private boolean isOperator(char symbol) {
@@ -164,23 +103,6 @@ public class Calculator {
                 return true;
         }
         return false;
-    }
-
-    /**
-     * Checking operator priority
-     * @param operator char
-     * @return byte
-     */
-    private byte priorityOfOperator(char operator) {
-        switch (operator) {
-            case '^':
-                return 3;
-            case '*':
-            case '/':
-            case '%':
-                return 2;
-        }
-        return 1; // Here is the + and -
     }
 
     private Double checkForInfinityAndNaN(Double result, String inputExpression) throws ArithmeticException {
