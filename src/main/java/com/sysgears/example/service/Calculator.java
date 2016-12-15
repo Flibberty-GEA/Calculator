@@ -1,6 +1,5 @@
 package com.sysgears.example.service;
 
-import com.sysgears.example.domain.ResultsHistory;
 import com.sysgears.example.exceptions.InputCommandException;
 import com.sysgears.example.exceptions.InputExpressionException;
 
@@ -16,21 +15,10 @@ import static jdk.nashorn.internal.objects.Global.NaN;
  */
 public class Calculator {
 
-    /* initialize history*/
-    private final ResultsHistory resultsHistory = new ResultsHistory();
+    private HistoryDAO historyDAO;
 
-    /**
-     *
-     * @return all records from storage
-     */
-    public String getAllRecords() {return resultsHistory.getAllRecords().toString();}
-
-    /**
-     *
-     * @return unique records from storage
-     */
-    public String getUniqueRecords(){
-        return resultsHistory.getUniqueRecords().toString();
+    public Calculator(final HistoryDAO historyDAO) {
+        this.historyDAO = historyDAO;
     }
 
     /**
@@ -97,12 +85,8 @@ public class Calculator {
 
         result = checkForInfinityAndNaN(result, inputExpression);
 
-        resultsHistory.saveResult(result.toString());
+        historyDAO.save(result.toString());
         return result;
-
-//        if ((result.equals(Infinity)&&inputExpression.contains("^(-"))&&!inputExpression.contains("^(-0")) throw new ArithmeticException("0^(-n) = 1/0^n. Если n!=0 то после возведения 0 в степень n в знаменателе окажется 0, а на 0 не делится.");
-//        else if (result.equals(Infinity)||result.equals(NaN)) throw new ArithmeticException("На 0 не делится.");
-//        else return result;
     }
 
     /**

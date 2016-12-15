@@ -5,10 +5,10 @@ import java.io.IOException;
 /**
  * Created by yevgen on 13.12.16.
  */
-public class InputOrOutputStreamException extends IOException {
+public class StreamException extends IOException {
     //IOException if an I/O error occurs
 
-    public InputOrOutputStreamException(String message) {
+    public StreamException(String message) {
         super(message);
     }
 }

@@ -1,6 +1,6 @@
 package com.sysgears.example.controller;
 
-import com.sysgears.example.exceptions.InputOrOutputStreamException;
+import com.sysgears.example.exceptions.StreamException;
 
 import java.io.*;
 
@@ -38,11 +38,11 @@ public class StreamController {
      * @return next line from reader
      * @throws IOException if an I/O error occurs
      */
-    public String getRequest() throws InputOrOutputStreamException {
+    public String getRequest() throws StreamException {
         try {
             return reader.readLine();
         } catch (IOException e) {
-            throw new InputOrOutputStreamException("Hello from CONTROLLER "+e.getMessage().toString());
+            throw new StreamException("Hello from CONTROLLER "+e.getMessage().toString());
         }
     }
 
@@ -50,13 +50,13 @@ public class StreamController {
      * @param response is a message or result of request
      * @throws IOException if an I/O error occurs
      */
-    public void sendResponse (final String response) throws InputOrOutputStreamException {
+    public void sendResponse (final String response) throws StreamException {
         try {
             writer.write(response);
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            throw new InputOrOutputStreamException("Hello from CONTROLLER "+e.getMessage().toString());
+            throw new StreamException("Hello from CONTROLLER "+e.getMessage().toString());
         }
 
     }

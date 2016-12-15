@@ -3,8 +3,8 @@ package com.sysgears.example.controller;
 import com.sysgears.example.service.Calculator;
 import com.sysgears.example.exceptions.InputCommandException;
 import com.sysgears.example.exceptions.InputExpressionException;
+import com.sysgears.example.service.HistoryDAO;
 
-import java.io.IOException;
 import java.util.NoSuchElementException;
 
 /**
@@ -17,7 +17,9 @@ public class RequestController {
     /* initialize controller for contact with user by console */
     private final StreamController streamController = new StreamController(System.in, System.out);
     /* initialize calculator */
-    private final Calculator calculator = new Calculator();
+    private final HistoryDAO historyDAO = new HistoryDAO();
+    private final Calculator calculator = new Calculator(historyDAO);
+
 
     /**
      * Executes user's command.
@@ -33,23 +35,23 @@ public class RequestController {
                     "OR 'HISTORY' / 'UNIQUE HISTORY' to see history of results \nOR 'EXIT' to quit program .");
             String expression = streamController.getRequest();
             expression = expression.trim();
+            String commandName = expression.toUpperCase().replace("UNIQUE HISTORY", "UNIQUE_HISTORY");
+            boolean isCommand = false;
                 try {
-                    /* send goodbyes and close program */
-                    if (expression.toUpperCase().equals(RequestCommand.EXIT.name())){
-                        streamController.sendResponse("Good bye!");
-                        streamController.getWriter().close();
-                        return;
+
+                    for (Command command : Command.values()) {
+                        if (!commandName.contains(command.name())) {
+                            continue;
+                        } else {
+                            isCommand = true;
+                            commandName = command.name();
+                            break;
+                        }
                     }
-                    /* send all history to user if expression is command "history" */
-                    else if (expression.toUpperCase().equals(RequestCommand.HISTORY.name())) {
-                        streamController.sendResponse(calculator.getAllRecords());
-                    }
-                    /* send unique history to user if expression is command "history unique" */
-                    else if (expression.toUpperCase().equals(RequestCommand.UNIQUE_HISTORY.getName())) {
-                        streamController.sendResponse(calculator.getUniqueRecords());
-                    }
-                    /* calculate expression result, save to history and send to user */
-                    else {
+                    if (isCommand){
+                        Command command2 = Command.valueOf(commandName);
+                        command2.apply(streamController, historyDAO);
+                    } else {
                         String result = String.valueOf(calculator.calculate(expression));
                         streamController.sendResponse(result);
                     }
