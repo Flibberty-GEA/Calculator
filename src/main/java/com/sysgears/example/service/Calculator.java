@@ -1,7 +1,5 @@
 package com.sysgears.example.service;
 
-import com.sysgears.example.domain.symbols.Symbol;
-import com.sysgears.example.domain.symbols.SymbolFactory;
 import com.sysgears.example.exceptions.InputCommandException;
 import com.sysgears.example.exceptions.InputExpressionException;
 

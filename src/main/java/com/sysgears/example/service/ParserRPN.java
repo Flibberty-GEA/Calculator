@@ -1,7 +1,6 @@
 package com.sysgears.example.service;
 
 import com.sysgears.example.domain.symbols.Symbol;
-import com.sysgears.example.domain.symbols.SymbolFactory;
 import com.sysgears.example.domain.symbols.operators.Operator;
 import com.sysgears.example.exceptions.InputExpressionException;
 
@@ -14,8 +13,6 @@ import java.util.Deque;
  * Created by yevgen on 15.12.16.
  */
 public class ParserRPN {
-
-    SymbolFactory factory = new SymbolFactory();
 
     /**
      * Convert user's expression in Reverse Polish notation (RPN).
@@ -43,7 +40,7 @@ public class ParserRPN {
             currentSymbol = userExpression.charAt(i);
 
             if ('(' == currentSymbol){
-                serviceSymbolStack.push(factory.createInstance(currentSymbol));
+                serviceSymbolStack.push(Symbol.createInstance(currentSymbol));
             }else if (')' == currentSymbol) {
                 try {
                     serviceSymbol = serviceSymbolStack.peek();
@@ -65,7 +62,7 @@ public class ParserRPN {
                 }catch (NumberFormatException e){
                     while (serviceSymbolStack.size() > 0) {
                         serviceSymbol = serviceSymbolStack.peek();
-                        if (serviceSymbol instanceof Operator && (factory.createInstance(currentSymbol).getPriority() <= serviceSymbol.getPriority())) {
+                        if (serviceSymbol instanceof Operator && (Symbol.createInstance(currentSymbol).getPriority() <= serviceSymbol.getPriority())) {
                             resultExpression.append(" ").append(serviceSymbol.getValue()).append(" ");
                             serviceSymbolStack.pop();
                         } else {
@@ -75,7 +72,7 @@ public class ParserRPN {
                         }
                     }
                     resultExpression.append(" ");
-                    serviceSymbolStack.push(factory.createInstance(currentSymbol));
+                    serviceSymbolStack.push(Symbol.createInstance(currentSymbol));
                 }
             } else {
             }
