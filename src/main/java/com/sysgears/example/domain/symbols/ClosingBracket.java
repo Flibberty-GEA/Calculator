@@ -4,9 +4,10 @@ package com.sysgears.example.domain.symbols;
  * Created by yevgen on 15.12.16.
  */
 public class ClosingBracket extends Symbol {
-    private Character value = ')';
+    private String value = ")";
 
-    public Character getValue() {
+    @Override
+    public String getValue() {
         return value;
     }
 

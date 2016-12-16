@@ -42,7 +42,7 @@ public class StreamController {
         try {
             return reader.readLine();
         } catch (IOException e) {
-            throw new StreamException("Hello from CONTROLLER "+e.getMessage().toString());
+            throw new StreamException("Hello from StreamController "+e.getMessage().toString());
         }
     }
 
@@ -56,10 +56,34 @@ public class StreamController {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            throw new StreamException("Hello from CONTROLLER "+e.getMessage().toString());
+            throw new StreamException("Hello from StreamController "+e.getMessage().toString());
         }
-
     }
 
-
+    /**
+     * @param fileName the <tt>File</tt> to read from
+     * @return all info from <tt>File</tt>
+     * @exception  FileNotFoundException  if the file does not exist,
+     *                   is a directory rather than a regular file,
+     *                   or for some other reason cannot be opened for
+     *                   reading.
+     * @throws IOException if an I/O error occurs
+     */
+    public String readFromFile (final String fileName) throws StreamException {
+        BufferedReader in = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            in = new BufferedReader(new FileReader(fileName));
+            String lineText;
+            while ((lineText = in.readLine()) != null) {
+                sb.append(lineText+"\n");
+            }
+            in.close();
+        } catch (FileNotFoundException e) {
+            throw new StreamException("Hello from StreamController "+e.getMessage().toString());
+        } catch (IOException e) {
+            throw new StreamException("Hello from StreamController "+e.getMessage().toString());
+        }
+        return sb.toString();
+    }
 }

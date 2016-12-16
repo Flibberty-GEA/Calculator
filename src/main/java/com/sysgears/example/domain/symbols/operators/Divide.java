@@ -5,7 +5,7 @@ package com.sysgears.example.domain.symbols.operators;
  */
 public class Divide extends Operator {
 
-    private Character value = '/';
+    private String value = "/";
     private int priority = 2;
 
     @Override
@@ -14,7 +14,7 @@ public class Divide extends Operator {
     }
 
     @Override
-    public Character getValue() {
+    public String getValue() {
         return value;
     }
 

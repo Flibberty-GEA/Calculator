@@ -1,7 +1,7 @@
 package com.sysgears.example.service;
 
-import com.sysgears.example.domain.symbols.Symbol;
-import com.sysgears.example.domain.symbols.operators.Operator;
+import com.sysgears.example.domain.symbols.*;
+import com.sysgears.example.domain.symbols.Number;
 import com.sysgears.example.exceptions.InputExpressionException;
 
 
@@ -23,65 +23,70 @@ public class ParserRPN {
      * @param userExpression - request user for expression
      * @return resultExpression - output string in RPN
      */
-    public String toRPN(String userExpression) throws Exception {
-
+    public Deque<Mom> toRPN(String userExpression) throws Exception {
         Deque<Symbol> serviceSymbolStack = new ArrayDeque<>();
-        StringBuilder resultExpression = new StringBuilder("");
+        Deque<Mom> resultExpression = new ArrayDeque<>();
+        StringBuilder resultExpressionString = new StringBuilder("");
         Symbol serviceSymbol;
+        Symbol symbolCurrent;
         char currentSymbol;
         if ((userExpression.trim().charAt(0)=='-') || (userExpression.trim().charAt(0)=='+')) userExpression="0"+userExpression;
         if (userExpression.contains("(-")) userExpression=userExpression.replace("(-", "(0-");
-//        if (userExpression.contains("--")) userExpression=userExpression.replace("--", "+");
-//        else if (userExpression.contains("+-")) userExpression=userExpression.replace("+-", "-");
-//        else if (userExpression.contains("*-")) userExpression=userExpression.replace("*-", "*1+0-");
-//        else if (userExpression.contains("/-")) userExpression=userExpression.replace("/-", "/1+0-");
 
         for (int i = 0; i < userExpression.length(); i++) {
             currentSymbol = userExpression.charAt(i);
-
-            if ('(' == currentSymbol){
-                serviceSymbolStack.push(Symbol.createInstance(currentSymbol));
-            }else if (')' == currentSymbol) {
-                try {
-                    serviceSymbol = serviceSymbolStack.peek();
-                    while ('(' != serviceSymbol.getValue()) {
-                        resultExpression.append(" ").append(serviceSymbol.getValue());
-                        serviceSymbolStack.pop();
-                        serviceSymbol = serviceSymbolStack.peek();
-                    }
-                    serviceSymbolStack.pop();
-
-                } catch (Exception e){
-                    throw new InputExpressionException("Ошибка разбора скобок. Проверьте правильность выражения."+userExpression);
-                }
-            } else if (true) {
-//                else if (Double.valueOf(String.valueOf(currentSymbol)) instanceof Double)
+            try{
+                symbolCurrent = Symbol.createInstance(currentSymbol);
                 try{
-                    Double.valueOf(String.valueOf(currentSymbol));
-                    resultExpression.append(currentSymbol);
-                }catch (NumberFormatException e){
+                    resultExpression.push(new Number(resultExpressionString.toString()));
+                    resultExpressionString = new StringBuilder("");
+                }catch (Exception e){
+
+                }
+                if (symbolCurrent.isOperator()) {
                     while (serviceSymbolStack.size() > 0) {
                         serviceSymbol = serviceSymbolStack.peek();
-                        if (serviceSymbol instanceof Operator && (Symbol.createInstance(currentSymbol).getPriority() <= serviceSymbol.getPriority())) {
-                            resultExpression.append(" ").append(serviceSymbol.getValue()).append(" ");
+                        if (serviceSymbol.isOperator() && (symbolCurrent.getPriority() <= serviceSymbol.getPriority())) {
+                            resultExpression.push(serviceSymbol);
                             serviceSymbolStack.pop();
                         } else {
-                            resultExpression.append(" ");
-//                            resultExpression.append(currentSymbol);
                             break;
                         }
                     }
-                    resultExpression.append(" ");
-                    serviceSymbolStack.push(Symbol.createInstance(currentSymbol));
+                    serviceSymbolStack.push(symbolCurrent);
+                } else if (symbolCurrent instanceof OpeningBracket) {
+                    serviceSymbolStack.push(symbolCurrent);
+                } else if (symbolCurrent instanceof ClosingBracket) {
+                    try {
+                        serviceSymbol = serviceSymbolStack.peek();
+                        while (!(serviceSymbol instanceof OpeningBracket)) {
+                            resultExpression.push(serviceSymbol);
+                            serviceSymbolStack.pop();
+                            serviceSymbol = serviceSymbolStack.peek();
+                        }
+                        serviceSymbolStack.pop();
+                    } catch (Exception e){
+                        throw new InputExpressionException("Ошибка разбора скобок. Проверьте правильность выражения."+userExpression);
+                    }
                 }
-            } else {
+            }catch (Exception e){
+                resultExpressionString.append(currentSymbol);
             }
         }
-
+        if (resultExpressionString.length() != 0) {
+            resultExpression.push(new Number(resultExpressionString.toString()));
+        }
         // Если в стеке остались операторы, добавляем их в входную строку
         while (serviceSymbolStack.size() > 0) {
-            resultExpression.append(" ").append(serviceSymbolStack.pop().getValue());
+            resultExpression.push(serviceSymbolStack.peek());
+            serviceSymbolStack.pop();
         }
-        return  resultExpression.toString();
+
+        Deque<Mom> result = new ArrayDeque<>();
+
+        while (resultExpression.size() != 0) {
+            result.addFirst(resultExpression.pop());
+        }
+        return  result;
     }
 }

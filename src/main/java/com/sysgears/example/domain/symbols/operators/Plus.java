@@ -4,13 +4,14 @@ package com.sysgears.example.domain.symbols.operators;
  * Created by yevgen on 15.12.16.
  */
 public class Plus extends Operator {
-    private Character value = '+';
-    private int priority = 1;
 
-    public Character getValue() {
+    private String value = "+";
+    private int priority = 1;
+    @Override
+    public String getValue() {
         return value;
     }
-
+    @Override
     public int getPriority() {
         return priority;
     }

@@ -1,11 +1,15 @@
 package com.sysgears.example.service;
 
+import com.sysgears.example.domain.symbols.Mom;
+import com.sysgears.example.domain.symbols.Number;
+import com.sysgears.example.domain.symbols.OpeningBracket;
+import com.sysgears.example.domain.symbols.operators.Operator;
 import com.sysgears.example.exceptions.InputCommandException;
 import com.sysgears.example.exceptions.InputExpressionException;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.StringTokenizer;
+
 
 import static jdk.nashorn.internal.objects.Global.Infinity;
 import static jdk.nashorn.internal.objects.Global.NaN;
@@ -29,50 +33,33 @@ public class Calculator {
      */
     public double calculate(final String inputExpression) throws Exception {
         double operand = 0, secondOperand = 0;
-        String symbol;
+        Mom symbol;
         Deque<Double> stack = new ArrayDeque<Double>();
 
-        String expressionRPN = parser.toRPN(inputExpression);
+        Deque<Mom> expressionRPN = parser.toRPN(inputExpression);
 
-        StringTokenizer tokenizer = new StringTokenizer(expressionRPN);
-        while(tokenizer.hasMoreTokens()) {
-            symbol = tokenizer.nextToken().trim();
+        while(expressionRPN.size() != 0) {
+            symbol = expressionRPN.pop();
             try {
-                if (1 == symbol.length() && isOperator(symbol.charAt(0))) {
+                if (symbol instanceof Operator) {
                     if (stack.size() < 2) {
                         throw new InputExpressionException("Неверное количество данных в стеке для операции.\nEach operator must has a fixed number of operands.");
                     }
                     secondOperand = stack.pop();
                     operand = stack.pop();
-                    switch (symbol.charAt(0)) {
-                        case '+':
-                            operand += secondOperand;
-                            break;
-                        case '-':
-                            operand -= secondOperand;
-                            break;
-                        case '/':
-                            operand /= secondOperand;
-                            break;
-                        case '*':
-                            operand *= secondOperand;
-                            break;
-                        case '^':
-                            operand = Math.pow(operand, secondOperand);
-                            break;
-                        default:
-                            throw new InputExpressionException("Недопустимая операция " + symbol);
-                    }
+                    operand = ((Operator) symbol).apply(operand, secondOperand);
                     stack.push(operand);
-                } else if (1 == symbol.length() && symbol.charAt(0)=='(') {
+                } else if (symbol instanceof OpeningBracket) {
                     throw new InputExpressionException("Ошибка разбора скобок. Проверьте правильность выражения."+inputExpression);
                 } else {
-                    operand = Double.parseDouble(symbol);
+                    Number number = new Number(symbol.getValue());
+                    operand = number.getDoubleValue();
                     stack.push(operand);
                 }
             }  catch (InputExpressionException e) {
                 throw e;
             } catch (Exception e) {
+                e.printStackTrace();
                 if (!inputExpression.contains("exit")) throw new InputExpressionException("Недопустимый символ в выражении -> "+inputExpression+". You can use operators as +, 1, *, /, ^.");
                 else throw new InputCommandException("Введите exit без других символов");
             }
@@ -88,21 +75,6 @@ public class Calculator {
 
         historyDAO.save(result.toString());
         return result;
-    }
-
-    /**
-     * Checking whether the current symbol the operator
-     */
-    private boolean isOperator(char symbol) {
-        switch (symbol) {
-            case '-':
-            case '+':
-            case '*':
-            case '/':
-            case '^':
-                return true;
-        }
-        return false;
     }
 
     private Double checkForInfinityAndNaN(Double result, String inputExpression) throws ArithmeticException {

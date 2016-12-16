@@ -5,9 +5,10 @@ package com.sysgears.example.domain.symbols;
  */
 public class OpeningBracket extends Symbol {
 
-    private Character value = '(';
+    private String value = "(";
 
-    public Character getValue() {
+    @Override
+    public String getValue() {
         return value;
     }
 
@@ -15,7 +16,6 @@ public class OpeningBracket extends Symbol {
     public int getPriority() {
         return 0;
     }
-
     @Override
     public boolean isOperator() {
         return false;

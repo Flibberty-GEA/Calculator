@@ -14,9 +14,7 @@ import java.util.NoSuchElementException;
  */
 public class RequestController {
 
-    /* initialize controller for contact with user by console */
     private final StreamController streamController = new StreamController(System.in, System.out);
-    /* initialize calculator */
     private final HistoryDAO historyDAO = new HistoryDAO();
     private final Calculator calculator = new Calculator(historyDAO);
 

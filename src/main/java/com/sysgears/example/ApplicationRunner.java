@@ -2,8 +2,6 @@ package com.sysgears.example;
 
 import com.sysgears.example.controller.RequestController;
 
-import java.io.IOException;
-
 /**
  * Main class of program
  */

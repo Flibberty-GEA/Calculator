@@ -9,14 +9,13 @@ import java.util.Set;
 /**
  * Created by yevgen on 15.12.16.
  */
-public abstract class Symbol {
+public abstract class Symbol implements Mom {
     public abstract boolean isOperator();
-    public abstract Character getValue();
     public abstract int getPriority();
     public static Symbol createInstance(Character type) throws Exception {
         Reflections reflections = new Reflections("");
         Set<Class<? extends Symbol>> subTypes = reflections.getSubTypesOf(Symbol.class);
-        Map<Character, Class> values = new HashMap<>();
+        Map<String, Class> values = new HashMap<>();
         for (Class clazz:subTypes) {
             try {
                 Symbol s = (Symbol)clazz.newInstance();
@@ -25,9 +24,9 @@ public abstract class Symbol {
             } catch (IllegalAccessException e) {
             }
         }
-        if (values.containsKey(type)){
+        if (values.containsKey(String.valueOf(type))){
             try {
-                Class clazz = values.get(type);
+                Class clazz = values.get(String.valueOf(type));
                 Symbol c = (Symbol)clazz.newInstance();
                 return c;
             } catch (Exception e) {

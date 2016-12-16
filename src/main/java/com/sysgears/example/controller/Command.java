@@ -43,13 +43,8 @@ public enum Command {
      */
     HELP{
         void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException {
-            BufferedReader in = new BufferedReader(new FileReader("src/main/resources/help.txt"));
-            StringBuilder sb = new StringBuilder();
-            String lineText;
-            while ((lineText = in.readLine()) != null) {
-                sb.append(lineText+"\n");
-            }
-            streamController.sendResponse(sb.toString());
+            String helpInfo = streamController.readFromFile("src/main/resources/help.txt");
+            streamController.sendResponse(helpInfo);
         }
     };
 
@@ -58,8 +53,4 @@ public enum Command {
      * @throws IOException
      */
     abstract void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException;
-
-//    public final String getName(){
-//        return name().replace("_", " ");
-//    }
 }
