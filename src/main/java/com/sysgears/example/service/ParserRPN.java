@@ -10,7 +10,9 @@ import java.util.Deque;
 
 
 /**
- * Created by yevgen on 15.12.16.
+ *
+ *
+ * @author  Yevgen Goliuk
  */
 public class ParserRPN {
 
@@ -23,9 +25,9 @@ public class ParserRPN {
      * @param userExpression - request user for expression
      * @return resultExpression - output string in RPN
      */
-    public Deque<Mom> toRPN(String userExpression) throws Exception {
+    public Deque<Member> toRPN(String userExpression) throws Exception {
         Deque<Symbol> serviceSymbolStack = new ArrayDeque<>();
-        Deque<Mom> resultExpression = new ArrayDeque<>();
+        Deque<Member> resultExpression = new ArrayDeque<>();
         StringBuilder resultExpressionString = new StringBuilder("");
         Symbol serviceSymbol;
         Symbol symbolCurrent;
@@ -82,7 +84,7 @@ public class ParserRPN {
             serviceSymbolStack.pop();
         }
 
-        Deque<Mom> result = new ArrayDeque<>();
+        Deque<Member> result = new ArrayDeque<>();
 
         while (resultExpression.size() != 0) {
             result.addFirst(resultExpression.pop());

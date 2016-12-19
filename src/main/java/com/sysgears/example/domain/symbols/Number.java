@@ -1,9 +1,9 @@
 package com.sysgears.example.domain.symbols;
 
 /**
- * Created by yevgen on 16.12.16.
+ * @author  Yevgen Goliuk
  */
-public class Number implements Mom{
+public class Number implements Member {
 
     private Double value = 0.0;
 

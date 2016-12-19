@@ -5,20 +5,19 @@ import com.sysgears.example.exceptions.StreamException;
 import java.io.*;
 
 /**
- * Class for contact with user by console.
+ * The {@code StreamController} provides streams control,
+ * for example, to contact the user via the console
+ *
+ * @author  Yevgen Goliuk
  */
 public class StreamController {
 
-    /**
-     * Reader of input data
-     */
     BufferedReader reader;
-
-    /**
-     * Writer of output data
-     */
     BufferedWriter writer;
 
+    /**
+     * @return buffered character-output stream that uses a default-sized output buffer.
+     */
     public BufferedWriter getWriter() {
         return writer;
     }
@@ -36,7 +35,7 @@ public class StreamController {
 
     /**
      * @return next line from reader
-     * @throws IOException if an I/O error occurs
+     * @throws StreamException if an I/O error occurs
      */
     public String getRequest() throws StreamException {
         try {
@@ -48,7 +47,7 @@ public class StreamController {
 
     /**
      * @param response is a message or result of request
-     * @throws IOException if an I/O error occurs
+     * @throws StreamException if an I/O error occurs
      */
     public void sendResponse (final String response) throws StreamException {
         try {
@@ -63,11 +62,9 @@ public class StreamController {
     /**
      * @param fileName the <tt>File</tt> to read from
      * @return all info from <tt>File</tt>
-     * @exception  FileNotFoundException  if the file does not exist,
-     *                   is a directory rather than a regular file,
-     *                   or for some other reason cannot be opened for
-     *                   reading.
-     * @throws IOException if an I/O error occurs
+     *
+     * @throws StreamException  if the file does not exist, is a directory rather than a regular file,
+     * or for some other reason cannot be opened for reading.
      */
     public String readFromFile (final String fileName) throws StreamException {
         BufferedReader in = null;

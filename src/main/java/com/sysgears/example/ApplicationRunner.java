@@ -4,6 +4,8 @@ import com.sysgears.example.controller.RequestController;
 
 /**
  * Main class of program
+ *
+ * @author  Yevgen Goliuk
  */
 public class ApplicationRunner {
 
@@ -17,10 +19,8 @@ public class ApplicationRunner {
             /* initialize main execution object and start the program */
             new RequestController().run();
         } catch (Exception e) {
-            /* print exception message if IO exception has been thrown */
             System.out.println(e.getMessage());
         } catch (Throwable t) {
-            /* print exception message if any throwable has been thrown */
             System.out.println(t.getMessage());
         }
     }

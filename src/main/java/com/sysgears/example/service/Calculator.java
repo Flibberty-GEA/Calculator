@@ -1,6 +1,6 @@
 package com.sysgears.example.service;
 
-import com.sysgears.example.domain.symbols.Mom;
+import com.sysgears.example.domain.symbols.Member;
 import com.sysgears.example.domain.symbols.Number;
 import com.sysgears.example.domain.symbols.OpeningBracket;
 import com.sysgears.example.domain.symbols.operators.Operator;
@@ -16,6 +16,8 @@ import static jdk.nashorn.internal.objects.Global.NaN;
 
 /**
  * Class for calculating result of expression
+ *
+ * @author  Yevgen Goliuk
  */
 public class Calculator {
 
@@ -33,10 +35,10 @@ public class Calculator {
      */
     public double calculate(final String inputExpression) throws Exception {
         double operand = 0, secondOperand = 0;
-        Mom symbol;
+        Member symbol;
         Deque<Double> stack = new ArrayDeque<Double>();
 
-        Deque<Mom> expressionRPN = parser.toRPN(inputExpression);
+        Deque<Member> expressionRPN = parser.toRPN(inputExpression);
 
         while(expressionRPN.size() != 0) {
             symbol = expressionRPN.pop();

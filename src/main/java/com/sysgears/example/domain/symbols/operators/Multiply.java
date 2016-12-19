@@ -1,7 +1,7 @@
 package com.sysgears.example.domain.symbols.operators;
 
 /**
- * Created by yevgen on 15.12.16.
+ * @author  Yevgen Goliuk
  */
 public class Multiply extends Operator {
 
@@ -15,6 +15,12 @@ public class Multiply extends Operator {
     public int getPriority() {
         return priority;
     }
+
+    /**
+     * @param x left operand of operation
+     * @param y right operand of operation
+     * @return  result of operation
+     */
     @Override
     public Double apply(final Double x, final Double y) {
         return x * y;

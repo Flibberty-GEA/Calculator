@@ -7,7 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by yevgen on 15.12.16.
+ *
+ *
+ * @author  Yevgen Goliuk
  */
 public class HistoryDAO {
 

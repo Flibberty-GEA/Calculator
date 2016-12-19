@@ -3,7 +3,7 @@ package com.sysgears.example.exceptions;
 import java.io.IOException;
 
 /**
- * Created by yevgen on 13.12.16.
+ * @author  Yevgen Goliuk
  */
 public class StreamException extends IOException {
     //IOException if an I/O error occurs

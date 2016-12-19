@@ -7,9 +7,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by yevgen on 15.12.16.
+ * The class {@code Symbol} and its subclasses are a form of {@code Member}
+ * that indicates the properties that define the role and behavior of the members of expression
+ *
+ * @author  Yevgen Goliuk
  */
-public abstract class Symbol implements Mom {
+public abstract class Symbol implements Member {
     public abstract boolean isOperator();
     public abstract int getPriority();
     public static Symbol createInstance(Character type) throws Exception {

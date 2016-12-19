@@ -1,7 +1,7 @@
 package com.sysgears.example.domain.symbols;
 
 /**
- * Created by yevgen on 15.12.16.
+ * @author  Yevgen Goliuk
  */
 public class ClosingBracket extends Symbol {
     private String value = ")";

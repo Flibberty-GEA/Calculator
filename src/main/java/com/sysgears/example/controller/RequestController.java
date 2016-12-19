@@ -8,9 +8,10 @@ import com.sysgears.example.service.HistoryDAO;
 import java.util.NoSuchElementException;
 
 /**
- * Class for control dispatch.
+ * The {@code RequestController}, accepts input and converts it
+ * to commands for the Calculator or to response for the output.
  *
- * RequestController, accepts input and converts it to commands for the Calculator or to response for the output.
+ * @author  Yevgen Goliuk
  */
 public class RequestController {
 
@@ -28,7 +29,6 @@ public class RequestController {
         streamController.sendResponse("Hello!");
 
         while (true) {
-            /* request user for expression */
             streamController.sendResponse("Input expression to calculate \n"+
                     "OR 'HISTORY' / 'UNIQUE HISTORY' to see history of results \nOR 'EXIT' to quit program .");
             String expression = streamController.getRequest();

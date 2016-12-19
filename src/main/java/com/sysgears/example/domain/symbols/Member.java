@@ -1,8 +1,8 @@
 package com.sysgears.example.domain.symbols;
 
 /**
- * Created by yevgen on 16.12.16.
+ * @author  Yevgen Goliuk
  */
-public interface Mom {
+public interface Member {
     String getValue();
 }

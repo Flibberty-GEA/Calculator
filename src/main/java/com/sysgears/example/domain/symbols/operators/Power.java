@@ -1,7 +1,7 @@
 package com.sysgears.example.domain.symbols.operators;
 
 /**
- * Created by yevgen on 15.12.16.
+ * @author  Yevgen Goliuk
  */
 public class Power extends Operator {
 
@@ -23,6 +23,11 @@ public class Power extends Operator {
         return priority;
     }
 
+    /**
+     * @param x left operand of operation
+     * @param y right operand of operation
+     * @return  result of operation
+     */
     @Override
     public Double apply(Double x, Double y) {
         return Math.pow(x, y);

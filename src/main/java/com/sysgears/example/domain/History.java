@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * @author  Yevgen Goliuk
  */
 public class History {
 
