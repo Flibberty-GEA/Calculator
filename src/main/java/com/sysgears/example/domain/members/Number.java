@@ -17,7 +17,7 @@ public class Number implements Member {
         return value;
     }
 
-    public Number(String value){
+    public Number(final String value){
         this.value = Double.valueOf(value);
     }
 

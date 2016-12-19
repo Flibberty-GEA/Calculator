@@ -40,7 +40,7 @@ public class StreamController {
         try {
             return reader.readLine();
         } catch (IOException e) {
-            throw new StreamException("Hello from StreamController "+e.getMessage().toString());
+            throw new StreamException("Sorry, I can't read your expression. Please try again. ");
         }
     }
 
@@ -54,7 +54,7 @@ public class StreamController {
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
-            throw new StreamException("Hello from StreamController "+e.getMessage().toString());
+            throw new StreamException("Sorry, a connection broken. Please try again. ");
         }
     }
 
@@ -66,20 +66,19 @@ public class StreamController {
      * or for some other reason cannot be opened for reading.
      */
     public String readFromFile (final String fileName) throws StreamException {
-        BufferedReader in = null;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder result = new StringBuilder();
         try {
-            in = new BufferedReader(new FileReader(fileName));
+            BufferedReader in = new BufferedReader(new FileReader(fileName));
             String lineText;
             while ((lineText = in.readLine()) != null) {
-                sb.append(lineText+"\n");
+                result.append(lineText+"\n");
             }
             in.close();
         } catch (FileNotFoundException e) {
-            throw new StreamException("Hello from StreamController "+e.getMessage().toString());
+            throw new StreamException("Sorry, there are no supporting information. ");
         } catch (IOException e) {
-            throw new StreamException("Hello from StreamController "+e.getMessage().toString());
+            throw new StreamException("Sorry, there are no supporting information. ");
         }
-        return sb.toString();
+        return result.toString();
     }
 }

@@ -6,7 +6,7 @@ package com.sysgears.example.exceptions;
  * @author  Yevgen Goliuk
  */
 public class InputCommandException extends RuntimeException {
-    public InputCommandException(String message) {
+    public InputCommandException(final String message) {
         super(message);
     }
 }

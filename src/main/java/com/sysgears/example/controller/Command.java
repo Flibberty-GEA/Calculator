@@ -59,6 +59,11 @@ public enum Command {
      */
     abstract void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException;
 
+    /**
+     * @param request
+     * @return true if request is command
+     * @throws IOException
+     */
     public static boolean isCommand(final String request) {
         for (Command command : Command.values()) {
             if (!request.contains(command.name())) {

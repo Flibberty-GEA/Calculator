@@ -31,30 +31,23 @@ public abstract class Symbol implements Member {
      *
      * @param value of a member
      * @return an instance of the symbol with a coincident value
-     * @throws InputExpressionException if something is wrong with the symbol
+     * @throws Exception if something is wrong with the symbol
      */
-    public static Symbol createInstance(Character value) throws Exception {
+    public static Symbol createInstance(final Character value) throws Exception {
+        String symbolValue = String.valueOf(value);
         Reflections reflections = new Reflections("");
-        Set<Class<? extends Symbol>> subTypes = reflections.getSubTypesOf(Symbol.class);
-        Map<String, Class> values = new HashMap<>();
-        for (Class clazz:subTypes) {
+        Set<Class<? extends Symbol>> subclasses = reflections.getSubTypesOf(Symbol.class);
+        Map<String, Symbol> values = new HashMap<>();
+        for (Class clazz:subclasses) {
             try {
-                Symbol s = (Symbol)clazz.newInstance();
-                values.put(s.getValue(), clazz);
-            } catch (InstantiationException e) {
-//                throw new InputExpressionException("");
-            } catch (IllegalAccessException e) {
-//                throw new InputExpressionException("");
+                Symbol symbol = (Symbol)clazz.newInstance();
+                values.put(symbol.getValue(), symbol);
+            } catch (InstantiationException | IllegalAccessException e) {
+                //if nothing to created, return null and try to create Number in ParserRPN.toRPN()
             }
         }
-        if (values.containsKey(String.valueOf(value))){
-            try {
-                Class clazz = values.get(String.valueOf(value));
-                Symbol c = (Symbol)clazz.newInstance();
-                return c;
-            } catch (Exception e) {
-                throw new InputExpressionException("");
-            }
-        } else throw new Exception();
+        if (values.containsKey(symbolValue)){
+            return values.get(symbolValue);
+        } else return null;
     }
 }

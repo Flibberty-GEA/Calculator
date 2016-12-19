@@ -14,7 +14,7 @@ public class Exponentiation extends Operation {
      * @return  result of operation
      */
     @Override
-    public Double apply(Double x, Double y) {
+    public Double apply(final Double x, final Double y) {
         return Math.pow(x, y);
     }
 

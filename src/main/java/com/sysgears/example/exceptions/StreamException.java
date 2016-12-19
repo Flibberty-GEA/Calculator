@@ -8,7 +8,7 @@ import java.io.IOException;
  * @author  Yevgen Goliuk
  */
 public class StreamException extends IOException {
-    public StreamException(String message) {
+    public StreamException(final String message) {
         super(message);
     }
 }

@@ -8,7 +8,7 @@ import com.sysgears.example.service.HistoryDAO;
 import java.util.NoSuchElementException;
 
 /**
- * Accepts input and converts it to commands for the Calculator or to response for the output.
+ * Accepts input and converts it to expression for the Calculator or to response for the output.
  *
  * @author  Yevgen Goliuk
  */
@@ -33,7 +33,6 @@ public class RequestController {
             String inputRequest = streamController.getRequest();
             inputRequest = determineRequest(inputRequest);
                 try {
-
                     if (Command.isCommand(inputRequest)){
                         Command command = Command.valueOf(inputRequest);
                         command.apply(streamController, historyDAO);
@@ -56,6 +55,12 @@ public class RequestController {
         }
     }
 
+    /**
+     * Check the query contains a command or an expression
+     *
+     * @param inputRequest
+     * @return command or expression
+     */
     private String determineRequest(final String inputRequest){
         String result = inputRequest.trim().toUpperCase().replace("UNIQUE HISTORY", "UNIQUE_HISTORY");
             for (Command command : Command.values()) {
