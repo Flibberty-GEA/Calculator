@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Provides an abstract interface to persistence mechanism of calculator's history .
+ * Provides an abstract interface to persistence mechanism of calculator's history.
  *
  * @author  Yevgen Goliuk
  */
@@ -39,10 +39,10 @@ public class HistoryDAO {
         history.save(result, expression);
     }
 
-    private String parse(final List<String> str){
+    private String parse(final List<String> records){
         String result = "";
-        for (int i=0;i < str.size();i++) {
-            result = result+str.get(i)+"\n";
+        for (String record:records) {
+            result+=record+"\n";
         }
         return result;
     }

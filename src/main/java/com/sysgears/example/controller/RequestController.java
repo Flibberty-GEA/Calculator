@@ -42,15 +42,16 @@ public class RequestController {
                     }
                 } catch (InputExpressionException | NumberFormatException | ArithmeticException e) {
                     /* send error message if some calculator exception has been caught */
-                    streamController.sendResponse("Incorrect expression. "+e.getMessage()+" \nPlease try again or enter the \"HELP\".");
+                    streamController.sendResponse("Incorrect expression. "+e.getMessage()+
+                                                           " \nPlease try again or enter the \"HELP\".");
                 } catch (InputCommandException e){
                     /* send error message if some command exception has been caught */
                     streamController.sendResponse("Incorrect command. "+e.getMessage());
                 } catch (NoSuchElementException | StringIndexOutOfBoundsException e){
                     /* send error message if some calculator exception has been caught */
-                    streamController.sendResponse("Нет операндов ");
+                    streamController.sendResponse("Incorrect expression. No operands. ");
                 } catch (Exception e){
-                    streamController.sendResponse(e.getMessage()+" <- RequestController cath Exception "+e.getClass());
+                    streamController.sendResponse("RequestController cath Exception "+e.getClass());
                 }
         }
     }

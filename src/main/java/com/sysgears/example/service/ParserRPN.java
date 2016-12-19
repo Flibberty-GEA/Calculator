@@ -56,7 +56,8 @@ public class ParserRPN {
                 if (currentSymbol.isOperator()) {
                     while (serviceSymbolStack.size() > 0) {
                         serviceSymbol = serviceSymbolStack.peekLast();
-                        if (serviceSymbol.isOperator() && (currentSymbol.getPriority() <= serviceSymbol.getPriority())) {
+                        if (serviceSymbol.isOperator()
+                                && (currentSymbol.getPriority() <= serviceSymbol.getPriority())) {
                             result.addLast(serviceSymbol);
                             serviceSymbolStack.removeLast();
                         } else {
@@ -74,7 +75,8 @@ public class ParserRPN {
                             serviceSymbol = serviceSymbolStack.removeLast();
                         }
                     } catch (Exception e){
-                        throw new InputExpressionException("Error parsing brackets. Check the expression -> "+inputExpression);
+                        throw new InputExpressionException("Error parsing brackets. " +
+                                                            "Check the expression -> "+inputExpression);
                     }
                 }
             }catch (Exception e){
@@ -91,7 +93,7 @@ public class ParserRPN {
         return  result;
     }
 
-    public String prepareNegativeNumbers(final String inputExpression){
+    private String prepareNegativeNumbers(final String inputExpression){
         String result = new String(inputExpression);
         if ((result.trim().charAt(0)=='-') || (result.trim().charAt(0)=='+')) result="0"+result;
         if (result.contains("(-")) result=result.replace("(-", "(0-");

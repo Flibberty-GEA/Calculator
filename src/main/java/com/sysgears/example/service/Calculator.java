@@ -47,8 +47,9 @@ public class Calculator {
             try {
                 if (symbol instanceof Operation) {
                     if (stack.size() < 2) {
-                        throw new InputExpressionException("The number of operations does not correspond to the number of operands." +
-                                "\nEach operator must has a fixed number of operands.");
+                        throw new InputExpressionException("The number of operations does not correspond " +
+                                                            "to the number of operands." +
+                                                            "\nEach operator must has a fixed number of operands.");
                     }
                     secondOperand = stack.pop();
                     operand = stack.pop();
@@ -71,17 +72,14 @@ public class Calculator {
                 else throw new InputCommandException("Type exit, with no other characters");
             }
         }
-
         if (stack.size() > 1) {
-            throw new InputExpressionException("The number of operations does not correspond to the number of operands. " +
-                    "Each operator must has a fixed number of operands.");
+            throw new InputExpressionException("The number of operations does not correspond " +
+                                                "to the number of operands. Each operator must has " +
+                                                "a fixed number of operands.");
         }
-
         Double result = stack.pop();
-
-        result = isDivideByZero(result, inputExpression);
-
         historyDAO.save(result.toString(), inputExpression);
+        result = isDivideByZero(result, inputExpression);
         return result;
     }
 

@@ -43,6 +43,7 @@ public abstract class Symbol implements Member {
                 Symbol symbol = (Symbol)clazz.newInstance();
                 values.put(symbol.getValue(), symbol);
             } catch (InstantiationException | IllegalAccessException e) {
+                continue;
                 //if nothing to created, return null and try to create Number in ParserRPN.toRPN()
             }
         }

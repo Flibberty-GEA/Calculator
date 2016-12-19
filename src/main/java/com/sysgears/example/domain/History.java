@@ -12,20 +12,15 @@ public class History {
     /**
      * storage of result records which have been calculated
      */
-    private final Map<Integer, Record> recordsOfResult = new HashMap<>();
+    private final List<String> recordsOfResult = new LinkedList<>();
 
     /**
      * @return all records from storage
      */
     public List <String> getAll() {
-        List <String> result = new LinkedList<>();
-        for (int i = 0; i < recordsOfResult.size(); i++) {
-            Record record = recordsOfResult.get(i);
-            String str = new String(""+record.getExpression()+" = "+record.getResult());
-            result.add(str);
-        }
-        return result;
+        return recordsOfResult;
     }
+
 
     /**
      * Adds record to storage
@@ -34,25 +29,44 @@ public class History {
      * @param expression is a expression which need to add to storage
      */
     public void save(final String result, final String expression) {
-        Record record = new Record(result, expression);
-        recordsOfResult.put(recordsOfResult.size(), record);
-    }
-
-    private class Record{
-        private final String result;
-        private final String expression;
-
-        public Record(String result, String expression) {
-            this.result = result;
-            this.expression = expression;
-        }
-
-        public String getResult() {
-            return result;
-        }
-
-        public String getExpression() {
-            return expression;
-        }
+        recordsOfResult.add(expression+"="+result);
     }
 }
+
+//    private final List<Record> recordsOfResult = new LinkedList<>();
+
+//    public List <String> getAll() {
+//        List <String> result = new LinkedList<>();
+//        for (Record record:recordsOfResult) {
+//            result.add(record.toString());
+//        }
+//        return result;
+//    }
+
+//    public void save(final String result, final String expression) {
+//        Record record = new Record(result, expression);
+//        recordsOfResult.add(record);
+//    }
+
+//    private class Record{
+//        private final String result;
+//        private final String expression;
+//
+//        public Record(String result, String expression) {
+//            this.result = result;
+//            this.expression = expression;
+//        }
+//
+//        public String getResult() {
+//            return result;
+//        }
+//
+//        public String getExpression() {
+//            return expression;
+//        }
+//
+//        @Override
+//        public String toString(){
+//            return expression+"="+result;
+//        }
+//    }
