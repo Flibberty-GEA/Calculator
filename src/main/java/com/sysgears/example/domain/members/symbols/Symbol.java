@@ -48,6 +48,6 @@ public abstract class Symbol implements Member {
         }
         if (values.containsKey(symbolValue)){
             return values.get(symbolValue);
-        } else return null;
+        } else throw new Exception();
     }
 }

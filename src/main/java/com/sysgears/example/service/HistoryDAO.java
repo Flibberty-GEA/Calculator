@@ -19,22 +19,31 @@ public class HistoryDAO {
     /**
      * @return all records from storage
      */
-    public String getAll() {return history.getAll().toString();}
+    public String getAll() {return parse(history.getAll());}
 
     /**
      * @return unique records from storage
      */
     public String getUnique(){
         List <String> uniqueList = new LinkedList<>(new LinkedHashSet<>(history.getAll()));
-        return uniqueList.toString();
+        return parse(uniqueList);
     }
 
     /**
      * Adds record to storage
      *
-     * @param record is a record which need to add to storage
+     * @param result is a result of expression which need to add to storage
+     * @param expression is a expression which need to add to storage
      */
-    public void save(final String record) {
-        history.save(record);
+    public void save(final String result, final String expression) {
+        history.save(result, expression);
+    }
+
+    private String parse(final List<String> str){
+        String result = "";
+        for (int i=0;i < str.size();i++) {
+            result = result+str.get(i)+"\n";
+        }
+        return result;
     }
 }

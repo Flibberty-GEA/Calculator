@@ -81,7 +81,7 @@ public class Calculator {
 
         result = isDivideByZero(result, inputExpression);
 
-        historyDAO.save(result.toString());
+        historyDAO.save(result.toString(), inputExpression);
         return result;
     }
 
