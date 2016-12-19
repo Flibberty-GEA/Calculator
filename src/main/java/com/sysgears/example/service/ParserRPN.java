@@ -1,7 +1,10 @@
 package com.sysgears.example.service;
 
-import com.sysgears.example.domain.symbols.*;
-import com.sysgears.example.domain.symbols.Number;
+import com.sysgears.example.domain.members.*;
+import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.domain.members.symbols.ClosingBracket;
+import com.sysgears.example.domain.members.symbols.OpeningBracket;
+import com.sysgears.example.domain.members.symbols.Symbol;
 import com.sysgears.example.exceptions.InputExpressionException;
 
 
@@ -10,7 +13,7 @@ import java.util.Deque;
 
 
 /**
- *
+ * Convert user's expression in Reverse Polish notation (RPN).
  *
  * @author  Yevgen Goliuk
  */
@@ -18,77 +21,80 @@ public class ParserRPN {
 
     /**
      * Convert user's expression in Reverse Polish notation (RPN).
-     * Reverse Polish notation (RPN) is a mathematical notation
-     * in which every operator follows all of its operands.
+     *
+     * Reverse Polish notation (RPN) is a mathematical notation.
+     * in which every operator follows all of its operands
      * It is also known as postfix notation and does not need any parentheses
      * as long as each operator has a fixed number of operands.
+     *
      * @param userExpression - request user for expression
-     * @return resultExpression - output string in RPN
+     * @return a Deque of Members in the ordered expression of RPN
+     * @throws InputExpressionException
      */
-    public Deque<Member> toRPN(String userExpression) throws Exception {
-        Deque<Symbol> serviceSymbolStack = new ArrayDeque<>();
-        Deque<Member> resultExpression = new ArrayDeque<>();
-        StringBuilder resultExpressionString = new StringBuilder("");
-        Symbol serviceSymbol;
-        Symbol symbolCurrent;
-        char currentSymbol;
-        if ((userExpression.trim().charAt(0)=='-') || (userExpression.trim().charAt(0)=='+')) userExpression="0"+userExpression;
-        if (userExpression.contains("(-")) userExpression=userExpression.replace("(-", "(0-");
+    public Deque<Member> toRPN(final String userExpression) throws Exception {
 
-        for (int i = 0; i < userExpression.length(); i++) {
-            currentSymbol = userExpression.charAt(i);
+        String inputExpression = new String(userExpression);
+        Deque<Symbol> serviceSymbolStack = new ArrayDeque<>();
+        Deque<Member> result = new ArrayDeque<>();
+        StringBuilder number = new StringBuilder("");
+        Symbol serviceSymbol;
+        Symbol currentSymbol;
+        char currentChar;
+
+        inputExpression = prepareNegativeNumbers(inputExpression);
+
+        for (int i = 0; i < inputExpression.length(); i++) {
+            currentChar = inputExpression.charAt(i);
             try{
-                symbolCurrent = Symbol.createInstance(currentSymbol);
+                currentSymbol = Symbol.createInstance(currentChar);
                 try{
-                    resultExpression.push(new Number(resultExpressionString.toString()));
-                    resultExpressionString = new StringBuilder("");
+                    result.addLast(new Number(number.toString()));
+                    number = new StringBuilder("");
                 }catch (Exception e){
 
                 }
-                if (symbolCurrent.isOperator()) {
+                if (currentSymbol.isOperator()) {
                     while (serviceSymbolStack.size() > 0) {
-                        serviceSymbol = serviceSymbolStack.peek();
-                        if (serviceSymbol.isOperator() && (symbolCurrent.getPriority() <= serviceSymbol.getPriority())) {
-                            resultExpression.push(serviceSymbol);
-                            serviceSymbolStack.pop();
+                        serviceSymbol = serviceSymbolStack.peekLast();
+                        if (serviceSymbol.isOperator() && (currentSymbol.getPriority() <= serviceSymbol.getPriority())) {
+                            result.addLast(serviceSymbol);
+                            serviceSymbolStack.removeLast();
                         } else {
                             break;
                         }
                     }
-                    serviceSymbolStack.push(symbolCurrent);
-                } else if (symbolCurrent instanceof OpeningBracket) {
-                    serviceSymbolStack.push(symbolCurrent);
-                } else if (symbolCurrent instanceof ClosingBracket) {
+                    serviceSymbolStack.addLast(currentSymbol);
+                } else if (currentSymbol instanceof OpeningBracket) {
+                    serviceSymbolStack.addLast(currentSymbol);
+                } else if (currentSymbol instanceof ClosingBracket) {
                     try {
-                        serviceSymbol = serviceSymbolStack.peek();
+                        serviceSymbol = serviceSymbolStack.pollLast();
                         while (!(serviceSymbol instanceof OpeningBracket)) {
-                            resultExpression.push(serviceSymbol);
-                            serviceSymbolStack.pop();
-                            serviceSymbol = serviceSymbolStack.peek();
+                            result.addLast(serviceSymbol);
+                            serviceSymbol = serviceSymbolStack.removeLast();
                         }
-                        serviceSymbolStack.pop();
                     } catch (Exception e){
-                        throw new InputExpressionException("Ошибка разбора скобок. Проверьте правильность выражения."+userExpression);
+                        throw new InputExpressionException("Error parsing brackets. Check the expression -> "+inputExpression);
                     }
                 }
             }catch (Exception e){
-                resultExpressionString.append(currentSymbol);
+                number.append(currentChar);
             }
         }
-        if (resultExpressionString.length() != 0) {
-            resultExpression.push(new Number(resultExpressionString.toString()));
+        if (number.length() > 0) {
+            result.addLast(new Number(number.toString()));
         }
-        // Если в стеке остались операторы, добавляем их в входную строку
         while (serviceSymbolStack.size() > 0) {
-            resultExpression.push(serviceSymbolStack.peek());
-            serviceSymbolStack.pop();
+            result.addLast(serviceSymbolStack.removeLast());
         }
 
-        Deque<Member> result = new ArrayDeque<>();
+        return  result;
+    }
 
-        while (resultExpression.size() != 0) {
-            result.addFirst(resultExpression.pop());
-        }
+    public String prepareNegativeNumbers(final String inputExpression){
+        String result = new String(inputExpression);
+        if ((result.trim().charAt(0)=='-') || (result.trim().charAt(0)=='+')) result="0"+result;
+        if (result.contains("(-")) result=result.replace("(-", "(0-");
         return  result;
     }
 }

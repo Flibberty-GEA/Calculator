@@ -1,20 +1,12 @@
-package com.sysgears.example.domain.symbols.operators;
+package com.sysgears.example.domain.members.symbols.operators;
 
 /**
  * @author  Yevgen Goliuk
  */
-public class Plus extends Operator {
+public class Subtraction extends Operation {
 
-    private String value = "+";
+    private String value = "-";
     private int priority = 1;
-    @Override
-    public String getValue() {
-        return value;
-    }
-    @Override
-    public int getPriority() {
-        return priority;
-    }
 
     /**
      * @param x left operand of operation
@@ -23,10 +15,23 @@ public class Plus extends Operator {
      */
     @Override
     public Double apply(final Double x, final Double y) {
-        return x + y;
+        return x - y;
     }
+
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public int getPriority() {
+        return priority;
+    }
+
     @Override
     public boolean isOperator() {
         return true;
     }
+
+
 }

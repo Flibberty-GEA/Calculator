@@ -1,6 +1,8 @@
-package com.sysgears.example.domain.symbols;
+package com.sysgears.example.domain.members.symbols;
 
 /**
+ * Parentheses in mathematics signify a different precedence of operators.
+ *
  * @author  Yevgen Goliuk
  */
 public class ClosingBracket extends Symbol {

@@ -1,6 +1,8 @@
-package com.sysgears.example.domain.symbols;
+package com.sysgears.example.domain.members.symbols;
 
 /**
+ * Parentheses in mathematics signify a different precedence of operators.
+ *
  * @author  Yevgen Goliuk
  */
 public class OpeningBracket extends Symbol {
@@ -16,6 +18,7 @@ public class OpeningBracket extends Symbol {
     public int getPriority() {
         return 0;
     }
+
     @Override
     public boolean isOperator() {
         return false;

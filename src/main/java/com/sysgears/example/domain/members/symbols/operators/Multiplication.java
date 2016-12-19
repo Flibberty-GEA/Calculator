@@ -1,20 +1,12 @@
-package com.sysgears.example.domain.symbols.operators;
+package com.sysgears.example.domain.members.symbols.operators;
 
 /**
  * @author  Yevgen Goliuk
  */
-public class Multiply extends Operator {
+public class Multiplication extends Operation {
 
     private String value = "*";
     private int priority = 2;
-    @Override
-    public String getValue() {
-        return value;
-    }
-    @Override
-    public int getPriority() {
-        return priority;
-    }
 
     /**
      * @param x left operand of operation
@@ -25,6 +17,17 @@ public class Multiply extends Operator {
     public Double apply(final Double x, final Double y) {
         return x * y;
     }
+
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public int getPriority() {
+        return priority;
+    }
+
     @Override
     public boolean isOperator() {
         return true;

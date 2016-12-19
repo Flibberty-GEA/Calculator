@@ -1,6 +1,8 @@
-package com.sysgears.example.domain.symbols;
+package com.sysgears.example.domain.members;
 
 /**
+ * An operand of expression.
+ *
  * @author  Yevgen Goliuk
  */
 public class Number implements Member {

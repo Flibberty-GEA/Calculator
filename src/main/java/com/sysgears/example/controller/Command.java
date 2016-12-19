@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * The {@code Command}
+ * The commands entered by the client
  *
  * @author  Yevgen Goliuk
  */
@@ -58,4 +58,15 @@ public enum Command {
      * @throws IOException
      */
     abstract void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException;
+
+    public static boolean isCommand(final String request) {
+        for (Command command : Command.values()) {
+            if (!request.contains(command.name())) {
+                continue;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -8,8 +8,7 @@ import com.sysgears.example.service.HistoryDAO;
 import java.util.NoSuchElementException;
 
 /**
- * The {@code RequestController}, accepts input and converts it
- * to commands for the Calculator or to response for the output.
+ * Accepts input and converts it to commands for the Calculator or to response for the output.
  *
  * @author  Yevgen Goliuk
  */
@@ -23,49 +22,50 @@ public class RequestController {
     /**
      * Executes user's command.
      *
-     * @throws Exception if something is wrong with execution
+     * @throws Exception if something is wrong with streamController
      */
     public void run() throws Exception {
         streamController.sendResponse("Hello!");
 
         while (true) {
-            streamController.sendResponse("Input expression to calculate \n"+
-                    "OR 'HISTORY' / 'UNIQUE HISTORY' to see history of results \nOR 'EXIT' to quit program .");
-            String expression = streamController.getRequest();
-            expression = expression.trim();
-            String commandName = expression.toUpperCase().replace("UNIQUE HISTORY", "UNIQUE_HISTORY");
-            boolean isCommand = false;
+            streamController.sendResponse("\nInput expression to calculate \n"+
+                    "OR 'EXIT' to quit program .");
+            String inputRequest = streamController.getRequest();
+            inputRequest = determineRequest(inputRequest);
                 try {
 
-                    for (Command command : Command.values()) {
-                        if (!commandName.contains(command.name())) {
-                            continue;
-                        } else {
-                            isCommand = true;
-                            commandName = command.name();
-                            break;
-                        }
-                    }
-                    if (isCommand){
-                        Command command2 = Command.valueOf(commandName);
-                        command2.apply(streamController, historyDAO);
+                    if (Command.isCommand(inputRequest)){
+                        Command command = Command.valueOf(inputRequest);
+                        command.apply(streamController, historyDAO);
                     } else {
-                        String result = String.valueOf(calculator.calculate(expression));
-                        streamController.sendResponse(result);
+                        String result = String.valueOf(calculator.calculate(inputRequest));
+                        streamController.sendResponse("RESULT: " + result);
                     }
                 } catch (InputExpressionException | NumberFormatException | ArithmeticException e) {
                     /* send error message if some calculator exception has been caught */
-                    streamController.sendResponse("Incorrect expression. "+e.getMessage()+" Try again.\nIf you have negative number then you should use brackets. \nExample: (-2) + 3*4 - 7/(-5^(-2))\n");
+                    streamController.sendResponse("Incorrect expression. "+e.getMessage()+" \nPlease try again or enter the \"HELP\".");
                 } catch (InputCommandException e){
                     /* send error message if some command exception has been caught */
                     streamController.sendResponse("Incorrect command. "+e.getMessage());
                 } catch (NoSuchElementException | StringIndexOutOfBoundsException e){
                     /* send error message if some calculator exception has been caught */
-                    e.printStackTrace();
                     streamController.sendResponse("Нет операндов ");
                 } catch (Exception e){
                     streamController.sendResponse(e.getMessage()+" <- RequestController cath Exception "+e.getClass());
                 }
         }
+    }
+
+    private String determineRequest(final String inputRequest){
+        String result = inputRequest.trim().toUpperCase().replace("UNIQUE HISTORY", "UNIQUE_HISTORY");
+            for (Command command : Command.values()) {
+                if (!result.contains(command.name())) {
+                    continue;
+                } else {
+                    result = command.name();
+                    return result;
+                }
+            }
+        return result;
     }
 }

@@ -5,8 +5,7 @@ import com.sysgears.example.exceptions.StreamException;
 import java.io.*;
 
 /**
- * The {@code StreamController} provides streams control,
- * for example, to contact the user via the console
+ * Provides streams control, for example, to contact the user via the console
  *
  * @author  Yevgen Goliuk
  */

@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Stores information about the history of calculations
+ *
  * @author  Yevgen Goliuk
  */
 public class History {
@@ -14,7 +16,6 @@ public class History {
     private final List<String> recordsOfResult = new LinkedList<>();
 
     /**
-     *
      * @return all records from storage
      */
     public List<String> getAll() {

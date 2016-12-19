@@ -7,24 +7,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Provides an abstract interface to persistence mechanism of calculator's history .
  *
  * @author  Yevgen Goliuk
  */
 public class HistoryDAO {
 
-    /* initialize history*/
     private final History history = new History();
 
 
     /**
-     *
      * @return all records from storage
      */
     public String getAll() {return history.getAll().toString();}
 
     /**
-     *
      * @return unique records from storage
      */
     public String getUnique(){
