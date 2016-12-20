@@ -55,6 +55,7 @@ public enum Command {
 
     /**
      * @param streamController for contact with user by console
+     * @param historyDAO for use or update history
      * @throws IOException
      */
     abstract void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException;
