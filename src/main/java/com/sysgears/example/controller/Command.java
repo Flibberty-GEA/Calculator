@@ -15,10 +15,11 @@ import java.io.IOException;
 public enum Command {
 
     /**
-     * command for exit from program
+     * Command for exit from program.
      */
     EXIT{
-        void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException {
+        void apply(final StreamController streamController,
+                   final HistoryDAO historyDAO) throws IOException {
             streamController.sendResponse("Good bye!");
             streamController.getWriter().close();
             return;
@@ -54,6 +55,8 @@ public enum Command {
     };
 
     /**
+     * добавить
+     *
      * @param streamController for contact with user by console
      * @param historyDAO for use or update history
      * @throws IOException
@@ -61,6 +64,8 @@ public enum Command {
     abstract void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException;
 
     /**
+     *
+     *
      * @param request
      * @return true if request is command
      * @throws IOException

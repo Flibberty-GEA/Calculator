@@ -10,7 +10,7 @@ import com.sysgears.example.controller.RequestController;
 public class ApplicationRunner {
 
     /**
-     * Entrance point to program
+     * Entrance point to program.
      *
      * @param args command line input arguments
      */
