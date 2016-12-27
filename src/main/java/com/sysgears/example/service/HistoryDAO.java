@@ -30,7 +30,7 @@ public class HistoryDAO {
     }
 
     /**
-     * Adds record to storage
+     * Adds record to storage.
      *
      * @param result is a result of expression which need to add to storage
      * @param expression is a expression which need to add to storage

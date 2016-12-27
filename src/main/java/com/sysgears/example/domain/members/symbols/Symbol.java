@@ -34,7 +34,7 @@ public abstract class Symbol implements Member {
      * @return an instance of the symbol with a coincident value
      * @throws Exception if something is wrong with the symbol
      */
-    public static Symbol createInstance(final String value, final int position) throws Exception {
+    public final static Symbol createInstance(final String value, final int position) throws Exception {
         String symbolValue = value;
         Reflections reflections = new Reflections("");
         Set<Class<? extends Symbol>> subclasses = reflections.getSubTypesOf(Symbol.class);

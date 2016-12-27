@@ -7,15 +7,15 @@ import com.sysgears.example.domain.members.symbols.OpeningBracket;
 import com.sysgears.example.domain.members.symbols.Symbol;
 import com.sysgears.example.domain.members.symbols.operators.Function;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.ConcurrentModificationException;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 import static jdk.nashorn.internal.objects.Global.Infinity;
 import static jdk.nashorn.internal.objects.Global.NaN;
 
 /**
+ * Service class for calculating result of expression.
+ *
  * @author Yevgen Goliuk
  */
 public class MyExecutor {
@@ -25,6 +25,14 @@ public class MyExecutor {
         this.historyDAO = historyDAO;
     }
 
+
+    /**
+     * Executes user's expression.
+     *
+     * @param userExpression input expression for calculating
+     * @return result of input expression
+    //     * @throws InputExpressionException if expression has invalid format
+     */
     public Double execute(String userExpression) {
         final String[] str = userExpression.split(" ");
         List<Member> expression2 = toListOfMembers(str);
@@ -35,6 +43,8 @@ public class MyExecutor {
     }
 
     /**
+     * Parse brackets of the expression.
+     *
      * @param expression input members of expression
      * @return result of input expression
 //     * @throws InputExpressionException if expression has invalid format
@@ -58,8 +68,7 @@ public class MyExecutor {
             }
             if (member instanceof ClosingBracket) {
                 List<Member> newExpression2 = expression.subList(0, index);
-                String[] strr = toStringArrey(newExpression2);
-                result = parse(strr);
+                result = calc(newExpression2);
                 List<Member> after = expression.subList(index + 1, expression.size());
                 result.addAll(after);
                 return result;
@@ -79,51 +88,97 @@ public class MyExecutor {
                     result = brackets(result);
                 }
             }
-            result = parse(toStringArrey(result));
+            result = calc(result);
         } catch (ConcurrentModificationException e) {
 
         }
         return result;
     }
 
-    public List<Member> parse(String[] str) {
-        List<Member> expression;
-        expression = toListOfMembers(str);
+    /**
+     * The basic method of calculating expressions without parentheses.
+     *
+     * @param inputExpression - an expression contains no opening brackets
+     * @return result of the expression
+//     * @throws InputExpressionException
+//     * @throws InputCommandException
+     */
+    public List<Member> calc(List<Member> inputExpression) {
+        inputExpression = updatePositions(inputExpression);
         List<Function> functions = new ArrayList<>();
-        for (Member item : expression) {
+        for (Member item : inputExpression) {
             if (item instanceof Function) functions.add((Function) item);
         }
         Collections.sort(functions, new FuncktionByPriority());
-        expression = calc(expression, functions);
-        return expression;
+        inputExpression = calcOneOperation(inputExpression, functions);
+        return inputExpression;
     }
 
-    public List<Member> calc(List<Member> expression, List<Function> functions) {
+    /**
+     * It calculates one operation or function.
+     *
+     * It calculates the most priority function of expression.
+     * If the expression contains more than one function, then it recursively calculates the remaining functions.
+     *
+     * @param expression is expression without brackets
+     * @param functions list of sorted functions,
+     *                  where the first function is more priority
+     * @return result of input expression
+//     * @throws InputExpressionException if expression has invalid format
+     */
+    public List<Member> calcOneOperation(List<Member> expression, List<Function> functions) {
         if (functions.size() != 0) {
             expression = functions.get(0).apply(expression);
             if (expression.get(expression.size() - 1) instanceof ClosingBracket) {
                 expression.remove(expression.size() - 1);
             }
-            String[] str = new String[expression.size()];
-
-            for (int i = 0; i < expression.size(); i++) {
-                str[i] = expression.get(i).getValue();
-            }
             if (functions.size() > 1) {
-                expression = parse(str);
+                expression = calc(expression);
             }
         }
-
         return expression;
     }
 
-    private void printStringArray(String[] arrays) {
-        for (int i = 0; i < arrays.length; i++) {
-            System.out.print(arrays[i]);
-        }
-        System.out.println();
+    /**
+     * It updates positions of Numbers in expression.
+     *
+     * @param oldExpression - expression, which may contain Numbers
+     *                      with no correct Positions
+     * @return an update expression with correct data
+    //     * @throws InputExpressionException
+    //     * @throws InputCommandException
+     */
+    private List<Member> updatePositions(List<Member> oldExpression){
+        String[] str = toStringArrey(oldExpression);
+        List<Member> resultExpression;
+        resultExpression = toListOfMembers(str);
+        return resultExpression;
     }
 
+    /**
+     * Returns a fixed-size array for a list of expression's members.
+     *
+     * This method acts as a bridge between collection-based and array-based expressions.
+     *
+     * @param members the list by which the array will be backed
+     * @return an array-based expressions
+     */
+    private String[] toStringArrey(List<Member> members) {
+        String[] result = new String[members.size()];
+        for (int j = 0; j < members.size(); j++) {
+            result[j] = members.get(j).getValue();
+        }
+        return result;
+    }
+
+    /**
+     * Returns a list of expressions members for a fixed-size array.
+     *
+     * This method acts as a bridge between array-based and collection-based expressions.
+     *
+     * @param arrays the array by which the list will be backed
+     * @return collection-based expressions
+     */
     private List<Member> toListOfMembers(final String[] arrays) {
         List<Member> result = new ArrayList<>();
         for (int i = 0; i < arrays.length; i++) {
@@ -138,15 +193,6 @@ public class MyExecutor {
         }
         return result;
     }
-
-    private String[] toStringArrey(List<Member> members) {
-        String[] result = new String[members.size()];
-        for (int j = 0; j < members.size(); j++) {
-            result[j] = members.get(j).getValue();
-        }
-        return result;
-    }
-
 
     /**
      * Checks whether the division by zero.
@@ -170,6 +216,13 @@ public class MyExecutor {
 //    private void printFunctionsList(List<Function> functions) {
 //        for (Function f : functions) {
 //            System.out.print(f.getValue());
+//        }
+//        System.out.println();
+//    }
+
+//    private void printStringArray(String[] arrays) {
+//        for (int i = 0; i < arrays.length; i++) {
+//            System.out.print(arrays[i]);
 //        }
 //        System.out.println();
 //    }
