@@ -16,3 +16,17 @@
 2016-12-27 11:48:50 INFO  main ParserRPN:toRPN:42 - Start toRPN() with user expression => 0/0
 2016-12-27 11:48:50 INFO  main ParserRPN:toRPN:108 - Return result RPN expression => 0.0_0.0_/_
 2016-12-27 11:48:50 INFO  main Calculator:calculate:60 - Start operation 'Division.class' method apply(Double... operands) with operands => 0.0, 0.0
+2016-12-27 12:25:13 INFO  main ApplicationRunner:main:22 - Start program.
+2016-12-27 12:25:20 INFO  main ApplicationRunner:main:22 - Start program.
+2016-12-27 12:31:05 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:02:53 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:03:37 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:05:16 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:05:52 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:12:14 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:13:40 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:16:02 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:17:36 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:19:06 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:19:37 INFO  main ApplicationRunner:main:34 - Start program.
+2016-12-27 13:21:39 INFO  main ApplicationRunner:main:34 - Start program.

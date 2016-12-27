@@ -4,40 +4,48 @@ package com.sysgears.example.domain.members.symbols.operators;
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Yevgen Goliuk
  */
-public class Exponentiation extends Function {
-    private String value = "root";
-    private String description = "— Exponentiation is a mathematical operation, written as \""+value+" ( b , n )\", " +
-            "involving two numbers, the base b and the exponent n. For example \""+value+" ( 2 , 3 ) = 8\"";
-    private int priority = 3;
+public class Comma extends Function {
+    private String value = ",";
+    private int priority = 1;
     private int countOfOperands = 2;
     private int position = 0;
+    private String description = "— A delimiter (signified by the plus symbol \""+value+"\") " +
+            "used to specify the boundary between separate operands of a function." +
+            "For example \"root ( 2 "+value+" 3 ) = 8\"";
 
     @Override
     public List<Member> apply(List<Member> expression) {
         Double x = ((Number)expression.get(getPositionFirstOperand())).getDoubleValue();
         Double y = ((Number)expression.get(getPositionSecondOperand())).getDoubleValue();
-        Double result = Math.pow(x, y);
+//        Double result =  (x + y);
 
         List<Member> resultList = new ArrayList<>(expression);
         resultList.remove(getPositionSecondOperand());
-        resultList.remove(getPositionFirstOperand());
         resultList.remove(position);
-        resultList.add(position, new Number(result.toString()));
+        resultList.remove(getPositionFirstOperand());
+        resultList.add(getPositionFirstOperand(), new Number(x.toString()));
+        resultList.add(position, new Number(y.toString()));
 
         return resultList;
     }
 
     public int getPositionFirstOperand(){
-        return position+1;
+        return position-1;
     }
     public int getPositionSecondOperand(){
-        return position+2;
+        return position+1;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override
@@ -63,10 +71,5 @@ public class Exponentiation extends Function {
     @Override
     public void setPosition(int position) {
         this.position = position;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
     }
 }

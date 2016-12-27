@@ -58,27 +58,27 @@ public class StreamController {
         }
     }
 
-    /**
-     * @param fileName the <tt>File</tt> to read from
-     * @return all info from <tt>File</tt>
-     *
-     * @throws StreamException  if the file does not exist, is a directory rather than a regular file,
-     * or for some other reason cannot be opened for reading.
-     */
-    public String readFromFile (final String fileName) throws StreamException {
-        StringBuilder result = new StringBuilder();
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(fileName));
-            String lineText;
-            while ((lineText = in.readLine()) != null) {
-                result.append(lineText+"\n");
-            }
-            in.close();
-        } catch (FileNotFoundException e) {
-            throw new StreamException("Sorry, there are no supporting information. ");
-        } catch (IOException e) {
-            throw new StreamException("Sorry, there are no supporting information. ");
-        }
-        return result.toString();
-    }
+//    /**
+//     * @param fileName the <tt>File</tt> to read from
+//     * @return all info from <tt>File</tt>
+//     *
+//     * @throws StreamException  if the file does not exist, is a directory rather than a regular file,
+//     * or for some other reason cannot be opened for reading.
+//     */
+//    public String readFromFile (final String fileName) throws StreamException {
+//        StringBuilder result = new StringBuilder();
+//        try {
+//            BufferedReader in = new BufferedReader(new FileReader(fileName));
+//            String lineText;
+//            while ((lineText = in.readLine()) != null) {
+//                result.append(lineText+"\n");
+//            }
+//            in.close();
+//        } catch (FileNotFoundException e) {
+//            throw new StreamException("Sorry, there are no supporting information. ");
+//        } catch (IOException e) {
+//            throw new StreamException("Sorry, there are no supporting information. ");
+//        }
+//        return result.toString();
+//    }
 }

@@ -1,21 +1,45 @@
 package com.sysgears.example.domain.members.symbols.operators;
 
+
+
+import com.sysgears.example.domain.members.Member;
+import com.sysgears.example.domain.members.Number;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
-public class Division extends Operation {
-
+public class Division extends Function {
     private String value = "/";
+    private String description = "— Division (signified by the plus symbol \""+value+"\") " +
+            "is one of the four basic operations of arithmetic. " +
+            "The division of two natural numbers is the process of calculating the number " +
+            "of times one number is contained within one another. For example \"20 "+value+" 5 = 4\"";
     private int priority = 2;
+    private int countOfOperands = 2;
+    private int position = 0;
 
-    /**
-     * @param operands has x - left operand of operation
-     *                     y - right operand of operation
-     * @return  result of operation
-     */
     @Override
-    public Double apply(Double... operands) {
-        return operands[0] / operands[1];
+    public List<Member> apply(List<Member> expression) {
+        Double result =  (Double.valueOf(expression.get(getPositionFirstOperand()).getValue())) /
+                (Double.valueOf(expression.get(getPositionSecondOperand()).getValue()));
+
+        List<Member> resultList = new ArrayList<>(expression);
+        resultList.remove(getPositionSecondOperand());
+        resultList.remove(position);
+        resultList.remove(getPositionFirstOperand());
+        resultList.add(getPositionFirstOperand(), new Number(result.toString()));
+
+        return resultList;
+    }
+
+    public int getPositionFirstOperand(){
+        return position-1;
+    }
+    public int getPositionSecondOperand(){
+        return position+1;
     }
 
     @Override
@@ -24,12 +48,29 @@ public class Division extends Operation {
     }
 
     @Override
-    public int getPriority() { return priority; }
+    public int getPosition() {
+        return position;
+    }
+
+    @Override
+    public void setPosition(int position) {
+        this.position = position;
+
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
 
     @Override
     public boolean isOperator() {
         return true;
     }
 
-
+    @Override
+    public int getPriority() {
+        return priority;
+    }
+//public static final Logger log = LogManager.getLogger(Division.class);
 }

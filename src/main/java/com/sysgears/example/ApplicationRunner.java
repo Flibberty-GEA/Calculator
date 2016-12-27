@@ -13,6 +13,18 @@ public class ApplicationRunner {
 
     public static final Logger log = LogManager.getLogger(ApplicationRunner.class);
 
+//        2
+//        3 - 2
+//        0 / 0
+//        2 + -13 / 3
+//        log ( 2 , 8 )
+//        root ( 2 , 3 )
+//        ( 2 )
+//        ( 2 + -3 )
+//        ( 2 + ( 4 * 3 ) + 4 ) + 3
+//        2 + 4 * 3 + root ( 2 , 3 )
+//        ( 2 + 4 ) * 3 + root ( 2 , 3 ) + ( 1 + -7 )
+
     /**
      * Entrance point to program.
      *

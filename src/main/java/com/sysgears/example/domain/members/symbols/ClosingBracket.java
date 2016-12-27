@@ -7,6 +7,10 @@ package com.sysgears.example.domain.members.symbols;
  */
 public class ClosingBracket extends Symbol {
     private String value = ")";
+    private String description = "— Closing bracket (signified by the plus symbol \")\") " +
+            "marks the end of a region of expression. Parentheses in mathematics " +
+            "signify a different precedence of operators";
+    private int position = 0;
 
     @Override
     public String getValue() {
@@ -16,6 +20,16 @@ public class ClosingBracket extends Symbol {
     @Override
     public int getPriority() {
         return 0;
+    }
+
+    @Override
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

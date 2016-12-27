@@ -29,7 +29,7 @@ public class History {
      * @param expression is a expression which need to add to storage
      */
     public void save(final String result, final String expression) {
-        recordsOfResult.add(expression+"="+result);
+        recordsOfResult.add(expression+" = "+result);
     }
 }
 

@@ -1,6 +1,7 @@
 package com.sysgears.example.controller;
 
 
+import com.sysgears.example.domain.HelpInfo;
 import com.sysgears.example.service.HistoryDAO;
 
 import java.io.BufferedReader;
@@ -49,7 +50,7 @@ public enum Command {
      */
     HELP{
         void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException {
-            String helpInfo = streamController.readFromFile("src/main/resources/help.txt");
+            String helpInfo = new HelpInfo().getHelpInfo();
             streamController.sendResponse(helpInfo);
         }
     };

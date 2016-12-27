@@ -1,9 +1,10 @@
 package com.sysgears.example.controller;
 
-import com.sysgears.example.service.Calculator;
+import com.sysgears.example.service.old.Calculator;
 import com.sysgears.example.exceptions.InputCommandException;
 import com.sysgears.example.exceptions.InputExpressionException;
 import com.sysgears.example.service.HistoryDAO;
+import com.sysgears.example.service.MyExecutor;
 
 import java.util.NoSuchElementException;
 
@@ -17,6 +18,8 @@ public class RequestController {
     private final StreamController streamController = new StreamController(System.in, System.out);
     private final HistoryDAO historyDAO = new HistoryDAO();
     private final Calculator calculator = new Calculator(historyDAO);
+    private final MyExecutor myExecutor = new MyExecutor(historyDAO);
+
 
 
     /**
@@ -37,7 +40,7 @@ public class RequestController {
                         Command command = Command.valueOf(inputRequest);
                         command.apply(streamController, historyDAO);
                     } else {
-                        String result = String.valueOf(calculator.calculate(inputRequest));
+                        String result = String.valueOf(myExecutor.execute(inputRequest.toLowerCase()));
                         streamController.sendResponse("RESULT: " + result);
                     }
                 } catch (InputExpressionException | NumberFormatException | ArithmeticException e) {
@@ -52,6 +55,7 @@ public class RequestController {
                     streamController.sendResponse("Incorrect expression. No operands. ");
                 } catch (Exception e){
                     streamController.sendResponse("RequestController cath Exception "+e.getClass());
+                    e.printStackTrace();
                 }
         }
     }
