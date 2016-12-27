@@ -1,14 +1,19 @@
 package com.sysgears.example.service;
 
+import com.google.common.collect.Queues;
+import com.sysgears.example.ApplicationRunner;
 import com.sysgears.example.domain.members.*;
 import com.sysgears.example.domain.members.Number;
 import com.sysgears.example.domain.members.symbols.ClosingBracket;
 import com.sysgears.example.domain.members.symbols.OpeningBracket;
 import com.sysgears.example.domain.members.symbols.Symbol;
 import com.sysgears.example.exceptions.InputExpressionException;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Deque;
 
 
@@ -18,6 +23,7 @@ import java.util.Deque;
  * @author  Yevgen Goliuk
  */
 public class ParserRPN {
+    public static final Logger log = LogManager.getLogger(ParserRPN.class);
 
     /**
      * Convert user's expression in Reverse Polish notation (RPN).
@@ -33,10 +39,13 @@ public class ParserRPN {
      */
     public Deque<Member> toRPN(final String userExpression) throws Exception {
 
+        log.info("Start toRPN() with user expression => " + userExpression);
+
         String inputExpression = new String(userExpression);
         Deque<Symbol> serviceSymbolStack = new ArrayDeque<>();
         Deque<Member> result = new ArrayDeque<>();
         StringBuilder number = new StringBuilder("");
+        StringBuilder operand = new StringBuilder("");
         Symbol serviceSymbol;
         Symbol currentSymbol;
         char currentChar;
@@ -90,6 +99,13 @@ public class ParserRPN {
             result.addLast(serviceSymbolStack.removeLast());
         }
 
+        Deque<Member> logResult = new ArrayDeque<>(result);
+        StringBuilder lsr = new StringBuilder();
+        for (Member member:logResult){
+            lsr.append(member.getValue()+"_");
+        }
+
+        log.info("Return result RPN expression => " + lsr.toString());
         return  result;
     }
 

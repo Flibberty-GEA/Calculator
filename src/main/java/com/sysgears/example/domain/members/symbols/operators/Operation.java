@@ -11,9 +11,9 @@ import com.sysgears.example.domain.members.symbols.Symbol;
 public abstract class Operation extends Symbol {
 
     /**
-     * @param x left operand of operation
-     * @param y right operand of operation
+     * @param operands has x - left operand of operation
+     *                     y - right operand of operation
      * @return  result of operation
      */
-    public abstract Double apply(final Double x, final Double y);
+    public abstract Double apply(Double... operands);
 }

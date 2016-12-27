@@ -1,12 +1,17 @@
 package com.sysgears.example.domain.members.symbols.operators;
 
 /**
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
-public class Exponentiation extends Operation {
+public class Sine extends Operation {
 
-    private String value = "^";
-    private int priority = 3;
+    private String value = "S";
+    private int priority = 4;
+
+    @Override
+    public String getValue() {
+        return value;
+    }
 
     /**
      * @param operands has x - left operand of operation
@@ -15,21 +20,17 @@ public class Exponentiation extends Operation {
      */
     @Override
     public Double apply(Double... operands) {
-        return Math.pow(operands[0], operands[1]);
-    }
-
-    @Override
-    public String getValue() {
-        return value;
-    }
-
-    @Override
-    public int getPriority() {
-        return priority;
+        return Math.sin(operands[0]);
     }
 
     @Override
     public boolean isOperator() {
         return true;
     }
+
+    @Override
+    public int getPriority() {
+        return priority;
+    }
+//public static final Logger log = LogManager.getLogger(Sine.class);
 }

@@ -9,13 +9,13 @@ public class Multiplication extends Operation {
     private int priority = 2;
 
     /**
-     * @param x left operand of operation
-     * @param y right operand of operation
+     * @param operands has x - left operand of operation
+     *                     y - right operand of operation
      * @return  result of operation
      */
     @Override
-    public Double apply(final Double x, final Double y) {
-        return x * y;
+    public Double apply(Double... operands) {
+        return operands[0] * operands[1];
     }
 
     @Override

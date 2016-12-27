@@ -6,6 +6,8 @@ import com.sysgears.example.domain.members.symbols.OpeningBracket;
 import com.sysgears.example.domain.members.symbols.operators.Operation;
 import com.sysgears.example.exceptions.InputCommandException;
 import com.sysgears.example.exceptions.InputExpressionException;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -20,6 +22,7 @@ import static jdk.nashorn.internal.objects.Global.NaN;
  * @author  Yevgen Goliuk
  */
 public class Calculator {
+    public static final Logger log = LogManager.getLogger(Calculator.class);
 
     private HistoryDAO historyDAO;
     ParserRPN parser = new ParserRPN();
@@ -37,6 +40,7 @@ public class Calculator {
      * @throws InputCommandException
      */
     public double calculate(final String inputExpression) throws Exception {
+
         double operand = 0, secondOperand = 0;
         Member symbol;
         Deque<Double> stack = new ArrayDeque<Double>();
@@ -53,6 +57,7 @@ public class Calculator {
                     }
                     secondOperand = stack.pop();
                     operand = stack.pop();
+                    log.info("Start operation '" + symbol.getClass().getSimpleName() + ".class' method apply(Double... operands) with operands => " + operand + ", " + secondOperand);
                     operand = ((Operation) symbol).apply(operand, secondOperand);
                     stack.push(operand);
                 } else if (symbol instanceof OpeningBracket) {
