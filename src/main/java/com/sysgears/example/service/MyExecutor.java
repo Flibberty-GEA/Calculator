@@ -3,11 +3,12 @@ package com.sysgears.example.service;
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
 import com.sysgears.example.domain.members.symbols.ClosingBracket;
+import com.sysgears.example.domain.members.symbols.functions.FuncktionComparatorByPriority;
 import com.sysgears.example.domain.members.symbols.OpeningBracket;
 import com.sysgears.example.domain.members.symbols.Symbol;
-import com.sysgears.example.domain.members.symbols.operators.Function;
+import com.sysgears.example.domain.members.symbols.functions.Function;
+import com.sysgears.example.history.HistoryDAO;
 
-import java.io.IOException;
 import java.util.*;
 
 import static jdk.nashorn.internal.objects.Global.Infinity;
@@ -21,7 +22,7 @@ import static jdk.nashorn.internal.objects.Global.NaN;
 public class MyExecutor {
     private HistoryDAO historyDAO;
 
-    public MyExecutor(HistoryDAO historyDAO) {
+    public MyExecutor(final HistoryDAO historyDAO) {
         this.historyDAO = historyDAO;
     }
 
@@ -33,7 +34,7 @@ public class MyExecutor {
      * @return result of input expression
     //     * @throws InputExpressionException if expression has invalid format
      */
-    public Double execute(String userExpression) {
+    public Double execute(final String userExpression) {
         final String[] str = userExpression.split(" ");
         List<Member> expression2 = toListOfMembers(str);
         Double result = ((Number) brackets(expression2).get(0)).getDoubleValue();
@@ -49,7 +50,7 @@ public class MyExecutor {
      * @return result of input expression
 //     * @throws InputExpressionException if expression has invalid format
      */
-    private List<Member> brackets(List<Member> expression) {
+    private List<Member> brackets(final List<Member> expression) {
         List<Member> result = new ArrayList<>();
         List<Member> before = new ArrayList<>();
         for (int index = 0; index < expression.size(); index++) {
@@ -103,15 +104,15 @@ public class MyExecutor {
 //     * @throws InputExpressionException
 //     * @throws InputCommandException
      */
-    public List<Member> calc(List<Member> inputExpression) {
-        inputExpression = updatePositions(inputExpression);
+    public List<Member> calc(final List<Member> inputExpression) {
+        List<Member> resultExpression = updatePositions(inputExpression);
         List<Function> functions = new ArrayList<>();
-        for (Member item : inputExpression) {
+        for (Member item : resultExpression) {
             if (item instanceof Function) functions.add((Function) item);
         }
-        Collections.sort(functions, new FuncktionByPriority());
-        inputExpression = calcOneOperation(inputExpression, functions);
-        return inputExpression;
+        Collections.sort(functions, new FuncktionComparatorByPriority());
+        resultExpression = calcOneOperation(resultExpression, functions);
+        return resultExpression;
     }
 
     /**
@@ -126,17 +127,18 @@ public class MyExecutor {
      * @return result of input expression
 //     * @throws InputExpressionException if expression has invalid format
      */
-    public List<Member> calcOneOperation(List<Member> expression, List<Function> functions) {
+    public List<Member> calcOneOperation(final List<Member> expression, final List<Function> functions) {
+        List<Member> resultExpression = new ArrayList<>(expression);
         if (functions.size() != 0) {
-            expression = functions.get(0).apply(expression);
-            if (expression.get(expression.size() - 1) instanceof ClosingBracket) {
-                expression.remove(expression.size() - 1);
+            resultExpression = functions.get(0).apply(resultExpression);
+            if (resultExpression.get(resultExpression.size() - 1) instanceof ClosingBracket) {
+                resultExpression.remove(resultExpression.size() - 1);
             }
             if (functions.size() > 1) {
-                expression = calc(expression);
+                resultExpression = calc(resultExpression);
             }
         }
-        return expression;
+        return resultExpression;
     }
 
     /**
@@ -148,7 +150,7 @@ public class MyExecutor {
     //     * @throws InputExpressionException
     //     * @throws InputCommandException
      */
-    private List<Member> updatePositions(List<Member> oldExpression){
+    private List<Member> updatePositions(final List<Member> oldExpression){
         String[] str = toStringArrey(oldExpression);
         List<Member> resultExpression;
         resultExpression = toListOfMembers(str);
@@ -163,7 +165,7 @@ public class MyExecutor {
      * @param members the list by which the array will be backed
      * @return an array-based expressions
      */
-    private String[] toStringArrey(List<Member> members) {
+    private String[] toStringArrey(final List<Member> members) {
         String[] result = new String[members.size()];
         for (int j = 0; j < members.size(); j++) {
             result[j] = members.get(j).getValue();

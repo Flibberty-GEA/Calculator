@@ -1,8 +1,8 @@
-package com.sysgears.example.service.old;
+package com.sysgears.example.old;
 
-import com.sysgears.example.exceptions.InputCommandException;
-import com.sysgears.example.exceptions.InputExpressionException;
-import com.sysgears.example.service.HistoryDAO;
+import com.sysgears.example.service.InputCommandException;
+import com.sysgears.example.service.InputExpressionException;
+import com.sysgears.example.history.HistoryDAO;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -15,7 +15,7 @@ public class Calculator {
     public static final Logger log = LogManager.getLogger(Calculator.class);
 
     private HistoryDAO historyDAO;
-    ParserRPN parser = new ParserRPN();
+//    ParserRPN parser = new ParserRPN();
 
     public Calculator(final HistoryDAO historyDAO) {
         this.historyDAO = historyDAO;

@@ -1,9 +1,9 @@
 package com.sysgears.example.controller;
 
-import com.sysgears.example.service.old.Calculator;
-import com.sysgears.example.exceptions.InputCommandException;
-import com.sysgears.example.exceptions.InputExpressionException;
-import com.sysgears.example.service.HistoryDAO;
+import com.sysgears.example.old.Calculator;
+import com.sysgears.example.service.InputCommandException;
+import com.sysgears.example.service.InputExpressionException;
+import com.sysgears.example.history.HistoryDAO;
 import com.sysgears.example.service.MyExecutor;
 
 import java.util.NoSuchElementException;

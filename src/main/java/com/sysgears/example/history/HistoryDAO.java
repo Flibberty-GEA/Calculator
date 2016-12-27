@@ -1,6 +1,6 @@
-package com.sysgears.example.service;
+package com.sysgears.example.history;
 
-import com.sysgears.example.domain.History;
+import com.sysgears.example.history.History;
 
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -15,14 +15,17 @@ public class HistoryDAO {
 
     private final History history = new History();
 
-
     /**
-     * @return all records from storage
+     * Get all records from storage.
+     *
+     * @return string which includes all records from storage
      */
     public String getAll() {return parse(history.getAll());}
 
     /**
-     * @return unique records from storage
+     * Get unique records from storage.
+     *
+     * @return string which includes only unique records from storage
      */
     public String getUnique(){
         List <String> uniqueList = new LinkedList<>(new LinkedHashSet<>(history.getAll()));
@@ -30,7 +33,7 @@ public class HistoryDAO {
     }
 
     /**
-     * Adds record to storage.
+     * Add a record to storage.
      *
      * @param result is a result of expression which need to add to storage
      * @param expression is a expression which need to add to storage
@@ -39,6 +42,12 @@ public class HistoryDAO {
         history.save(result, expression);
     }
 
+    /**
+     * Returns a string for a list of history records.
+     *
+     * @param records records from storage
+     * @return string which includes records from storage
+     */
     private String parse(final List<String> records){
         String result = "";
         for (String record:records) {

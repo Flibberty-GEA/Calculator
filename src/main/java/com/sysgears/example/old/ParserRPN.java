@@ -1,14 +1,8 @@
-package com.sysgears.example.service.old;
+package com.sysgears.example.old;
 
-import com.sysgears.example.domain.members.*;
-import com.sysgears.example.domain.members.Number;
-import com.sysgears.example.exceptions.InputExpressionException;
+import com.sysgears.example.service.InputExpressionException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
-
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 
 /**
@@ -17,7 +11,7 @@ import java.util.Deque;
  * @author  Yevgen Goliuk
  */
 public class ParserRPN {
-//    public static final Logger log = LogManager.getLogger(ParserRPN.class);
+    public static final Logger log = LogManager.getLogger(ParserRPN.class);
 
     /**
      * Convert user's expression in Reverse Polish notation (RPN).
@@ -27,7 +21,7 @@ public class ParserRPN {
      * It is also known as postfix notation and does not need any parentheses
      * as long as each operator has a fixed number of operands.
      *
-//     * @param userExpression - request user for expression
+     * @param userExpression - request user for expression
      * @return a Deque of Members in the ordered expression of RPN
      * @throws InputExpressionException
      */
@@ -102,7 +96,7 @@ public class ParserRPN {
 //        log.info("Return result RPN expression => " + lsr.toString());
 //        return  result;
 //    }
-
+//
 //    private String prepareNegativeNumbers(final String inputExpression){
 //        String result = new String(inputExpression);
 //        if ((result.trim().charAt(0)=='-') || (result.trim().charAt(0)=='+')) result="0"+result;

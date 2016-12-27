@@ -2,10 +2,8 @@ package com.sysgears.example.controller;
 
 
 import com.sysgears.example.domain.HelpInfo;
-import com.sysgears.example.service.HistoryDAO;
+import com.sysgears.example.history.HistoryDAO;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**

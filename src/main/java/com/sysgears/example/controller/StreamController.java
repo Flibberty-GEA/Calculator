@@ -1,7 +1,5 @@
 package com.sysgears.example.controller;
 
-import com.sysgears.example.exceptions.StreamException;
-
 import java.io.*;
 
 /**

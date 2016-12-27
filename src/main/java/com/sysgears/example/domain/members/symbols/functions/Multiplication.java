@@ -1,4 +1,4 @@
-package com.sysgears.example.domain.members.symbols.operators;
+package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
@@ -9,22 +9,21 @@ import java.util.List;
 /**
  * @author  Yevgen Goliuk
  */
-public class Addition extends Function {
-    private String value = "+";
-    private String description = "— Addition (signified by the plus symbol \""+value+"\") " +
-            "is one of the four basic operations of arithmetic. The addition of two whole numbers " +
-            "is the total amount of those quantities combined. For example \"3 "+value+" 2 = 5\"";
-    private int priority = 1;
+public class Multiplication extends Function {
+    private String value = "*";
+    private String description = "— Multiplication (denoted by an asterisk \""+value+"\") " +
+            "is one of the four elementary, mathematical operations of arithmetic. " +
+            "The multiplication of two numbers is equivalent to adding as many copies of one of them, " +
+            "the multiplicand, as the value of the other one, the multiplier. For example \"2 "+value+" 4 = 8\"";
+    private int priority = 2;
     private int countOfOperands = 2;
     private int position = 0;
     /**
      *  -1 - Function Operands (before)
-
      *   0 - Operand Function Operand (between)
      *   1 - Operands Function (after)
      */
     private int association = 0;
-
 
     /**
      * @param expression has x - left operand of operation
@@ -33,9 +32,8 @@ public class Addition extends Function {
      */
     @Override
     public List<Member> apply(final List<Member> expression) {
-        Double x = ((Number)expression.get(getPositionFirstOperand())).getDoubleValue();
-        Double y = ((Number)expression.get(getPositionSecondOperand())).getDoubleValue();
-        Double result =  (x + y);
+        Double result =  (Double.valueOf(expression.get(getPositionFirstOperand()).getValue())) *
+                (Double.valueOf(expression.get(getPositionSecondOperand()).getValue()));
 
         List<Member> resultList = new ArrayList<>(expression);
         resultList.remove(getPositionSecondOperand());

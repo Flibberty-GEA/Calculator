@@ -1,4 +1,4 @@
-package com.sysgears.example.domain.members.symbols.operators;
+package com.sysgears.example.domain.members.symbols.functions;
 
 /**
  * @author Yevgen Goliuk

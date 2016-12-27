@@ -1,4 +1,4 @@
-package com.sysgears.example.domain.members.symbols.operators;
+package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
