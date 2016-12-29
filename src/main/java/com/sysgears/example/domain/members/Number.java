@@ -3,7 +3,7 @@ package com.sysgears.example.domain.members;
 /**
  * An operand of expression.
  *
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
 public class Number implements Member {
 
@@ -30,7 +30,7 @@ public class Number implements Member {
     /**
      * @param value - operand of expression
      */
-    public Number(final String value){
+    public Number(final String value) {
         this.value = Double.valueOf(value);
     }
 }

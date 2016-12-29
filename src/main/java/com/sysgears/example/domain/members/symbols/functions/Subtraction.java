@@ -3,7 +3,7 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
-import com.sysgears.example.service.InputExpressionException;
+import com.sysgears.example.service.InputException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,11 @@ import java.util.List;
  *
  * @author Yevgen Goliuk
  */
-public class Subtraction extends Function{
+public class Subtraction extends Function {
     private String value = "-";
-    private String description = "— Subtraction (signified by the minus sign \""+value+"\") " +
+    private String description = "— Subtraction (signified by the minus sign \"" + value + "\") " +
             "is a mathematical operation that represents the operation " +
-            "of removing objects from a collection. For example \"5 "+value+" 2 = 3\"";
+            "of removing objects from a collection. For example \"5 " + value + " 2 = 3\"";
     private int priority = 1;
     private int countOfOperands = 2;
     private int position = 0;
@@ -26,8 +26,9 @@ public class Subtraction extends Function{
      * Find the result of the subtraction.
      *
      * @param expression has x - left operand of operation
-     *                     y - right operand of operation
+     *                   y - right operand of operation
      * @return result of operation
+     * @throws InputException if expression has invalid format
      */
     @Override
     public List<Member> apply(List<Member> expression) {
@@ -35,13 +36,13 @@ public class Subtraction extends Function{
         try {
             x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
             y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
-        } catch (ClassCastException e){
-            throw new InputExpressionException(
-                    expression.get(getPositionFirstOperand()).getValue()+" "+
-                    expression.get(position).getValue()+" "+
-                    expression.get(getPositionSecondOperand()).getValue()+" ");
+        } catch (ClassCastException e) {
+            throw new InputException(
+                    expression.get(getPositionFirstOperand()).getValue() + " " +
+                            expression.get(position).getValue() + " " +
+                            expression.get(getPositionSecondOperand()).getValue() + " ");
         }
-        result =  (x - y);
+        result = (x - y);
 
         List<Member> resultList = new ArrayList<>(expression);
         resultList.remove(getPositionSecondOperand());
@@ -57,8 +58,8 @@ public class Subtraction extends Function{
      *
      * @return number position of the left operand in the expression
      */
-    public int getPositionFirstOperand(){
-        return position-1;
+    public int getPositionFirstOperand() {
+        return position - 1;
     }
 
     /**
@@ -66,8 +67,8 @@ public class Subtraction extends Function{
      *
      * @return number position of the right operand in the expression
      */
-    public int getPositionSecondOperand(){
-        return position+1;
+    public int getPositionSecondOperand() {
+        return position + 1;
     }
 
     /**

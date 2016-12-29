@@ -3,13 +3,12 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
-import com.sysgears.example.service.InputExpressionException;
+import com.sysgears.example.service.InputException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static jdk.nashorn.internal.objects.Global.Infinity;
-import static jdk.nashorn.internal.objects.Global.NaN;
 
 /**
  * Exponentiation is a mathematical operation.
@@ -18,8 +17,8 @@ import static jdk.nashorn.internal.objects.Global.NaN;
  */
 public class Exponentiation extends Function {
     private String value = "root";
-    private String description = "— Exponentiation is a mathematical operation, written as \""+value+" ( b , n )\", " +
-            "involving two numbers, the base b and the exponent n. For example \""+value+" ( 2 , 3 ) = 8\"";
+    private String description = "— Exponentiation is a mathematical operation, written as \"" + value + " ( b , n )\", " +
+            "involving two numbers, the base b and the exponent n. For example \"" + value + " ( 2 , 3 ) = 8\"";
     private int priority = 3;
     private int position = 0;
 
@@ -29,7 +28,8 @@ public class Exponentiation extends Function {
      * @param expression has base b and the exponent n
      * @return result of operation
      * @throws ArithmeticException thrown if the exponent is negative
-     *              and the power of zero (0^n, where n < 0) is undefined
+     *                             and the power of zero (0^n, where n < 0) is undefined
+     * @throws InputException      if expression has invalid format
      */
     @Override
     public List<Member> apply(List<Member> expression) {
@@ -37,11 +37,11 @@ public class Exponentiation extends Function {
         try {
             x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
             y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
-        } catch (ClassCastException e){
-            throw new InputExpressionException(
-                    expression.get(position).getValue()+" "+
-                    expression.get(getPositionFirstOperand()).getValue()+" "+
-                    expression.get(getPositionSecondOperand()).getValue()+" ");
+        } catch (ClassCastException e) {
+            throw new InputException(
+                    expression.get(position).getValue() + " " +
+                            expression.get(getPositionFirstOperand()).getValue() + " " +
+                            expression.get(getPositionSecondOperand()).getValue() + " ");
         }
 
         result = Math.pow(x, y);
@@ -61,24 +61,24 @@ public class Exponentiation extends Function {
 
     /**
      * Number position of base b.
-     *
+     * <p>
      * Number position of the operand in the expression has dependent of function position.
      *
      * @return number position of the base
      */
-    public int getPositionFirstOperand(){
-        return position+1;
+    public int getPositionFirstOperand() {
+        return position + 1;
     }
 
     /**
      * Number position of exponent n.
-     *
+     * <p>
      * Number position of the operand in the expression has dependent of function position.
      *
      * @return number position of the exponent n
      */
-    public int getPositionSecondOperand(){
-        return position+2;
+    public int getPositionSecondOperand() {
+        return position + 2;
     }
 
     /**

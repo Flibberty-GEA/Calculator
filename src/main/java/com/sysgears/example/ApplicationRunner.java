@@ -7,14 +7,16 @@ import org.apache.log4j.Logger;
 /**
  * Main class of program.
  *
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
 public class ApplicationRunner {
 //    public static final Logger log = LogManager.getLogger(ApplicationRunner.class);
 
 //  2       2
 //  1       3 - 2
-//  Nan     0 / 0
+//  NaN     0 / 0
+//  NaN     root ( 0 , -3 )
+//  NaN     log ( -1 , 2 )
 //  -2.3(3) 2 + -13 / 3
 //  -0.988  sin ( 30 )
 //  3       log ( 2 , 8 )
@@ -27,6 +29,7 @@ public class ApplicationRunner {
 //  21      ( 2 + ( 4 * 3 ) + 4 ) + 3
 //  22      2 + 4 * 3 + root ( 2 , 3 )
 //  20      ( 2 + 4 ) * 3 + root ( 2 , 3 ) + ( 1 + -7 )
+
     /**
      * Entrance point to program.
      *
@@ -34,11 +37,11 @@ public class ApplicationRunner {
      */
     public static void main(String[] args) {
 //        log.info("Start program.");
-        try{
+        try {
             /* initialize main execution object and start the program */
             new RequestController().run();
         } catch (Throwable t) {
-            t.printStackTrace();
+//            t.printStackTrace();
             System.out.println(t.getMessage());
         }
     }

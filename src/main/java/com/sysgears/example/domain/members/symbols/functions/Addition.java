@@ -2,7 +2,7 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
-import com.sysgears.example.service.InputExpressionException;
+import com.sysgears.example.service.InputException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +10,13 @@ import java.util.List;
 /**
  * Addition is one of the four basic operations of arithmetic.
  *
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
 public class Addition extends Function {
     private String value = "+";
-    private String description = "— Addition (signified by the plus symbol \""+value+"\") " +
+    private String description = "— Addition (signified by the plus symbol \"" + value + "\") " +
             "is one of the four basic operations of arithmetic. The addition of two whole numbers " +
-            "is the total amount of those quantities combined. For example \"3 "+value+" 2 = 5\"";
+            "is the total amount of those quantities combined. For example \"3 " + value + " 2 = 5\"";
     private int priority = 1;
     private int position = 0;
 
@@ -24,8 +24,9 @@ public class Addition extends Function {
      * Find the result of the addition.
      *
      * @param expression has x - left operand of operation
-     *                     y - right operand of operation
+     *                   y - right operand of operation
      * @return result of operation
+     * @throws InputException if expression has invalid format
      */
     @Override
     public List<Member> apply(final List<Member> expression) {
@@ -33,13 +34,13 @@ public class Addition extends Function {
         try {
             x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
             y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
-        } catch (ClassCastException e){
-            throw new InputExpressionException(
-                            expression.get(getPositionFirstOperand()).getValue()+" "+
-                            expression.get(position).getValue()+" "+
-                            expression.get(getPositionSecondOperand()).getValue()+" ");
+        } catch (ClassCastException e) {
+            throw new InputException(
+                    expression.get(getPositionFirstOperand()).getValue() + " " +
+                            expression.get(position).getValue() + " " +
+                            expression.get(getPositionSecondOperand()).getValue() + " ");
         }
-        result =  (x + y);
+        result = (x + y);
 
         List<Member> resultList = new ArrayList<>(expression);
         resultList.remove(getPositionSecondOperand());
@@ -55,8 +56,8 @@ public class Addition extends Function {
      *
      * @return number position of the left operand in the expression
      */
-    public int getPositionFirstOperand(){
-        return position-1;
+    public int getPositionFirstOperand() {
+        return position - 1;
     }
 
     /**
@@ -64,8 +65,8 @@ public class Addition extends Function {
      *
      * @return number position of the right operand in the expression
      */
-    public int getPositionSecondOperand(){
-        return position+1;
+    public int getPositionSecondOperand() {
+        return position + 1;
     }
 
     /**

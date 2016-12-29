@@ -9,16 +9,16 @@ import java.util.*;
  * The class Symbol and its subclasses are a form of Member
  * that indicates the properties that define the role and behavior of the members of expression.
  *
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
 public abstract class Symbol implements Member {
 
     /**
      * Takes over the selection of the appropriate instance of a Symbol.
-     *
+     * <p>
      * This method uses reflections.
      *
-     * @param value of a member
+     * @param value    of a member
      * @param position of this member in the expression
      * @return an instance of the symbol with a coincident value
      * @throws Exception if something is wrong with the symbol
@@ -28,15 +28,15 @@ public abstract class Symbol implements Member {
         Reflections reflections = new Reflections("");
         Set<Class<? extends Symbol>> subclasses = reflections.getSubTypesOf(Symbol.class);
         Map<String, Symbol> values = new HashMap<>();
-        for (Class clazz:subclasses) {
+        for (Class clazz : subclasses) {
             try {
-                Symbol symbol = (Symbol)clazz.newInstance();
+                Symbol symbol = (Symbol) clazz.newInstance();
                 values.put(symbol.getValue(), symbol);
             } catch (InstantiationException | IllegalAccessException e) {
                 continue;
             }
         }
-        if (values.containsKey(symbolValue)){
+        if (values.containsKey(symbolValue)) {
             Symbol symbol = values.get(symbolValue);
             symbol.setPosition(position);
             return symbol;
@@ -48,13 +48,13 @@ public abstract class Symbol implements Member {
      *
      * @return strings list for values
      */
-    public static List<String> values(){
+    public static List<String> values() {
         List<String> resultList = new ArrayList<>();
         Reflections reflections = new Reflections("");
         Set<Class<? extends Symbol>> subclasses = reflections.getSubTypesOf(Symbol.class);
-        for (Class clazz:subclasses) {
+        for (Class clazz : subclasses) {
             try {
-                Symbol symbol = (Symbol)clazz.newInstance();
+                Symbol symbol = (Symbol) clazz.newInstance();
                 resultList.add(symbol.getValue());
             } catch (InstantiationException | IllegalAccessException e) {
                 continue;
@@ -68,13 +68,13 @@ public abstract class Symbol implements Member {
      *
      * @return strings list for values
      */
-    public static List<String> descriptions(){
+    public static List<String> descriptions() {
         List<String> resultList = new ArrayList<>();
         Reflections reflections = new Reflections("");
         Set<Class<? extends Symbol>> subclasses = reflections.getSubTypesOf(Symbol.class);
-        for (Class clazz:subclasses) {
+        for (Class clazz : subclasses) {
             try {
-                Symbol symbol = (Symbol)clazz.newInstance();
+                Symbol symbol = (Symbol) clazz.newInstance();
                 resultList.add(symbol.getDescription());
             } catch (InstantiationException | IllegalAccessException e) {
                 continue;

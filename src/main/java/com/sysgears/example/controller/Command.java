@@ -9,14 +9,14 @@ import java.io.IOException;
 /**
  * The commands entered by the client
  *
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
 public enum Command {
 
     /**
      * Command for exit from program.
      */
-    EXIT{
+    EXIT {
         void apply(final StreamController streamController,
                    final HistoryDAO historyDAO) throws IOException {
             streamController.sendResponse("Good bye!");
@@ -28,7 +28,7 @@ public enum Command {
     /**
      * command for seeing unique results history
      */
-    UNIQUE_HISTORY{
+    UNIQUE_HISTORY {
         void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException {
             streamController.sendResponse(historyDAO.getUnique());
         }
@@ -37,7 +37,7 @@ public enum Command {
     /**
      * command for seeing full results history
      */
-    HISTORY{
+    HISTORY {
         void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException {
             streamController.sendResponse(historyDAO.getAll());
         }
@@ -46,7 +46,7 @@ public enum Command {
     /**
      * command for seeing help info
      */
-    HELP{
+    HELP {
         void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException {
             String helpInfo = new HelpInfo().getHelpInfo();
             streamController.sendResponse(helpInfo);
@@ -57,14 +57,12 @@ public enum Command {
      * добавить
      *
      * @param streamController for contact with user by console
-     * @param historyDAO for use or update history
+     * @param historyDAO       for use or update history
      * @throws IOException
      */
     abstract void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException;
 
     /**
-     *
-     *
      * @param request
      * @return true if request is command
      * @throws IOException

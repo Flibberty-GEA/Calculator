@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * Provides streams control, for example, to contact the user via the console
  *
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
 public class StreamController {
 
@@ -46,7 +46,7 @@ public class StreamController {
      * @param response is a message or result of request
      * @throws StreamException if an I/O error occurs
      */
-    public void sendResponse (final String response) throws StreamException {
+    public void sendResponse(final String response) throws StreamException {
         try {
             writer.write(response);
             writer.newLine();
@@ -55,28 +55,4 @@ public class StreamController {
             throw new StreamException("Sorry, a connection broken. Please try again. ");
         }
     }
-
-//    /**
-//     * @param fileName the <tt>File</tt> to read from
-//     * @return all info from <tt>File</tt>
-//     *
-//     * @throws StreamException  if the file does not exist, is a directory rather than a regular file,
-//     * or for some other reason cannot be opened for reading.
-//     */
-//    public String readFromFile (final String fileName) throws StreamException {
-//        StringBuilder result = new StringBuilder();
-//        try {
-//            BufferedReader in = new BufferedReader(new FileReader(fileName));
-//            String lineText;
-//            while ((lineText = in.readLine()) != null) {
-//                result.append(lineText+"\n");
-//            }
-//            in.close();
-//        } catch (FileNotFoundException e) {
-//            throw new StreamException("Sorry, there are no supporting information. ");
-//        } catch (IOException e) {
-//            throw new StreamException("Sorry, there are no supporting information. ");
-//        }
-//        return result.toString();
-//    }
 }

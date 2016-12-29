@@ -3,7 +3,7 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
-import com.sysgears.example.service.InputExpressionException;
+import com.sysgears.example.service.InputException;
 
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class Comma extends Function {
     private String value = ",";
-    private String description = "— A delimiter (signified by the symbol \""+value+"\") " +
+    private String description = "— A delimiter (signified by the symbol \"" + value + "\") " +
             "used to specify the boundary between separate operands of a function." +
-            "For example \"root ( 2 "+value+" 3 ) = 8\"";
+            "For example \"root ( 2 " + value + " 3 ) = 8\"";
     private int priority = 0;
     private int position = 0;
 
@@ -27,8 +27,9 @@ public class Comma extends Function {
      * Return operands for function.
      *
      * @param expression has x - left operand
-     *                     y - right operand
+     *                   y - right operand
      * @return members list
+     * @throws InputException if expression has invalid format
      */
     @Override
     public List<Member> apply(List<Member> expression) {
@@ -37,7 +38,7 @@ public class Comma extends Function {
             x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
             y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
         } catch (ClassCastException e) {
-            throw new InputExpressionException(
+            throw new InputException(
                     expression.get(getPositionFirstOperand()).getValue() + " " +
                             expression.get(position).getValue() + " " +
                             expression.get(getPositionSecondOperand()).getValue() + " ");
@@ -58,8 +59,8 @@ public class Comma extends Function {
      *
      * @return number position of the left operand in the expression
      */
-    public int getPositionFirstOperand(){
-        return position-1;
+    public int getPositionFirstOperand() {
+        return position - 1;
     }
 
     /**
@@ -67,8 +68,8 @@ public class Comma extends Function {
      *
      * @return number position of the right operand in the expression
      */
-    public int getPositionSecondOperand(){
-        return position+1;
+    public int getPositionSecondOperand() {
+        return position + 1;
     }
 
     /**

@@ -2,7 +2,7 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
-import com.sysgears.example.service.InputExpressionException;
+import com.sysgears.example.service.InputException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +17,10 @@ import static jdk.nashorn.internal.objects.Global.NaN;
  */
 public class Division extends Function {
     private String value = "/";
-    private String description = "— Division (signified by the symbol \""+value+"\") " +
+    private String description = "— Division (signified by the symbol \"" + value + "\") " +
             "is one of the four basic operations of arithmetic. " +
             "The division of two natural numbers is the process of calculating the number " +
-            "of times one number is contained within one another. For example \"20 "+value+" 5 = 4\"";
+            "of times one number is contained within one another. For example \"20 " + value + " 5 = 4\"";
     private int priority = 2;
     private int position = 0;
 
@@ -28,9 +28,10 @@ public class Division extends Function {
      * Find the result of the division.
      *
      * @param expression has x - left operand of operation
-     *                     y - right operand of operation
+     *                   y - right operand of operation
      * @return result of operation
      * @throws ArithmeticException thrown when expression include "divide by zero"
+     * @throws InputException      if expression has invalid format
      */
     @Override
     public List<Member> apply(List<Member> expression) {
@@ -38,15 +39,15 @@ public class Division extends Function {
         try {
             x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
             y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
-        } catch (ClassCastException e){
-            throw new InputExpressionException(
-                    expression.get(getPositionFirstOperand()).getValue()+" "+
-                    expression.get(position).getValue()+" "+
-                    expression.get(getPositionSecondOperand()).getValue()+" ");
+        } catch (ClassCastException e) {
+            throw new InputException(
+                    expression.get(getPositionFirstOperand()).getValue() + " " +
+                            expression.get(position).getValue() + " " +
+                            expression.get(getPositionSecondOperand()).getValue() + " ");
         }
-        result =  x / y;
+        result = x / y;
 
-        if (result.equals(Infinity)||result.equals(NaN)) {
+        if (result.equals(Infinity) || result.equals(NaN)) {
             throw new ArithmeticException("Don't divide by zero.");
         }
 
@@ -64,8 +65,8 @@ public class Division extends Function {
      *
      * @return number position of the left operand in the expression
      */
-    public int getPositionFirstOperand(){
-        return position-1;
+    public int getPositionFirstOperand() {
+        return position - 1;
     }
 
     /**
@@ -73,8 +74,8 @@ public class Division extends Function {
      *
      * @return number position of the right operand in the expression
      */
-    public int getPositionSecondOperand(){
-        return position+1;
+    public int getPositionSecondOperand() {
+        return position + 1;
     }
 
     /**

@@ -2,7 +2,7 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
-import com.sysgears.example.service.InputExpressionException;
+import com.sysgears.example.service.InputException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +35,10 @@ public class Multiplication extends Function {
             x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
             y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
         } catch (ClassCastException e) {
-            throw new InputExpressionException(
+            throw new InputException(
                     expression.get(getPositionFirstOperand()).getValue() + " " +
-                    expression.get(position).getValue() + " " +
-                    expression.get(getPositionSecondOperand()).getValue() + " ");
+                            expression.get(position).getValue() + " " +
+                            expression.get(getPositionSecondOperand()).getValue() + " ");
         }
         result = x * y;
 

@@ -3,11 +3,11 @@ package com.sysgears.example.domain.members.symbols;
 /**
  * Parentheses in mathematics signify a different precedence of operators.
  *
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
 public class OpeningBracket extends Symbol {
     private String value = "(";
-    private String description = "— Opening bracket (signified by the plus symbol \""+value+"\") " +
+    private String description = "— Opening bracket (signified by the plus symbol \"" + value + "\") " +
             "marks the start of a region of expression. Parentheses in mathematics " +
             "signify a different precedence of operators. For example: \"2 + 3 * 4 + 14\", " +
             "since the multiplication is done before the addition. However, \"(2 + 3) * 4 + 20\", " +

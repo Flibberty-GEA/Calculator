@@ -3,13 +3,14 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.symbols.Symbol;
+import com.sysgears.example.service.InputException;
 
 import java.util.List;
 
 /**
  * Function is a calculation from zero or more input values (called operands) to an output value.
  *
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
 public abstract class Function extends Symbol {
 
@@ -18,6 +19,8 @@ public abstract class Function extends Symbol {
      *
      * @param expression
      * @return result of operation
+     * @throws ArithmeticException
+     * @throws InputException      if expression has invalid format
      */
     public abstract List<Member> apply(final List<Member> expression);
 
