@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Exponentiation is a mathematical operation.
+ *
  * @author Yevgen Goliuk
  */
 public class Exponentiation extends Function {
@@ -15,9 +17,14 @@ public class Exponentiation extends Function {
     private String description = "— Exponentiation is a mathematical operation, written as \""+value+" ( b , n )\", " +
             "involving two numbers, the base b and the exponent n. For example \""+value+" ( 2 , 3 ) = 8\"";
     private int priority = 3;
-    private int countOfOperands = 2;
     private int position = 0;
 
+    /**
+     * Find the result of the exponentiation.
+     *
+     * @param expression has base b and the exponent n
+     * @return result of operation
+     */
     @Override
     public List<Member> apply(List<Member> expression) {
         Double x = ((Number)expression.get(getPositionFirstOperand())).getDoubleValue();
@@ -33,38 +40,73 @@ public class Exponentiation extends Function {
         return resultList;
     }
 
+    /**
+     * Number position of base b.
+     *
+     * Number position of the operand in the expression has dependent of function position.
+     *
+     * @return number position of the base
+     */
     public int getPositionFirstOperand(){
         return position+1;
     }
+
+    /**
+     * Number position of exponent n.
+     *
+     * Number position of the operand in the expression has dependent of function position.
+     *
+     * @return number position of the exponent n
+     */
     public int getPositionSecondOperand(){
         return position+2;
     }
 
+    /**
+     * Get the notation of exponentiation.
+     *
+     * @return string with a value
+     */
     @Override
     public String getValue() {
         return value;
     }
 
+    /**
+     * Get number position of this function in the expression.
+     *
+     * @return number position of this function
+     */
     @Override
     public int getPosition() {
         return position;
     }
 
-    @Override
-    public boolean isOperator() {
-        return true;
-    }
-
-    @Override
-    public int getPriority() {
-        return priority;
-    }
-
+    /**
+     * Set number position of this function in the expression.
+     *
+     * @param position - number position of this function
+     */
     @Override
     public void setPosition(int position) {
         this.position = position;
     }
 
+    /**
+     * Get a priority for calculation.
+     *
+     * @return a priority number
+     */
+    @Override
+    public int getPriority() {
+        return priority;
+    }
+
+    /**
+     * Get a description of this function.
+     *
+     * @return string with a description
+     */
     @Override
     public String getDescription() {
         return description;

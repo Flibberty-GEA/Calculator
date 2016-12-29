@@ -12,12 +12,29 @@ import java.util.List;
  * @author  Yevgen Goliuk
  */
 public abstract class Function extends Symbol {
+
     /**
+     * Find the result of the function.
+     *
      * @param expression
-     * @return  result of operation
+     * @return result of operation
      */
     public abstract List<Member> apply(final List<Member> expression);
-    public abstract int getPosition();
-    public abstract void setPosition(int position);
 
+    /**
+     * Get number position of this function in the expression.
+     *
+     * @return number position of this function
+     */
+    public abstract int getPosition();
+
+    /**
+     * Check this member of the expression. Is it an operator?
+     *
+     * @return true if this member of the expression is an operator
+     */
+    @Override
+    public boolean isOperator() {
+        return true;
+    }
 }

@@ -9,7 +9,9 @@ package com.sysgears.example.domain.members;
 public interface Member {
 
     /**
-     * @return a symbol or a value of a member
+     * Get the symbol or notation.
+     *
+     * @return string with a value of a member
      */
     String getValue();
 }

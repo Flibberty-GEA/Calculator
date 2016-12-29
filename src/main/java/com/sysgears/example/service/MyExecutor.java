@@ -56,6 +56,7 @@ public class MyExecutor {
         for (int index = 0; index < expression.size(); index++) {
             Member member = expression.get(index);
             before = expression.subList(0, index + 1);
+            List<Member> before2 = new ArrayList<>(before);
             if (member instanceof OpeningBracket) {
                 List<Member> newExpression = expression.subList(index + 1, expression.size());
                 before = expression.subList(0, index);
@@ -63,7 +64,9 @@ public class MyExecutor {
                 try {
                     before.addAll(result);
                 } catch (Exception e) {
-
+                    if (before2.get(0) instanceof Function){
+                    before = before2.subList(0,1);
+                    before.addAll(result);}
                 }
                 break;
             }
@@ -208,20 +211,30 @@ public class MyExecutor {
             throw new ArithmeticException("Don't divide by zero.");
         } else return result;
     }
+
 //    private void printMemberList(List<Member> members) {
-//        for (Member m : members) {
-//            System.out.print(m.getValue());
+//        try{
+//            for (Member m : members) {
+//                System.out.print(m.getValue());
+//            }
+//            System.out.println();
+//        } catch (ConcurrentModificationException e){
+//
 //        }
-//        System.out.println();
+//
 //    }
 //
 //    private void printFunctionsList(List<Function> functions) {
+//        try{
 //        for (Function f : functions) {
 //            System.out.print(f.getValue());
 //        }
 //        System.out.println();
+//        } catch (ConcurrentModificationException e){
+//
+//        }
 //    }
-
+//
 //    private void printStringArray(String[] arrays) {
 //        for (int i = 0; i < arrays.length; i++) {
 //            System.out.print(arrays[i]);

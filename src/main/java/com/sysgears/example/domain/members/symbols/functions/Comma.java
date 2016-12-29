@@ -9,22 +9,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Comma is a delimiter which used to specify the boundary
+ * between separate operands of a function.
+ *
  * @author Yevgen Goliuk
  */
 public class Comma extends Function {
     private String value = ",";
-    private int priority = 1;
-    private int countOfOperands = 2;
-    private int position = 0;
-    private String description = "— A delimiter (signified by the plus symbol \""+value+"\") " +
+    private String description = "— A delimiter (signified by the symbol \""+value+"\") " +
             "used to specify the boundary between separate operands of a function." +
             "For example \"root ( 2 "+value+" 3 ) = 8\"";
+    private int priority = 0;
+    private int position = 0;
 
+    /**
+     * Return operands for function.
+     *
+     * @param expression has x - left operand
+     *                     y - right operand
+     * @return members list
+     */
     @Override
     public List<Member> apply(List<Member> expression) {
         Double x = ((Number)expression.get(getPositionFirstOperand())).getDoubleValue();
         Double y = ((Number)expression.get(getPositionSecondOperand())).getDoubleValue();
-//        Double result =  (x + y);
 
         List<Member> resultList = new ArrayList<>(expression);
         resultList.remove(getPositionSecondOperand());
@@ -36,40 +44,71 @@ public class Comma extends Function {
         return resultList;
     }
 
+    /**
+     * Number position of the operand in the expression has dependent of delimiter position.
+     *
+     * @return number position of the left operand in the expression
+     */
     public int getPositionFirstOperand(){
         return position-1;
     }
+
+    /**
+     * Number position of the operand in the expression has dependent of delimiter position.
+     *
+     * @return number position of the right operand in the expression
+     */
     public int getPositionSecondOperand(){
         return position+1;
     }
 
+    /**
+     * Get a description of this delimiter.
+     *
+     * @return string with a description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Get the symbol.
+     *
+     * @return string with a value
+     */
     @Override
     public String getValue() {
         return value;
     }
 
+    /**
+     * Get number position of this delimiter in the expression.
+     *
+     * @return number position of this delimiter
+     */
     @Override
     public int getPosition() {
         return position;
     }
 
-    @Override
-    public boolean isOperator() {
-        return true;
-    }
-
-    @Override
-    public int getPriority() {
-        return priority;
-    }
-
+    /**
+     * Set number position of this delimiter in the expression.
+     *
+     * @param position - number position of this delimiter
+     */
     @Override
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    /**
+     * Get a priority for calculation.
+     *
+     * @return a priority number
+     */
+    @Override
+    public int getPriority() {
+        return priority;
     }
 }

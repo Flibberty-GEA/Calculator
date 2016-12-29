@@ -20,8 +20,6 @@ public class RequestController {
     private final Calculator calculator = new Calculator(historyDAO);
     private final MyExecutor myExecutor = new MyExecutor(historyDAO);
 
-
-
     /**
      * Executes user's command.
      *

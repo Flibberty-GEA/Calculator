@@ -14,23 +14,12 @@ import java.util.*;
 public abstract class Symbol implements Member {
 
     /**
-     * @return true if a member of expression is operator
-     */
-    public abstract boolean isOperator();
-
-    /**
-     * @return priority of an expression member
-     */
-    public abstract int getPriority();
-
-    public abstract void setPosition(int position);
-
-    public abstract String getDescription();
-
-    /**
      * Takes over the selection of the appropriate instance of a Symbol.
      *
+     * This method uses reflections.
+     *
      * @param value of a member
+     * @param position of this member in the expression
      * @return an instance of the symbol with a coincident value
      * @throws Exception if something is wrong with the symbol
      */
@@ -54,6 +43,11 @@ public abstract class Symbol implements Member {
         } else throw new Exception();
     }
 
+    /**
+     * Get all symbols or notations for functions and delimiters.
+     *
+     * @return strings list for values
+     */
     public static List<String> values(){
         List<String> resultList = new ArrayList<>();
         Reflections reflections = new Reflections("");
@@ -69,6 +63,11 @@ public abstract class Symbol implements Member {
         return resultList;
     }
 
+    /**
+     * Get descriptions of all functions and delimiters.
+     *
+     * @return strings list for values
+     */
     public static List<String> descriptions(){
         List<String> resultList = new ArrayList<>();
         Reflections reflections = new Reflections("");
@@ -83,5 +82,33 @@ public abstract class Symbol implements Member {
         }
         return resultList;
     }
+
+    /**
+     * Check this member of the expression. Is it an operator?
+     *
+     * @return true if this member of the expression is an operator
+     */
+    public abstract boolean isOperator();
+
+    /**
+     * Get a priority for calculation.
+     *
+     * @return priority of an expression member
+     */
+    public abstract int getPriority();
+
+    /**
+     * Set number position of this function in the expression.
+     *
+     * @param position - number position of this function
+     */
+    public abstract void setPosition(int position);
+
+    /**
+     * Get a description of this function.
+     *
+     * @return string with a description
+     */
+    public abstract String getDescription();
 
 }

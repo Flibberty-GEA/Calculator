@@ -16,8 +16,12 @@ public class ApplicationRunner {
 //  1       3 - 2
 //  Nan     0 / 0
 //  -2.3(3) 2 + -13 / 3
+//  -0.988  sin ( 30 )
 //  3       log ( 2 , 8 )
 //  8       root ( 2 , 3 )
+//  8       root ( 2 , log 2 8 )
+//  8       root ( 2 , log ( 2 , 8 ) )
+//  3       log ( 2 , root ( 2 , 3 ) )
 //  2       ( 2 )
 //  -1      ( 2 + -3 )
 //  21      ( 2 + ( 4 * 3 ) + 4 ) + 3
@@ -33,9 +37,8 @@ public class ApplicationRunner {
         try{
             /* initialize main execution object and start the program */
             new RequestController().run();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         } catch (Throwable t) {
+            t.printStackTrace();
             System.out.println(t.getMessage());
         }
     }
