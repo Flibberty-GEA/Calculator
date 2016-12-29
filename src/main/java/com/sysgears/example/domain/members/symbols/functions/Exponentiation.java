@@ -3,9 +3,13 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.service.InputExpressionException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static jdk.nashorn.internal.objects.Global.Infinity;
+import static jdk.nashorn.internal.objects.Global.NaN;
 
 /**
  * Exponentiation is a mathematical operation.
@@ -24,12 +28,27 @@ public class Exponentiation extends Function {
      *
      * @param expression has base b and the exponent n
      * @return result of operation
+     * @throws ArithmeticException thrown if the exponent is negative
+     *              and the power of zero (0^n, where n < 0) is undefined
      */
     @Override
     public List<Member> apply(List<Member> expression) {
-        Double x = ((Number)expression.get(getPositionFirstOperand())).getDoubleValue();
-        Double y = ((Number)expression.get(getPositionSecondOperand())).getDoubleValue();
-        Double result = Math.pow(x, y);
+        Double x, y, result;
+        try {
+            x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
+            y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
+        } catch (ClassCastException e){
+            throw new InputExpressionException(
+                    expression.get(position).getValue()+" "+
+                    expression.get(getPositionFirstOperand()).getValue()+" "+
+                    expression.get(getPositionSecondOperand()).getValue()+" ");
+        }
+
+        result = Math.pow(x, y);
+        if (result.equals(Infinity)) {
+            throw new ArithmeticException("If the exponent is negative, the power of zero (0^n, where n < 0) " +
+                    "is undefined, because division by zero is implied. ");
+        }
 
         List<Member> resultList = new ArrayList<>(expression);
         resultList.remove(getPositionSecondOperand());

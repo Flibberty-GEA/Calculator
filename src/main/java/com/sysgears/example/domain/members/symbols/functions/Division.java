@@ -1,12 +1,14 @@
 package com.sysgears.example.domain.members.symbols.functions;
 
-
-
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.service.InputExpressionException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static jdk.nashorn.internal.objects.Global.Infinity;
+import static jdk.nashorn.internal.objects.Global.NaN;
 
 /**
  * Division is one of the four basic operations of arithmetic.
@@ -28,11 +30,25 @@ public class Division extends Function {
      * @param expression has x - left operand of operation
      *                     y - right operand of operation
      * @return result of operation
+     * @throws ArithmeticException thrown when expression include "divide by zero"
      */
     @Override
     public List<Member> apply(List<Member> expression) {
-        Double result =  (Double.valueOf(expression.get(getPositionFirstOperand()).getValue())) /
-                (Double.valueOf(expression.get(getPositionSecondOperand()).getValue()));
+        Double x, y, result;
+        try {
+            x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
+            y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
+        } catch (ClassCastException e){
+            throw new InputExpressionException(
+                    expression.get(getPositionFirstOperand()).getValue()+" "+
+                    expression.get(position).getValue()+" "+
+                    expression.get(getPositionSecondOperand()).getValue()+" ");
+        }
+        result =  x / y;
+
+        if (result.equals(Infinity)||result.equals(NaN)) {
+            throw new ArithmeticException("Don't divide by zero.");
+        }
 
         List<Member> resultList = new ArrayList<>(expression);
         resultList.remove(getPositionSecondOperand());

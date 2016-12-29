@@ -2,6 +2,7 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.service.InputExpressionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,22 +35,37 @@ public class Logarithm extends Function {
      * @param expression has number 'x'
      *                     base 'a'
      * @return  result of operation
+     * @throws ArithmeticException thrown when logarithm log(b,x) doesn't meet next conditions: b!=1, b>0, x>0.
      */
     @Override
     public List<Member> apply(List<Member> expression) {
-        Double a = ((Number)expression.get(getPositionFirstOperand())).getDoubleValue();
-        Double x = ((Number)expression.get(getPositionSecondOperand())).getDoubleValue();
-        Double log10X = Math.log10(x);
-        Double log10A = Math.log10(a);
-        Double result = log10X / log10A;
+        Double a, x;
+        try {
+            a = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
+            x = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
+        } catch (ClassCastException e){
+            throw new InputExpressionException(
+                    expression.get(position).getValue()+" "+
+                            expression.get(getPositionFirstOperand()).getValue()+" "+
+                            expression.get(getPositionSecondOperand()).getValue()+" ");
+        }
 
-        List<Member> resultList = new ArrayList<>(expression);
-        resultList.remove(getPositionSecondOperand());
-        resultList.remove(getPositionFirstOperand());
-        resultList.remove(position);
-        resultList.add(position, new Number(result.toString()));
+        if ((x>0d) && (a>0d) && (a!=1d)){
+            Double log10X = Math.log10(x);
+            Double log10A = Math.log10(a);
+            Double result = log10X / log10A;
 
-        return resultList;
+            List<Member> resultList = new ArrayList<>(expression);
+            resultList.remove(getPositionSecondOperand());
+            resultList.remove(getPositionFirstOperand());
+            resultList.remove(position);
+            resultList.add(position, new Number(result.toString()));
+
+            return resultList;
+        } else{
+            throw new ArithmeticException("Logarithm log(b,x) must meet next conditions: b!=1, b>0, x>0.");
+        }
+
     }
 
     /**

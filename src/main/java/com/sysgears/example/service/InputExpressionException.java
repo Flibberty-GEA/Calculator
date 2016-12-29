@@ -10,7 +10,7 @@ public class InputExpressionException extends RuntimeException {
     /**
      * Default message of InputExpressionException.
      */
-    private static final String MES = "Input arguments are incorrect. ";
+    private static final String MES = "Input arguments are incorrect: ";
 
     /**
      * Constructs InputExpressionException without a detail message.

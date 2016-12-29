@@ -26,7 +26,6 @@ public class MyExecutor {
         this.historyDAO = historyDAO;
     }
 
-
     /**
      * Executes user's expression.
      *
@@ -35,11 +34,12 @@ public class MyExecutor {
     //     * @throws InputExpressionException if expression has invalid format
      */
     public Double execute(final String userExpression) {
-        final String[] str = userExpression.split(" ");
+        String expression = userExpression.replaceAll("\\s{2,}", " ");
+        final String[] str = expression.split(" ");
         List<Member> expression2 = toListOfMembers(str);
         Double result = ((Number) brackets(expression2).get(0)).getDoubleValue();
         historyDAO.save(result.toString(), userExpression);
-        result = isDivideByZero(result);
+//        result = isDivideByZero(result);
         return result;
     }
 
@@ -193,24 +193,25 @@ public class MyExecutor {
                 try {
                     result.add(i, Symbol.createInstance(arrays[i], i));
                 } catch (Exception b) {
+                    throw new InputExpressionException("\""+arrays[i]+"\"");
                 }
             }
         }
         return result;
     }
 
-    /**
-     * Checks whether the division by zero.
-     *
-     * @param result of calculation
-     * @return double result
-     * @throws ArithmeticException thrown when expression include "divide by zero"
-     */
-    private Double isDivideByZero(final Double result) {
-        if (result.equals(Infinity)||result.equals(NaN)) {
-            throw new ArithmeticException("Don't divide by zero.");
-        } else return result;
-    }
+//    /**
+//     * Checks whether the division by zero.
+//     *
+//     * @param result of calculation
+//     * @return double result
+//     * @throws ArithmeticException thrown when expression include "divide by zero"
+//     */
+//    private Double isDivideByZero(final Double result) {
+//        if (result.equals(Infinity)||result.equals(NaN)) {
+//            throw new ArithmeticException("Don't divide by zero.");
+//        } else return result;
+//    }
 
 //    private void printMemberList(List<Member> members) {
 //        try{

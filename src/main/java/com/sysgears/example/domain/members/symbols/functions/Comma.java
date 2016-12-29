@@ -3,6 +3,7 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.service.InputExpressionException;
 
 
 import java.util.ArrayList;
@@ -31,8 +32,16 @@ public class Comma extends Function {
      */
     @Override
     public List<Member> apply(List<Member> expression) {
-        Double x = ((Number)expression.get(getPositionFirstOperand())).getDoubleValue();
-        Double y = ((Number)expression.get(getPositionSecondOperand())).getDoubleValue();
+        Double x, y;
+        try {
+            x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
+            y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
+        } catch (ClassCastException e) {
+            throw new InputExpressionException(
+                    expression.get(getPositionFirstOperand()).getValue() + " " +
+                            expression.get(position).getValue() + " " +
+                            expression.get(getPositionSecondOperand()).getValue() + " ");
+        }
 
         List<Member> resultList = new ArrayList<>(expression);
         resultList.remove(getPositionSecondOperand());

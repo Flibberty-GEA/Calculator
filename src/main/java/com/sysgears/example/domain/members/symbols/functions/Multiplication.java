@@ -2,6 +2,7 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.service.InputExpressionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +10,14 @@ import java.util.List;
 /**
  * Multiplication is one of the four basic operations of arithmetic.
  *
- * @author  Yevgen Goliuk
+ * @author Yevgen Goliuk
  */
 public class Multiplication extends Function {
     private String value = "*";
-    private String description = "— Multiplication (denoted by an asterisk \""+value+"\") " +
+    private String description = "— Multiplication (denoted by an asterisk \"" + value + "\") " +
             "is one of the four elementary, mathematical operations of arithmetic. " +
             "The multiplication of two numbers is equivalent to adding as many copies of one of them, " +
-            "the multiplicand, as the value of the other one, the multiplier. For example \"2 "+value+" 4 = 8\"";
+            "the multiplicand, as the value of the other one, the multiplier. For example \"2 " + value + " 4 = 8\"";
     private int priority = 2;
     private int position = 0;
 
@@ -24,13 +25,22 @@ public class Multiplication extends Function {
      * Find the result of the multiplication.
      *
      * @param expression has x - left operand of operation
-     *                     y - right operand of operation
-     * @return  result of operation
+     *                   y - right operand of operation
+     * @return result of operation
      */
     @Override
     public List<Member> apply(final List<Member> expression) {
-        Double result =  (Double.valueOf(expression.get(getPositionFirstOperand()).getValue())) *
-                (Double.valueOf(expression.get(getPositionSecondOperand()).getValue()));
+        Double x, y, result;
+        try {
+            x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
+            y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
+        } catch (ClassCastException e) {
+            throw new InputExpressionException(
+                    expression.get(getPositionFirstOperand()).getValue() + " " +
+                    expression.get(position).getValue() + " " +
+                    expression.get(getPositionSecondOperand()).getValue() + " ");
+        }
+        result = x * y;
 
         List<Member> resultList = new ArrayList<>(expression);
         resultList.remove(getPositionSecondOperand());
@@ -46,8 +56,8 @@ public class Multiplication extends Function {
      *
      * @return number position of the left operand in the expression
      */
-    public int getPositionFirstOperand(){
-        return position-1;
+    public int getPositionFirstOperand() {
+        return position - 1;
     }
 
     /**
@@ -55,8 +65,8 @@ public class Multiplication extends Function {
      *
      * @return number position of the right operand in the expression
      */
-    public int getPositionSecondOperand(){
-        return position+1;
+    public int getPositionSecondOperand() {
+        return position + 1;
     }
 
     /**

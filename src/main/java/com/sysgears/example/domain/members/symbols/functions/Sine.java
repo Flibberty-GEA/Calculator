@@ -2,6 +2,7 @@ package com.sysgears.example.domain.members.symbols.functions;
 
 import com.sysgears.example.domain.members.Member;
 import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.service.InputExpressionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,15 @@ public class Sine extends Function{
 
     @Override
     public List<Member> apply(List<Member> expression) {
-        Double angle = ((Number)expression.get(getPositionOperand())).getDoubleValue();
+        Double angle;
+        try{
+            angle = ((Number)expression.get(getPositionOperand())).getDoubleValue();
+        } catch (ClassCastException e){
+            throw new InputExpressionException(
+                    expression.get(position).getValue()+" "+
+                            expression.get(getPositionOperand()).getValue()+" ");
+        }
+
         Double result = Math.sin(angle);
 
         List<Member> resultList = new ArrayList<>(expression);
