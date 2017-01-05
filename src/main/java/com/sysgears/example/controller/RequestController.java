@@ -5,7 +5,6 @@ import com.sysgears.example.service.InputException;
 import com.sysgears.example.history.HistoryDAO;
 import com.sysgears.example.service.MyExecutor;
 
-import java.util.NoSuchElementException;
 
 /**
  * Accepts input and converts it to expression for the Calculator or to response for the output.
