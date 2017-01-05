@@ -29,9 +29,9 @@ public class MyExecutor {
      */
     public Double execute(final String userExpression) {
         String expression = userExpression.replaceAll("\\s{2,}", " ");
-        final String[] str = expression.split(" ");
-        List<Member> expression2 = ExpressionUtil.toListOfMembers(str);
-        Double result = ((Number) bracketsParser.brackets(expression2).get(0)).getDoubleValue();
+        final String[] expressionArray = expression.split(" ");
+        List<Member> membersList = ExpressionUtil.toListOfMembers(expressionArray);
+        Double result = ((Number) bracketsParser.brackets(membersList).get(0)).getDoubleValue();
         historyDAO.save(result.toString(), userExpression);
         return result;
     }

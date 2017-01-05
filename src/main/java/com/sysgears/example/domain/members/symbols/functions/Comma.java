@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Yevgen Goliuk
  */
-public class Comma extends Function {
+public class Comma extends Function implements BinaryFunction {
     private String value = ",";
     private String description = "— A delimiter (signified by the symbol \"" + value + "\") " +
             "used to specify the boundary between separate operands of a function." +
@@ -59,6 +59,7 @@ public class Comma extends Function {
      *
      * @return number position of the left operand in the expression
      */
+    @Override
     public int getPositionFirstOperand() {
         return position - 1;
     }
@@ -68,6 +69,7 @@ public class Comma extends Function {
      *
      * @return number position of the right operand in the expression
      */
+    @Override
     public int getPositionSecondOperand() {
         return position + 1;
     }

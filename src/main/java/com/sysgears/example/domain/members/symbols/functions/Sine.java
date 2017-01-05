@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Yevgen Goliuk
  */
-public class Sine extends Function {
+public class Sine extends Function implements UnaryFunction {
     private String value = "sin";
     private String description = "— In mathematics, the sine (written as \"" +
             value + " ( a )\") is a trigonometric function of an angle. " +
@@ -50,11 +50,12 @@ public class Sine extends Function {
 
     /**
      * Number position of angle a.
-     * <p>
+     *
      * Number position of the operand in the expression has dependent of function position.
      *
      * @return number position
      */
+    @Override
     public int getPositionOperand() {
         return position + 1;
     }

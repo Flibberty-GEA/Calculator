@@ -15,7 +15,7 @@ import static jdk.nashorn.internal.objects.Global.Infinity;
  *
  * @author Yevgen Goliuk
  */
-public class Exponentiation extends Function {
+public class Exponentiation extends Function implements BinaryFunction {
     private String value = "root";
     private String description = "— Exponentiation is a mathematical operation, written as \"" + value + " ( b , n )\", " +
             "involving two numbers, the base b and the exponent n. For example \"" + value + " ( 2 , 3 ) = 8\"";
@@ -66,6 +66,7 @@ public class Exponentiation extends Function {
      *
      * @return number position of the base
      */
+    @Override
     public int getPositionFirstOperand() {
         return position + 1;
     }
@@ -77,6 +78,7 @@ public class Exponentiation extends Function {
      *
      * @return number position of the exponent n
      */
+    @Override
     public int getPositionSecondOperand() {
         return position + 2;
     }

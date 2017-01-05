@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Yevgen Goliuk
  */
-public class Logarithm extends Function {
+public class Logarithm extends Function implements BinaryFunction {
     private String value = "log";
     private String description = "— Logarithm written as \"" + value + " ( b , n )\", " +
             "involving two numbers, the base b and the number n. " +
@@ -76,6 +76,7 @@ public class Logarithm extends Function {
      *
      * @return number position of the base
      */
+    @Override
     public int getPositionFirstOperand() {
         return position + 1;
     }
@@ -87,6 +88,7 @@ public class Logarithm extends Function {
      *
      * @return number position of the exponent n
      */
+    @Override
     public int getPositionSecondOperand() {
         return position + 2;
     }

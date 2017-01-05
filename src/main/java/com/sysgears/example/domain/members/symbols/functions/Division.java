@@ -15,7 +15,7 @@ import static jdk.nashorn.internal.objects.Global.NaN;
  *
  * @author Yevgen Goliuk
  */
-public class Division extends Function {
+public class Division extends Function implements BinaryFunction {
     private String value = "/";
     private String description = "— Division (signified by the symbol \"" + value + "\") " +
             "is one of the four basic operations of arithmetic. " +
@@ -65,6 +65,7 @@ public class Division extends Function {
      *
      * @return number position of the left operand in the expression
      */
+    @Override
     public int getPositionFirstOperand() {
         return position - 1;
     }
@@ -74,6 +75,7 @@ public class Division extends Function {
      *
      * @return number position of the right operand in the expression
      */
+    @Override
     public int getPositionSecondOperand() {
         return position + 1;
     }

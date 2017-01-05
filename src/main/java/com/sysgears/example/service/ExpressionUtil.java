@@ -20,9 +20,9 @@ public class ExpressionUtil {
      * @return an update expression with correct data
      */
     public static List<Member> updatePositions(final List<Member> oldExpression) {
-        String[] str = toStringArrey(oldExpression);
+        String[] expressionArray = toStringArray(oldExpression);
         List<Member> resultExpression;
-        resultExpression = toListOfMembers(str);
+        resultExpression = toListOfMembers(expressionArray);
         return resultExpression;
     }
 
@@ -34,7 +34,7 @@ public class ExpressionUtil {
      * @param members the list by which the array will be backed
      * @return an array-based expressions
      */
-    public static String[] toStringArrey(final List<Member> members) {
+    public static String[] toStringArray(final List<Member> members) {
         String[] result = new String[members.size()];
         for (int j = 0; j < members.size(); j++) {
             result[j] = members.get(j).getValue();
@@ -66,34 +66,4 @@ public class ExpressionUtil {
         }
         return result;
     }
-
-    //    private void printMemberList(List<Member> members) {
-//        try{
-//            for (Member m : members) {
-//                System.out.print(m.getValue());
-//            }
-//            System.out.println();
-//        } catch (ConcurrentModificationException e){
-//
-//        }
-//
-//    }
-//
-//    private void printFunctionsList(List<Function> functions) {
-//        try{
-//        for (Function f : functions) {
-//            System.out.print(f.getValue());
-//        }
-//        System.out.println();
-//        } catch (ConcurrentModificationException e){
-//
-//        }
-//    }
-//
-//    private void printStringArray(String[] arrays) {
-//        for (int i = 0; i < arrays.length; i++) {
-//            System.out.print(arrays[i]);
-//        }
-//        System.out.println();
-//    }
 }

@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Yevgen Goliuk
  */
-public class Subtraction extends Function {
+public class Subtraction extends Function implements BinaryFunction {
     private String value = "-";
     private String description = "— Subtraction (signified by the minus sign \"" + value + "\") " +
             "is a mathematical operation that represents the operation " +
@@ -58,6 +58,7 @@ public class Subtraction extends Function {
      *
      * @return number position of the left operand in the expression
      */
+    @Override
     public int getPositionFirstOperand() {
         return position - 1;
     }
@@ -67,6 +68,7 @@ public class Subtraction extends Function {
      *
      * @return number position of the right operand in the expression
      */
+    @Override
     public int getPositionSecondOperand() {
         return position + 1;
     }

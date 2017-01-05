@@ -38,11 +38,9 @@ public class ApplicationRunner {
     public static void main(String[] args) {
 //        log.info("Start program.");
         try {
-            /* initialize main execution object and start the program */
             new RequestController().run();
         } catch (Throwable t) {
-//            t.printStackTrace();
-            System.out.println(t.getMessage());
+            t.printStackTrace();
         }
     }
 }

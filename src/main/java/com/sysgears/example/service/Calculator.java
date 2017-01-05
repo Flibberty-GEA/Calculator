@@ -22,8 +22,8 @@ public class Calculator {
     public List<Member> calc(final List<Member> inputExpression) {
         List<Member> resultExpression = ExpressionUtil.updatePositions(inputExpression);
         List<Function> functions = new ArrayList<>();
-        for (Member item : resultExpression) {
-            if (item instanceof Function) functions.add((Function) item);
+        for (Member member : resultExpression) {
+            if (member instanceof Function) functions.add((Function) member);
         }
         Collections.sort(functions, new FuncktionComparatorByPriority());
         resultExpression = calcOneOperation(resultExpression, functions);

@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Yevgen Goliuk
  */
-public class Addition extends Function {
+public class Addition extends Function implements BinaryFunction {
     private String value = "+";
     private String description = "— Addition (signified by the plus symbol \"" + value + "\") " +
             "is one of the four basic operations of arithmetic. The addition of two whole numbers " +
@@ -56,6 +56,7 @@ public class Addition extends Function {
      *
      * @return number position of the left operand in the expression
      */
+    @Override
     public int getPositionFirstOperand() {
         return position - 1;
     }
@@ -65,6 +66,7 @@ public class Addition extends Function {
      *
      * @return number position of the right operand in the expression
      */
+    @Override
     public int getPositionSecondOperand() {
         return position + 1;
     }
