@@ -25,14 +25,13 @@ public class RequestController {
     public void run() throws Exception {
         streamController.sendResponse("Hello!");
 
-        while (true) {
+        while (streamController.isOpen()) {
             streamController.sendResponse("\nInput expression to calculate \n" +
                     "OR 'EXIT' to quit program .");
             String inputRequest = streamController.getRequest();
-            inputRequest = determineRequest(inputRequest);
             try {
                 if (Command.isCommand(inputRequest)) {
-                    Command command = Command.valueOf(inputRequest);
+                    Command command = Command.valueOf(Command.determineRequest(inputRequest));
                     command.apply(streamController, historyDAO);
                 } else {
                     String result = String.valueOf(myExecutor.execute(inputRequest.toLowerCase()));
@@ -49,22 +48,5 @@ public class RequestController {
         }
     }
 
-    /**
-     * Check the query contains a command or an expression
-     *
-     * @param inputRequest
-     * @return command or expression
-     */
-    private String determineRequest(final String inputRequest) {
-        String result = inputRequest.trim().toUpperCase().replace("UNIQUE HISTORY", "UNIQUE_HISTORY");
-        for (Command command : Command.values()) {
-            if (!result.contains(command.name())) {
-                continue;
-            } else {
-                result = command.name();
-                return result;
-            }
-        }
-        return result;
-    }
+
 }

@@ -11,6 +11,7 @@ public class StreamController {
 
     BufferedReader reader;
     BufferedWriter writer;
+    private boolean isOpen;
 
     /**
      * @return buffered character-output stream that uses a default-sized output buffer.
@@ -28,6 +29,7 @@ public class StreamController {
     public StreamController(final InputStream input, final OutputStream output) {
         this.reader = new BufferedReader(new InputStreamReader(input));
         this.writer = new BufferedWriter(new OutputStreamWriter(output));
+        this.isOpen = true;
     }
 
     /**
@@ -53,6 +55,31 @@ public class StreamController {
             writer.flush();
         } catch (IOException e) {
             throw new StreamException("Sorry, a connection broken. Please try again. ");
+        }
+    }
+
+    /**
+     * Check is StreamController open.
+     *
+     * @return true if controller is open
+     */
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    /**
+     * Closes StreamController.
+     *
+     * @throws StreamException if an controller error occurs
+     */
+    public void closeController() {
+        try {
+            reader.close();
+            writer.close();
+        } catch (IOException e) {
+            throw new StreamException("Could not close input or output stream. ", e);
+        } finally {
+            isOpen = false;
         }
     }
 }
