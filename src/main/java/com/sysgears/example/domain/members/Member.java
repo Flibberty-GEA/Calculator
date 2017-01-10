@@ -14,4 +14,12 @@ public interface Member {
      * @return string with a value of a member
      */
     String getValue();
+
+    /**
+     * Set number position of this member in the expression.
+     *
+     * @param position - number position of this member
+     */
+    public void setPosition(int position);
+
 }

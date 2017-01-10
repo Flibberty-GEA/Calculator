@@ -20,27 +20,13 @@ public class ExpressionUtil {
      * @return an update expression with correct data
      */
     public static List<Member> updatePositions(final List<Member> oldExpression) {
-        String[] expressionArray = toStringArray(oldExpression);
-        List<Member> resultExpression;
-        resultExpression = toListOfMembers(expressionArray);
+        List<Member>  resultExpression = oldExpression;
+        for (int index = 0; index < resultExpression.size(); index++) {
+            resultExpression.get(index).setPosition(index);
+        }
         return resultExpression;
     }
 
-    /**
-     * Returns a fixed-size array for a list of expression's members.
-     * <p>
-     * This method acts as a bridge between collection-based and array-based expressions.
-     *
-     * @param members the list by which the array will be backed
-     * @return an array-based expressions
-     */
-    public static String[] toStringArray(final List<Member> members) {
-        String[] result = new String[members.size()];
-        for (int j = 0; j < members.size(); j++) {
-            result[j] = members.get(j).getValue();
-        }
-        return result;
-    }
 
     /**
      * Returns a list of expressions members for a fixed-size array.

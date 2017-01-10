@@ -8,6 +8,7 @@ package com.sysgears.example.domain.members;
 public class Number implements Member {
 
     private Double value = 0.0;
+    private int position = 0;
 
     /**
      * Get operand of expression.
@@ -16,6 +17,17 @@ public class Number implements Member {
      */
     public String getValue() {
         return String.valueOf(value);
+    }
+
+
+    /**
+     * Set number position of this operand in the expression.
+     *
+     * @param position - number position of this operand
+     */
+    @Override
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     /**

@@ -97,12 +97,12 @@ public abstract class Symbol implements Member {
      */
     public abstract int getPriority();
 
-    /**
-     * Set number position of this function in the expression.
-     *
-     * @param position - number position of this function
-     */
-    public abstract void setPosition(int position);
+//    /**
+//     * Set number position of this function in the expression.
+//     *
+//     * @param position - number position of this function
+//     */
+//    public abstract void setPosition(int position);
 
     /**
      * Get a description of this function.
