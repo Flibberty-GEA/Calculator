@@ -1,4 +1,4 @@
-package com.sysgears.example.domain.members;
+package com.sysgears.example.members;
 
 /**
  * Member of expression.

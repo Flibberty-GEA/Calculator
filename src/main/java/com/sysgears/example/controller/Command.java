@@ -1,15 +1,12 @@
 package com.sysgears.example.controller;
 
 
-import com.sysgears.example.domain.HelpInfo;
-import com.sysgears.example.domain.members.symbols.Symbol;
+import com.sysgears.example.service.HelpInfoBuilder;
 import com.sysgears.example.history.HistoryDAO;
-import org.reflections.Reflections;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * The commands entered by the client
@@ -22,14 +19,21 @@ public enum Command {
      * Command for exit from program.
      */
     EXIT {
-        String description = this.name() + " - show usage information";
+        private String description = this.name() + " - show usage information";
 
+        /**
+         * Apply command "EXIT".
+         *
+         * Close streams controller and finish the application work.
+         *
+         * @param streamController for contact with user by console
+         * @param historyDAO       for use or update history
+         */
         @Override
         void apply(final StreamController streamController,
-                   final HistoryDAO historyDAO) throws IOException {
+                   final HistoryDAO historyDAO) {
             streamController.sendResponse("Good bye!");
             streamController.closeController();
-            return;
         }
 
         @Override
@@ -40,13 +44,21 @@ public enum Command {
     },
 
     /**
-     * command for seeing unique results history
+     * Command for seeing unique results history.
      */
     UNIQUE_HISTORY {
-        String description = this.name().replace("_", " ") + " - show unique records from storage";
+        private String description = this.name().replace("_", " ") + " - show unique records from storage";
 
+        /**
+         * Apply command "UNIQUE_HISTORY".
+         *
+         * Send history about unique calculations on a console.
+         *
+         * @param streamController for contact with user by console
+         * @param historyDAO       for use or update history
+         */
         @Override
-        void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException {
+        void apply(final StreamController streamController, final HistoryDAO historyDAO) {
             streamController.sendResponse(historyDAO.getUnique());
         }
 
@@ -57,13 +69,21 @@ public enum Command {
     },
 
     /**
-     * command for seeing full results history
+     * Command for seeing full results history.
      */
     HISTORY {
-        String description = this.name() + " - show all records from storage";
+        private String description = this.name() + " - show all records from storage";
 
+        /**
+         * Apply command "HISTORY".
+         *
+         * Send history about calculations on a console.
+         *
+         * @param streamController for contact with user by console
+         * @param historyDAO       for use or update history
+         */
         @Override
-        void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException {
+        void apply(final StreamController streamController, final HistoryDAO historyDAO) {
             streamController.sendResponse(historyDAO.getAll());
         }
 
@@ -74,14 +94,14 @@ public enum Command {
     },
 
     /**
-     * command for seeing help info
+     * Command for seeing help info.
      */
     HELP {
-        String description = this.name() + " - show usage information";
+        private String description = this.name() + " - show usage information";
 
         @Override
-        void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException {
-            String helpInfo = new HelpInfo().getHelpInfo();
+        void apply(final StreamController streamController, final HistoryDAO historyDAO) {
+            String helpInfo = new HelpInfoBuilder().getHelpInfo();
             streamController.sendResponse(helpInfo);
         }
 
@@ -92,25 +112,26 @@ public enum Command {
     };
 
     /**
-     * добавить
+     * Apply the user's command.
      *
      * @param streamController for contact with user by console
      * @param historyDAO       for use or update history
-     * @throws IOException
      */
-    abstract void apply(final StreamController streamController, final HistoryDAO historyDAO) throws IOException;
+    abstract void apply(final StreamController streamController, final HistoryDAO historyDAO);
 
     abstract String getDescription();
 
     /**
+     * Check if input request is a command.
+     *
      * @param inputRequest
      * @return true if request is command
      * @throws IOException
      */
     public static boolean isCommand(final String inputRequest) {
-        String request = determineRequest(inputRequest);
+        String request = changeCommandDelimiter(inputRequest);
         for (Command command : Command.values()) {
-            if (!request.contains(command.name())) {
+            if (!request.equals(command.name())) {
                 continue;
             } else {
                 return true;
@@ -120,25 +141,22 @@ public enum Command {
     }
 
     /**
-     * Check the query contains a command or an expression
+     * Change delimiter of commands from " " to "_".
      *
      * @param inputRequest
-     * @return command or expression
+     * @return command with correct delimiter
      */
-    public static String determineRequest(final String inputRequest) {
+    public static String changeCommandDelimiter(final String inputRequest) {
         String result = inputRequest.trim().toUpperCase().replaceAll("( )+", "_");
-        for (Command command : Command.values()) {
-            if (!result.contains(command.name())) {
-                continue;
-            } else {
-                result = command.name();
-                return result;
-            }
-        }
         return result;
     }
 
-    public static List<String> allDescriptions(){
+    /**
+     * Get descriptions for all commands.
+     *
+     * @return a list with all command's descriptions
+     */
+    public static List<String> allDescriptions() {
         Command[] values = Command.values();
         List<String> resultList = new ArrayList<>();
         for (int index = 0; index < values.length; index++) {

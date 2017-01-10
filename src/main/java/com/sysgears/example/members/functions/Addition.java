@@ -1,40 +1,35 @@
-package com.sysgears.example.domain.members.symbols.functions;
+package com.sysgears.example.members.functions;
 
-import com.sysgears.example.domain.members.Member;
-import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.members.Member;
+import com.sysgears.example.members.Number;
 import com.sysgears.example.service.InputException;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-import static jdk.nashorn.internal.objects.Global.Infinity;
-import static jdk.nashorn.internal.objects.Global.NaN;
-
 /**
- * Division is one of the four basic operations of arithmetic.
+ * Addition is one of the four basic operations of arithmetic.
  *
  * @author Yevgen Goliuk
  */
-public class Division extends Function implements BinaryFunction {
-    private String value = "/";
-    private String description = "— Division (signified by the symbol \"" + value + "\") " +
-            "is one of the four basic operations of arithmetic. " +
-            "The division of two natural numbers is the process of calculating the number " +
-            "of times one number is contained within one another. For example \"20 " + value + " 5 = 4\"";
-    private int priority = 2;
+public class Addition extends Function implements BinaryFunction {
+    private String value = "+";
+    private String description = "— Addition (signified by the plus symbol \"" + value + "\") " +
+            "is one of the four basic operations of arithmetic. The addition of two whole numbers " +
+            "is the total amount of those quantities combined. For example \"3 " + value + " 2 = 5\"";
+    private int priority = 1;
     private int position = 0;
 
     /**
-     * Find the result of the division.
+     * Find the result of the addition.
      *
      * @param expression has x - left operand of operation
      *                   y - right operand of operation
      * @return result of operation
-     * @throws ArithmeticException thrown when expression include "divide by zero"
-     * @throws InputException      if expression has invalid format
+     * @throws InputException if expression has invalid format
      */
     @Override
-    public List<Member> apply(List<Member> expression) {
+    public List<Member> apply(final List<Member> expression) {
         Double x, y, result;
         try {
             x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
@@ -45,13 +40,9 @@ public class Division extends Function implements BinaryFunction {
                             expression.get(position).getValue() + " " +
                             expression.get(getPositionSecondOperand()).getValue() + " ");
         }
-        result = x / y;
+        result = (x + y);
 
-        if (result.equals(Infinity) || result.equals(NaN)) {
-            throw new ArithmeticException("Don't divide by zero.");
-        }
-
-        List<Member> resultList = new ArrayList<>(expression);
+        List<Member> resultList = new LinkedList<>(expression);
         resultList.remove(getPositionSecondOperand());
         resultList.remove(position);
         resultList.remove(getPositionFirstOperand());
@@ -78,16 +69,6 @@ public class Division extends Function implements BinaryFunction {
     @Override
     public int getPositionSecondOperand() {
         return position + 1;
-    }
-
-    /**
-     * Get the division symbol.
-     *
-     * @return string with a value
-     */
-    @Override
-    public String getValue() {
-        return value;
     }
 
     /**
@@ -121,6 +102,16 @@ public class Division extends Function implements BinaryFunction {
     }
 
     /**
+     * Get the plus symbol.
+     *
+     * @return string with a value
+     */
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    /**
      * Get a priority for calculation.
      *
      * @return a priority number
@@ -129,4 +120,5 @@ public class Division extends Function implements BinaryFunction {
     public int getPriority() {
         return priority;
     }
+
 }

@@ -1,7 +1,7 @@
-package com.sysgears.example.domain.members.symbols.functions;
+package com.sysgears.example.members.functions;
 
 /**
- * Have to implements with an unary functions
+ * Have to implements with an unary functions.
  *
  * @author yevgen
  */

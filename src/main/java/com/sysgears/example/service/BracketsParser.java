@@ -1,19 +1,18 @@
 package com.sysgears.example.service;
 
-import com.sysgears.example.domain.members.Member;
-import com.sysgears.example.domain.members.symbols.ClosingBracket;
-import com.sysgears.example.domain.members.symbols.OpeningBracket;
-import com.sysgears.example.domain.members.symbols.functions.Function;
+import com.sysgears.example.members.Member;
+import com.sysgears.example.members.delimiters.ClosingBracket;
+import com.sysgears.example.members.delimiters.OpeningBracket;
+import com.sysgears.example.members.functions.Function;
 
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.List;
+import java.util.*;
 
 /**
+ * Service for parse brackets of an expression.
+ *
  * @author Yevgen Goliuk
  */
 public class BracketsParser {
-
 
     /**
      * Parse brackets of the expression.
@@ -25,6 +24,7 @@ public class BracketsParser {
         Calculator calculator = new Calculator();
         List<Member> result = new ArrayList<>();
         List<Member> beforeResult = new ArrayList<>();
+
         for (int index = 0; index < expression.size(); index++) {
             Member member = expression.get(index);
             beforeResult = expression.subList(0, index + 1);
@@ -51,24 +51,19 @@ public class BracketsParser {
                 return result;
             }
         }
-        try {
-            if (!beforeResult.isEmpty()) {
-                result = beforeResult;
-            }
-        } catch (ConcurrentModificationException g) {
-            //  do nothing
+
+        if (!(ExpressionUtil.isEmpty(beforeResult))) {
+            result = beforeResult;
         }
-        try {
-            for (int index = 0; index < result.size(); index++) {
-                Member member = result.get(index);
-                if (member instanceof ClosingBracket) {
-                    result = brackets(result);
-                }
+
+        for (int index = 0; index < result.size(); index++) {
+            Member member = result.get(index);
+            if (member instanceof ClosingBracket) {
+                result = brackets(result);
             }
-            result = calculator.calc(result);
-        } catch (ConcurrentModificationException e) {
-            //  do nothing
         }
+        result = calculator.calc(result);
+
         return result;
     }
 }

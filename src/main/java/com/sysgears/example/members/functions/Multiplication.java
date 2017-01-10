@@ -1,32 +1,32 @@
-package com.sysgears.example.domain.members.symbols.functions;
+package com.sysgears.example.members.functions;
 
-import com.sysgears.example.domain.members.Member;
-import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.members.Member;
+import com.sysgears.example.members.Number;
 import com.sysgears.example.service.InputException;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Addition is one of the four basic operations of arithmetic.
+ * Multiplication is one of the four basic operations of arithmetic.
  *
  * @author Yevgen Goliuk
  */
-public class Addition extends Function implements BinaryFunction {
-    private String value = "+";
-    private String description = "— Addition (signified by the plus symbol \"" + value + "\") " +
-            "is one of the four basic operations of arithmetic. The addition of two whole numbers " +
-            "is the total amount of those quantities combined. For example \"3 " + value + " 2 = 5\"";
-    private int priority = 1;
+public class Multiplication extends Function implements BinaryFunction {
+    private String value = "*";
+    private String description = "— Multiplication (denoted by an asterisk \"" + value + "\") " +
+            "is one of the four elementary, mathematical operations of arithmetic. " +
+            "The multiplication of two numbers is equivalent to adding as many copies of one of them, " +
+            "the multiplicand, as the value of the other one, the multiplier. For example \"2 " + value + " 4 = 8\"";
+    private int priority = 2;
     private int position = 0;
 
     /**
-     * Find the result of the addition.
+     * Find the result of the multiplication.
      *
      * @param expression has x - left operand of operation
      *                   y - right operand of operation
      * @return result of operation
-     * @throws InputException if expression has invalid format
      */
     @Override
     public List<Member> apply(final List<Member> expression) {
@@ -40,9 +40,9 @@ public class Addition extends Function implements BinaryFunction {
                             expression.get(position).getValue() + " " +
                             expression.get(getPositionSecondOperand()).getValue() + " ");
         }
-        result = (x + y);
+        result = x * y;
 
-        List<Member> resultList = new ArrayList<>(expression);
+        List<Member> resultList = new LinkedList<>(expression);
         resultList.remove(getPositionSecondOperand());
         resultList.remove(position);
         resultList.remove(getPositionFirstOperand());
@@ -102,7 +102,7 @@ public class Addition extends Function implements BinaryFunction {
     }
 
     /**
-     * Get the plus symbol.
+     * Get the multiplication symbol.
      *
      * @return string with a value
      */
@@ -120,5 +120,4 @@ public class Addition extends Function implements BinaryFunction {
     public int getPriority() {
         return priority;
     }
-
 }

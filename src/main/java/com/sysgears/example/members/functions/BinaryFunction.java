@@ -1,9 +1,11 @@
-package com.sysgears.example.domain.members.symbols.functions;
+package com.sysgears.example.members.functions;
 
 /**
+ * Have to implements with an binary functions.
+ *
  * @author yevgen
  */
-public interface TernaryFunction {
+public interface BinaryFunction {
     /**
      * Number position of the operand in the expression has dependent of function position.
      *
@@ -16,10 +18,4 @@ public interface TernaryFunction {
      * @return number position of the second operand in the expression
      */
     int getPositionSecondOperand();
-    /**
-     * Number position of the operand in the expression has dependent of function position.
-     *
-     * @return number position of the third operand in the expression
-     */
-    int getPositionThirdOperand();
 }

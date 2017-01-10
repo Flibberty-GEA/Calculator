@@ -1,8 +1,6 @@
 package com.sysgears.example;
 
 import com.sysgears.example.controller.RequestController;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 /**
  * Main class of program.
@@ -10,7 +8,6 @@ import org.apache.log4j.Logger;
  * @author Yevgen Goliuk
  */
 public class ApplicationRunner {
-//    public static final Logger log = LogManager.getLogger(ApplicationRunner.class);
 
 //  2       2
 //  1       3 - 2
@@ -36,7 +33,6 @@ public class ApplicationRunner {
      * @param args command line input arguments
      */
     public static void main(String[] args) {
-//        log.info("Start program.");
         try {
             new RequestController().run();
         } catch (Throwable t) {

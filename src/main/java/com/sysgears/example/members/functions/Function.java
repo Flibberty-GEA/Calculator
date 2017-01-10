@@ -1,8 +1,8 @@
-package com.sysgears.example.domain.members.symbols.functions;
+package com.sysgears.example.members.functions;
 
 
-import com.sysgears.example.domain.members.Member;
-import com.sysgears.example.domain.members.symbols.Symbol;
+import com.sysgears.example.members.Member;
+import com.sysgears.example.members.Symbol;
 import com.sysgears.example.service.InputException;
 
 import java.util.List;
@@ -30,14 +30,4 @@ public abstract class Function extends Symbol {
      * @return number position of this function
      */
     public abstract int getPosition();
-
-    /**
-     * Check this member of the expression. Is it an operator?
-     *
-     * @return true if this member of the expression is an operator
-     */
-    @Override
-    public boolean isOperator() {
-        return true;
-    }
 }

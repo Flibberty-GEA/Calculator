@@ -1,6 +1,6 @@
-package com.sysgears.example.domain.members.symbols;
+package com.sysgears.example.members;
 
-import com.sysgears.example.domain.members.Member;
+import com.sysgears.example.service.InputException;
 import org.reflections.Reflections;
 
 import java.util.*;
@@ -21,9 +21,9 @@ public abstract class Symbol implements Member {
      * @param value    of a member
      * @param position of this member in the expression
      * @return an instance of the symbol with a coincident value
-     * @throws Exception if something is wrong with the symbol
+     * @throws InputException if something is wrong with the symbol
      */
-    public final static Symbol createInstance(final String value, final int position) throws Exception {
+    public final static Symbol createInstance(final String value, final int position) {
         String symbolValue = value;
         Reflections reflections = new Reflections("");
         Set<Class<? extends Symbol>> subclasses = reflections.getSubTypesOf(Symbol.class);
@@ -40,7 +40,7 @@ public abstract class Symbol implements Member {
             Symbol symbol = values.get(symbolValue);
             symbol.setPosition(position);
             return symbol;
-        } else throw new Exception();
+        } else throw new InputException("Symbol \'" + symbolValue + "\" is incorrect.");
     }
 
     /**
@@ -84,25 +84,11 @@ public abstract class Symbol implements Member {
     }
 
     /**
-     * Check this member of the expression. Is it an operator?
-     *
-     * @return true if this member of the expression is an operator
-     */
-    public abstract boolean isOperator();
-
-    /**
      * Get a priority for calculation.
      *
      * @return priority of an expression member
      */
     public abstract int getPriority();
-
-//    /**
-//     * Set number position of this function in the expression.
-//     *
-//     * @param position - number position of this function
-//     */
-//    public abstract void setPosition(int position);
 
     /**
      * Get a description of this function.

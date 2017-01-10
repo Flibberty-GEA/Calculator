@@ -1,38 +1,41 @@
-package com.sysgears.example.domain.members.symbols.functions;
+package com.sysgears.example.members.delimiters;
 
 
-import com.sysgears.example.domain.members.Member;
-import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.members.Member;
+import com.sysgears.example.members.Number;
+import com.sysgears.example.members.functions.BinaryFunction;
+import com.sysgears.example.members.functions.Function;
 import com.sysgears.example.service.InputException;
 
-import java.util.ArrayList;
+
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Subtraction is one of the four basic operations of arithmetic.
+ * Comma is a delimiter which used to specify the boundary
+ * between separate operands of a function.
  *
  * @author Yevgen Goliuk
  */
-public class Subtraction extends Function implements BinaryFunction {
-    private String value = "-";
-    private String description = "— Subtraction (signified by the minus sign \"" + value + "\") " +
-            "is a mathematical operation that represents the operation " +
-            "of removing objects from a collection. For example \"5 " + value + " 2 = 3\"";
-    private int priority = 1;
-    private int countOfOperands = 2;
+public class Comma extends Function implements BinaryFunction {
+    private String value = ",";
+    private String description = "— A delimiter (signified by the symbol \"" + value + "\") " +
+            "used to specify the boundary between separate operands of a function." +
+            "For example \"root ( 2 " + value + " 3 ) = 8\"";
+    private int priority = 0;
     private int position = 0;
 
     /**
-     * Find the result of the subtraction.
+     * Return operands for function.
      *
-     * @param expression has x - left operand of operation
-     *                   y - right operand of operation
-     * @return result of operation
+     * @param expression has x - left operand
+     *                   y - right operand
+     * @return members list
      * @throws InputException if expression has invalid format
      */
     @Override
-    public List<Member> apply(List<Member> expression) {
-        Double x, y, result;
+    public List<Member> apply(final List<Member> expression) {
+        Double x, y;
         try {
             x = ((Number) expression.get(getPositionFirstOperand())).getDoubleValue();
             y = ((Number) expression.get(getPositionSecondOperand())).getDoubleValue();
@@ -42,19 +45,19 @@ public class Subtraction extends Function implements BinaryFunction {
                             expression.get(position).getValue() + " " +
                             expression.get(getPositionSecondOperand()).getValue() + " ");
         }
-        result = (x - y);
 
-        List<Member> resultList = new ArrayList<>(expression);
+        List<Member> resultList = new LinkedList<>(expression);
         resultList.remove(getPositionSecondOperand());
         resultList.remove(position);
         resultList.remove(getPositionFirstOperand());
-        resultList.add(getPositionFirstOperand(), new Number(result.toString()));
+        resultList.add(getPositionFirstOperand(), new Number(x.toString()));
+        resultList.add(position, new Number(y.toString()));
 
         return resultList;
     }
 
     /**
-     * Number position of the operand in the expression has dependent of function position.
+     * Number position of the operand in the expression has dependent of delimiter position.
      *
      * @return number position of the left operand in the expression
      */
@@ -64,7 +67,7 @@ public class Subtraction extends Function implements BinaryFunction {
     }
 
     /**
-     * Number position of the operand in the expression has dependent of function position.
+     * Number position of the operand in the expression has dependent of delimiter position.
      *
      * @return number position of the right operand in the expression
      */
@@ -74,7 +77,17 @@ public class Subtraction extends Function implements BinaryFunction {
     }
 
     /**
-     * Get the minus symbol.
+     * Get a description of this delimiter.
+     *
+     * @return string with a description
+     */
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Get the symbol.
      *
      * @return string with a value
      */
@@ -84,9 +97,9 @@ public class Subtraction extends Function implements BinaryFunction {
     }
 
     /**
-     * Get number position of this function in the expression.
+     * Get number position of this delimiter in the expression.
      *
-     * @return number position of this function
+     * @return number position of this delimiter
      */
     @Override
     public int getPosition() {
@@ -94,23 +107,13 @@ public class Subtraction extends Function implements BinaryFunction {
     }
 
     /**
-     * Set number position of this function in the expression.
+     * Set number position of this delimiter in the expression.
      *
-     * @param position - number position of this function
+     * @param position - number position of this delimiter
      */
     @Override
     public void setPosition(int position) {
         this.position = position;
-    }
-
-    /**
-     * Get a description of this function.
-     *
-     * @return string with a description
-     */
-    @Override
-    public String getDescription() {
-        return description;
     }
 
     /**

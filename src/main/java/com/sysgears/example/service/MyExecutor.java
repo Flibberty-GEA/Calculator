@@ -1,14 +1,13 @@
 package com.sysgears.example.service;
 
-import com.sysgears.example.domain.members.Member;
-import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.members.Member;
+import com.sysgears.example.members.Number;
 import com.sysgears.example.history.HistoryDAO;
 
 import java.util.*;
 
-
 /**
- * Service class for calculating result of expression.
+ * Main executor of application.
  *
  * @author Yevgen Goliuk
  */

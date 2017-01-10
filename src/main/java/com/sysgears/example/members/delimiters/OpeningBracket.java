@@ -1,4 +1,6 @@
-package com.sysgears.example.domain.members.symbols;
+package com.sysgears.example.members.delimiters;
+
+import com.sysgears.example.members.Symbol;
 
 /**
  * Parentheses in mathematics signify a different precedence of operators.
@@ -53,15 +55,5 @@ public class OpeningBracket extends Symbol {
     @Override
     public String getDescription() {
         return description;
-    }
-
-    /**
-     * Check this member of the expression. Is it an operator?
-     *
-     * @return true if this member of the expression is an operator
-     */
-    @Override
-    public boolean isOperator() {
-        return false;
     }
 }

@@ -1,4 +1,4 @@
-package com.sysgears.example.domain.members.symbols.functions;
+package com.sysgears.example.members.functions;
 
 
 import java.util.Comparator;

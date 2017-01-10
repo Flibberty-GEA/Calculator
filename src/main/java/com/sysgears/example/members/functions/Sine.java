@@ -1,10 +1,10 @@
-package com.sysgears.example.domain.members.symbols.functions;
+package com.sysgears.example.members.functions;
 
-import com.sysgears.example.domain.members.Member;
-import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.members.Member;
+import com.sysgears.example.members.Number;
 import com.sysgears.example.service.InputException;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -40,7 +40,7 @@ public class Sine extends Function implements UnaryFunction {
 
         Double result = Math.sin(angle);
 
-        List<Member> resultList = new ArrayList<>(expression);
+        List<Member> resultList = new LinkedList<>(expression);
         resultList.remove(getPositionOperand());
         resultList.remove(position);
         resultList.add(position, new Number(result.toString()));

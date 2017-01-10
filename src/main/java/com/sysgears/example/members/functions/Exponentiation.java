@@ -1,11 +1,10 @@
-package com.sysgears.example.domain.members.symbols.functions;
+package com.sysgears.example.members.functions;
 
-
-import com.sysgears.example.domain.members.Member;
-import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.members.Member;
+import com.sysgears.example.members.Number;
 import com.sysgears.example.service.InputException;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static jdk.nashorn.internal.objects.Global.Infinity;
@@ -50,7 +49,7 @@ public class Exponentiation extends Function implements BinaryFunction {
                     "is undefined, because division by zero is implied. ");
         }
 
-        List<Member> resultList = new ArrayList<>(expression);
+        List<Member> resultList = new LinkedList<>(expression);
         resultList.remove(getPositionSecondOperand());
         resultList.remove(getPositionFirstOperand());
         resultList.remove(position);

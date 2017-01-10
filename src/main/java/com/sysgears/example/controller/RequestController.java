@@ -19,10 +19,8 @@ public class RequestController {
 
     /**
      * Executes user's command.
-     *
-     * @throws Exception if something is wrong with streamController
      */
-    public void run() throws Exception {
+    public void run() {
         streamController.sendResponse("Hello!");
 
         while (streamController.isOpen()) {
@@ -31,7 +29,7 @@ public class RequestController {
             String inputRequest = streamController.getRequest();
             try {
                 if (Command.isCommand(inputRequest)) {
-                    Command command = Command.valueOf(Command.determineRequest(inputRequest));
+                    Command command = Command.valueOf(Command.changeCommandDelimiter(inputRequest));
                     command.apply(streamController, historyDAO);
                 } else {
                     String result = String.valueOf(myExecutor.execute(inputRequest.toLowerCase()));
@@ -43,7 +41,6 @@ public class RequestController {
                         " \nPlease try again or enter the \"HELP\".");
             } catch (Exception e) {
                 streamController.sendResponse("RequestController cath Exception " + e.getClass());
-                e.printStackTrace();
             }
         }
     }

@@ -1,10 +1,10 @@
-package com.sysgears.example.domain.members.symbols.functions;
+package com.sysgears.example.members.functions;
 
-import com.sysgears.example.domain.members.Member;
-import com.sysgears.example.domain.members.Number;
+import com.sysgears.example.members.Member;
+import com.sysgears.example.members.Number;
 import com.sysgears.example.service.InputException;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -56,7 +56,7 @@ public class Logarithm extends Function implements BinaryFunction {
             Double log10A = Math.log10(a);
             Double result = log10X / log10A;
 
-            List<Member> resultList = new ArrayList<>(expression);
+            List<Member> resultList = new LinkedList<>(expression);
             resultList.remove(getPositionSecondOperand());
             resultList.remove(getPositionFirstOperand());
             resultList.remove(position);
