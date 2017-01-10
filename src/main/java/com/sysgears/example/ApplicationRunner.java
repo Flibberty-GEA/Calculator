@@ -9,6 +9,7 @@ import com.sysgears.example.controller.RequestController;
  */
 public class ApplicationRunner {
 
+// data for checking
 //  2       2
 //  1       3 - 2
 //  NaN     0 / 0
